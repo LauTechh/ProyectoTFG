@@ -11,4 +11,4 @@
     <button type="submit">Registrarme</button>
 </form>
 
-<p>¿Ya tienes cuenta? <a href="/login">Entra aquí</a></p>
+<p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>

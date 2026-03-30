@@ -54,6 +54,6 @@ class AuthController extends Controller
 
         // Lo logueamos y lo mandamos al inicio
         Auth::login($usuario);
-        return redirect('/menu');
+        return redirect()->to('/menu');
     }
 }

@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/login', function () {
@@ -27,8 +29,16 @@ Route::get('/registro/paso2', function () {
 });
 
 // Ruta para procesar el envío final
-Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro']);
-
+// Esta es la ruta que le falta a tu Laravel:
+Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro'])->name('registro.finalizar');
 Route::get('/menu', function () {
     return view('menu');
-})->middleware('auth'); // El middleware 'auth' hace que solo entren los que se han logueado
+})->middleware('auth')->name('menu');
+
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request.session()->invalidate();
+    $request.session()->regenerateToken();
+    return redirect('/');
+});
