@@ -38,7 +38,11 @@ Route::get('/menu', function () {
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
-    $request.session()->invalidate();
-    $request.session()->regenerateToken();
+    $request . session()->invalidate();
+    $request . session()->regenerateToken();
     return redirect('/');
 });
+
+Route::get('/perfil', function () {
+    return view('perfil'); 
+})->name('perfil')->middleware('auth');
