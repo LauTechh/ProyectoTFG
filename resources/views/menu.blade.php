@@ -29,11 +29,3 @@
     </details>
 </div>
 @endsection
-<div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
-    <form action="/logout" method="POST">
-        @csrf
-        <button type="submit" style="background: #ffeded; color: #d9534f; border: 1px solid #d9534f; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">
-            Cerrar Sesión 🚪
-        </button>
-    </form>
-</div>
