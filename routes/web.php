@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+
+
 Route::get('/', function () {
     return view('home');
 });
@@ -38,8 +40,11 @@ Route::get('/menu', function () {
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
-    $request . session()->invalidate();
-    $request . session()->regenerateToken();
+
+    // Cambiamos los puntos (.) por flechas (->)
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
     return redirect('/');
 });
 

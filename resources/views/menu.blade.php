@@ -1,35 +1,39 @@
-<h1>📚 ¡Bienvenido a tu Red Social de Libros!</h1>
-<p>Hola, {{ Auth::user()->name }}</p>
+@extends('layouts.app')
 
-<a href="/perfil" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-    
-    <div style="position: relative; width: 50px; height: 50px; border-radius: 50%; background: #eee; overflow: hidden; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer;">
-        
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_base) }}" 
-             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; transform: scale(2.0) translateY(2%);">
-        
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_linea) }}" 
-             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; mix-blend-mode: multiply; transform: scale(2.0) translateY(2%);">
-        
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_ojos) }}" 
-             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 3; transform: scale(2.0) translateY(2%);">
+@section('content')
+<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <h1>📚 ¡Bienvenido a tu Red Social de Libros!</h1>
+    <p>Hola de nuevo, <strong>{{ Auth::user()->name }}</strong>. ¿Qué vamos a leer hoy?</p>
 
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px;">
+        <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee;">
+            <h3>📖 Mi Biblioteca</h3>
+            <p>Gestiona tus lecturas guardadas.</p>
+            <a href="/mis-libros" class="btn" style="display: inline-block; margin-top: 10px;">Ver mis libros</a>
+        </div>
+
+        <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee;">
+            <h3>🔍 Explorar</h3>
+            <p>Busca nuevos libros en Google Books.</p>
+            <a href="/buscar" class="btn btn-dark" style="display: inline-block; margin-top: 10px;">Buscar libros</a>
+        </div>
     </div>
 
-    <span style="font-weight: bold; color: #333;">
-        {{ Auth::user()->name }}
-    </span>
-</a>
-
-<div style="border: 2px solid #000; padding: 20px; width: 200px;">
-    <h3>Tu Avatar-Patata:</h3>
-    <p>Cuerpo: {{ Auth::user()->avatar_base }}</p>
-    <p>Línea: {{ Auth::user()->avatar_linea }}</p>
-    <p>Ojos: {{ Auth::user()->avatar_ojos }}</p>
+    <details style="margin-top: 50px; color: #888; font-size: 0.8em; cursor: pointer;">
+        <summary>Ver datos técnicos de mi avatar</summary>
+        <div style="background: #f9f9f9; padding: 10px; border: 1px solid #ddd; display: inline-block; margin-top: 10px; text-align: left;">
+            <p><strong>Cuerpo:</strong> {{ Auth::user()->avatar_base }}</p>
+            <p><strong>Línea:</strong> {{ Auth::user()->avatar_linea }}</p>
+            <p><strong>Ojos:</strong> {{ Auth::user()->avatar_ojos }}</p>
+        </div>
+    </details>
 </div>
-
-<br>
-<form action="/logout" method="POST">
-    @csrf
-    <button type="submit">Cerrar sesión</button>
-</form>
+@endsection
+<div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+    <form action="/logout" method="POST">
+        @csrf
+        <button type="submit" style="background: #ffeded; color: #d9534f; border: 1px solid #d9534f; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+            Cerrar Sesión 🚪
+        </button>
+    </form>
+</div>

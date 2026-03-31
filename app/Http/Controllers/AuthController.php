@@ -18,7 +18,7 @@ class AuthController extends Controller
         // 2. Intentamos entrar. Laravel comprueba si los datos coinciden con la BD
         if (Auth::attempt($credenciales)) {
             // Si es correcto, entramos a la página principal
-            return redirect()->intended('/');
+            return redirect()->intended('/menu');
         }
 
         // 3. Si falla, volvemos atrás con un mensaje de error
@@ -55,5 +55,15 @@ class AuthController extends Controller
         // Lo logueamos y lo mandamos al inicio
         Auth::login($usuario);
         return redirect()->to('/menu');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Cerramos la sesión del usuario
+
+        $request->session()->invalidate(); // Destruimos la sesión actual
+        $request->session()->regenerateToken(); // Cambiamos el token CSRF por seguridad
+
+        return redirect('/'); // ¡Aquí está el truco! Te manda a la Home de invitado
     }
 }
