@@ -18,7 +18,7 @@ class AuthController extends Controller
         // 2. Intentamos entrar. Laravel comprueba si los datos coinciden con la BD
         if (Auth::attempt($credenciales)) {
             // Si es correcto, entramos a la página principal
-            return redirect()->intended('/menu');
+            return redirect()->intended('/');
         }
 
         // 3. Si falla, volvemos atrás con un mensaje de error
@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         // Lo logueamos y lo mandamos al inicio
         Auth::login($usuario);
-        return redirect()->to('/menu');
+        return redirect()->to('/');
     }
 
     public function logout(Request $request)
