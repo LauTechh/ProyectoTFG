@@ -10,14 +10,36 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* Tus estilos personalizados */
+/* --- 1. BASE Y FONDO GLOBAL --- */
+@layer base {
+
+    /* Usamos una clase ultra-específica para ganar a Tailwind */
+    body {
+      background-image: url('http://localhost/img/fondo/fondo1.png') !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        background-color: transparent !important;
+    }
+
+    /* Forzamos transparencia en los envoltorios que crea Laravel/Tailwind */
+    #app,
+    main,
+    .min-h-screen {
+        background-color: transparent !important;
+        background: none !important;
+    }
+}
+
+/* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
 @layer components {
     .avatar-circle {
         position: relative;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: #eee;
+        background-color: rgba(255, 255, 255, 0.5);
         overflow: hidden;
         border: 2px solid #fff;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -58,69 +80,156 @@
         font-weight: bold;
         color: #333;
     }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.1s;
+        display: inline-block;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        background-color: #45a049;
+    }
 }
 
-@layer components {
-    /* --- Selector de Avatar (Filas horizontales) --- */
+/* --- 3. NAVEGACIÓN (Layout Principal) --- */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
 
-    /* Contenedor principal de cada fila (Bases, Líneas, Ojos) */
+.nav-logo {
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.logo-text {
+    font-weight: bold;
+    color: #333;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-logout {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.link-login {
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.btn-join {
+    text-decoration: none;
+    background: #333;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* --- 4. LAYOUT DE INVITADO (Login/Registro) --- */
+.guest-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.guest-container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.back-link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+/* --- 5. TARJETAS DEL MENÚ (Efecto Cristal) --- */
+.card-menu {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.card-menu:hover {
+    transform: translateY(-5px);
+}
+
+/* --- 6. SELECTOR DE AVATAR (Registro) --- */
+@layer components {
     .flex-wrap {
         display: flex;
-        /* ¡LA MAGIA! Pone todo en línea */
         flex-wrap: wrap;
-        /* Si no caben, saltan a la siguiente línea */
         justify-content: center;
-        /* Centra las opciones horizontalmente */
         gap: 20px;
-        /* Espacio de 20px entre cada patata */
         margin-bottom: 40px;
-        /* Espacio antes de la siguiente sección/título */
         margin-top: 15px;
-        /* Espacio con el título superior */
     }
 
-    /* Estilo para el input radio (lo escondemos por completo) */
     .avatar-option input[type="radio"] {
         display: none !important;
-        /* Forzamos para que no salga el circulito */
     }
 
-    /* Tamaño controlado y estilo para las PNG del selector */
     .avatar-option img {
         width: 100px;
-        /* Tamaño pequeño y uniforme para que quepan varias */
         height: 100px;
         object-fit: contain;
-        /* Asegura que el PNG no se corte ni se estire */
         border: 4px solid #eee;
-        /* Borde gris suave por defecto */
         border-radius: 15px;
-        /* Esquinas redondeadas bonitas */
         background: #fff;
-        /* Fondo blanco para que resalten los PNG */
         transition: all 0.2s ease-in-out;
-        /* Animación suave al pasar el ratón */
         cursor: pointer;
-        /* Cambia el cursor para indicar que es clickeable */
     }
 
-    /* Efecto al pasar el ratón (hover) */
     .avatar-option img:hover {
         transform: scale(1.1);
-        /* Agranda un poquito la patata */
         border-color: #dcdcdc;
-        /* Borde gris un poco más oscuro */
     }
 
-    /* Estilo para CUANDO ESTÁ SELECCIONADA (el efecto mágico) */
-    /* Cuando el radio está :checked, aplicamos el estilo a la imagen (+ img) */
     .avatar-option input[type="radio"]:checked+img {
         border-color: #4CAF50;
-        /* Borde verde brillante de selección */
         background-color: #e8f5e9;
-        /* Fondo verde muy suave de selección */
         box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
-        /* Sombra verde difuminada */
     }
 }
 
@@ -128,28 +237,4 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-body {
-    background-color: #f8fafc;
-    /* Un gris muy clarito para que resalte el blanco de las tarjetas */
-    color: #1e293b;
-    font-family: 'Instrument Sans', sans-serif;
-}
-
-/* Estilo para los botones generales de la app */
-.btn-primary {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.1s;
-    display: inline-block;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    background-color: #45a049;
 }
