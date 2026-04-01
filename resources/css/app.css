@@ -15,8 +15,7 @@
 
     /* Usamos una clase ultra-específica para ganar a Tailwind */
     body {
-      background-image: url('http://localhost/img/fondo/fondo1.png') !important;
-        background-size: cover !important;
+      background-image: url('/img/fondo/fondo1.png');  background-size: cover !important;
         background-position: center center !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
