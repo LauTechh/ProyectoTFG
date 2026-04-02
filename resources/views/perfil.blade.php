@@ -17,7 +17,7 @@
     </div>
 
     <div style="margin-top: 30px;">
-        <a href="/menu" class="btn">⬅ Volver al menú</a>
+        <a href="/" class="btn">⬅ Volver al menú</a>
     </div>
 </div>
 @endsection

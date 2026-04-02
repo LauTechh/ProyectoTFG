@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patata Social Network</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased">
+
+{{-- Mantenemos las clases dinámicas para el fondo --}}
+<body class="antialiased {{ Auth::check() ? 'is-logged-in' : 'is-guest' }}">
+    
     <nav class="main-nav">
         <div class="nav-left">
-            <a href="{{ Auth::check() ? '/menu' : '/' }}" class="nav-logo">
+            {{-- CAMBIO AQUÍ: Eliminamos el '/menu' que no existe y ponemos solo '/' --}}
+            <a href="/" class="nav-logo">
                 🥔 <span class="logo-text">Libros</span>
             </a>
         </div>
@@ -42,4 +47,5 @@
         @yield('content')
     </main>
 </body>
+
 </html>

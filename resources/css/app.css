@@ -13,22 +13,26 @@
 /* --- 1. BASE Y FONDO GLOBAL --- */
 @layer base {
 
-    /* Usamos una clase ultra-específica para ganar a Tailwind */
+    @layer base {
     body {
-      background-image: url('/img/fondo/fondo1.png');  background-size: cover !important;
+        background-size: cover !important;
         background-position: center center !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
-        background-color: transparent !important;
+        min-height: 100vh;
+        margin: 0;
     }
 
-    /* Forzamos transparencia en los envoltorios que crea Laravel/Tailwind */
-    #app,
-    main,
-    .min-h-screen {
-        background-color: transparent !important;
-        background: none !important;
+    /* Fondo cuando NO hay sesión (Invitado) */
+    body.is-guest {
+        background-image: url('/img/fondo/fondo1.png') !important;
     }
+
+    /* Fondo cuando SÍ hay sesión (Usuario) */
+    body.is-logged-in {
+        background-image: url('/img/fondo/fondo2.png') !important;
+    }
+}
 }
 
 /* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
