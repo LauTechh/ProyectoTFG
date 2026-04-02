@@ -10,29 +10,23 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* --- 1. BASE Y FONDO GLOBAL --- */
+/* --- 1. BASE Y TRANSPARENCIAS --- */
 @layer base {
-
-    @layer base {
+    html,
     body {
-        background-size: cover !important;
-        background-position: center center !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
-        min-height: 100vh;
         margin: 0;
+        padding: 0;
+        min-height: 100vh !important;
     }
 
-    /* Fondo cuando NO hay sesión (Invitado) */
-    body.is-guest {
-        background-image: url('/img/fondo/fondo1.png') !important;
+    /* Forzamos transparencia en los contenedores raíz para ver el fondo del Blade */
+    #app,
+    main,
+    .antialiased,
+    .container {
+        background-color: transparent !important;
+        background: transparent !important;
     }
-
-    /* Fondo cuando SÍ hay sesión (Usuario) */
-    body.is-logged-in {
-        background-image: url('/img/fondo/fondo2.png') !important;
-    }
-}
 }
 
 /* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
@@ -100,9 +94,45 @@
         transform: translateY(-2px);
         background-color: #45a049;
     }
+
+    /* Estilos del selector de avatar en registro */
+    .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        margin-top: 15px;
+    }
+
+    .avatar-option input[type="radio"] {
+        display: none !important;
+    }
+
+    .avatar-option img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        border: 4px solid #eee;
+        border-radius: 15px;
+        background: #fff;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    .avatar-option img:hover {
+        transform: scale(1.1);
+        border-color: #dcdcdc;
+    }
+
+    .avatar-option input[type="radio"]:checked+img {
+        border-color: #4CAF50;
+        background-color: #e8f5e9;
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+    }
 }
 
-/* --- 3. NAVEGACIÓN (Layout Principal) --- */
+/* --- 3. NAVEGACIÓN Y LAYOUTS --- */
 .main-nav {
     display: flex;
     justify-content: space-between;
@@ -156,7 +186,6 @@
     font-weight: 600;
 }
 
-/* --- 4. LAYOUT DE INVITADO (Login/Registro) --- */
 .guest-body {
     display: flex;
     justify-content: center;
@@ -166,7 +195,7 @@
 }
 
 .guest-container {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.8) !important; /* Blanco transparente para ver el fondo */
     backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 15px;
@@ -177,13 +206,6 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.back-link {
-    color: #64748b;
-    text-decoration: none;
-    font-size: 0.9em;
-}
-
-/* --- 5. TARJETAS DEL MENÚ (Efecto Cristal) --- */
 .card-menu {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
@@ -198,46 +220,13 @@
     transform: translateY(-5px);
 }
 
-/* --- 6. SELECTOR DE AVATAR (Registro) --- */
-@layer components {
-    .flex-wrap {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 40px;
-        margin-top: 15px;
-    }
-
-    .avatar-option input[type="radio"] {
-        display: none !important;
-    }
-
-    .avatar-option img {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        border: 4px solid #eee;
-        border-radius: 15px;
-        background: #fff;
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-    }
-
-    .avatar-option img:hover {
-        transform: scale(1.1);
-        border-color: #dcdcdc;
-    }
-
-    .avatar-option input[type="radio"]:checked+img {
-        border-color: #4CAF50;
-        background-color: #e8f5e9;
-        box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
-    }
-}
-
 .container {
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* Forzamos que cualquier resquicio de fondo de Tailwind se rinda */
+* {
+    background-color: initial;
 }

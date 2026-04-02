@@ -9,8 +9,12 @@
 </head>
 
 {{-- Mantenemos las clases dinámicas para el fondo --}}
-<body class="antialiased {{ Auth::check() ? 'is-logged-in' : 'is-guest' }}">
-    
+<body class="antialiased {{ Auth::check() ? 'is-logged-in' : 'is-guest' }}" 
+      style="background-image: url('{{ Auth::check() ? asset('img/fondo/fondo2.png') : asset('img/fondo/fondo1.png') }}') !important; 
+             background-size: cover !important; 
+             background-attachment: fixed !important; 
+             background-repeat: no-repeat !important; 
+             background-color: transparent !important;">    
     <nav class="main-nav">
         <div class="nav-left">
             {{-- CAMBIO AQUÍ: Eliminamos el '/menu' que no existe y ponemos solo '/' --}}
