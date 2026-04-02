@@ -12,6 +12,7 @@
 
 /* --- 1. BASE Y TRANSPARENCIAS --- */
 @layer base {
+
     html,
     body {
         margin: 0;
@@ -19,7 +20,7 @@
         min-height: 100vh !important;
     }
 
-    /* Forzamos transparencia en los contenedores raíz para ver el fondo del Blade */
+    /* Forzamos transparencia en los contenedores raíz */
     #app,
     main,
     .antialiased,
@@ -31,53 +32,57 @@
 
 /* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
 @layer components {
+
+    /* Contenedor del avatar */
     .avatar-circle {
         position: relative;
         width: 50px;
+        /* Un poquito más grande que antes */
         height: 50px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
         overflow: hidden;
-        border: 2px solid #fff;
+        background: #f0f0f0;
+        display: inline-block;
+        vertical-align: middle;
+        border: 2px solid white;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
     }
+
+    /* --- 2. COMPONENTES (Dentro de @layer components) --- */
 
     .avatar-layer {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+
+        /* 1. Bajamos el tamaño: de 400px a algo más razonable */
+        width: 120px !important;
+        height: 120px !important;
+
+        /* 2. Seguimos manteniendo los límites desactivados */
+        max-width: none !important;
+        max-height: none !important;
+
+        /* 3. Centrado */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+
         object-fit: contain;
-        transform: scale(2.0) translateY(2%);
+    }
+
+    /* Aplicamos lo mismo a todas las capas para que no se descuadre la cara */
+    .layer-base,
+    .layer-boca,
+    .layer-ojos,
+    .layer-complement {
+        width: 120px !important;
+        height: 120px !important;
     }
 
     .layer-multiply {
         mix-blend-mode: multiply;
-        z-index: 2;
     }
 
-    .layer-base {
-        z-index: 1;
-    }
-
-    .layer-eyes {
-        z-index: 3;
-    }
-
-    .nav-profile-link {
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .user-name {
-        font-weight: bold;
-        color: #333;
-    }
-
+    /* Estilos de botones que tenías "atrapados" */
     .btn-primary {
         background-color: #4CAF50;
         color: white;
@@ -95,20 +100,7 @@
         background-color: #45a049;
     }
 
-    /* Estilos del selector de avatar en registro */
-    .flex-wrap {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 40px;
-        margin-top: 15px;
-    }
-
-    .avatar-option input[type="radio"] {
-        display: none !important;
-    }
-
+    /* Estilos del selector de avatar (Registro Paso 2) */
     .avatar-option img {
         width: 100px;
         height: 100px;
@@ -118,11 +110,6 @@
         background: #fff;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
-    }
-
-    .avatar-option img:hover {
-        transform: scale(1.1);
-        border-color: #dcdcdc;
     }
 
     .avatar-option input[type="radio"]:checked+img {
@@ -145,63 +132,23 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.nav-logo {
-    text-decoration: none;
-    font-size: 1.5rem;
+.nav-profile-link:hover .avatar-circle {
+    transform: scale(1.05);
 }
 
-.logo-text {
+.user-name {
     font-weight: bold;
     color: #333;
 }
 
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.btn-logout {
-    background: #fee2e2;
-    color: #ef4444;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.link-login {
-    text-decoration: none;
-    color: #64748b;
-    font-weight: 600;
-}
-
-.btn-join {
-    text-decoration: none;
-    background: #333;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-weight: 600;
-}
-
-.guest-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
 .guest-container {
-    background: rgba(255, 255, 255, 0.8) !important; /* Blanco transparente para ver el fondo */
+    background: rgba(255, 255, 255, 0.8) !important;
     backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 90%;
     max-width: 500px;
+    margin: 0 auto;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -216,17 +163,17 @@
     transition: transform 0.2s;
 }
 
-.card-menu:hover {
-    transform: translateY(-5px);
+.btn-logout {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Forzamos que cualquier resquicio de fondo de Tailwind se rinda */
+/* Forzamos transparencia final */
 * {
     background-color: initial;
 }

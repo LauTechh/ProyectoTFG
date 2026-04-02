@@ -7,8 +7,10 @@
 
     <div style="position: relative; width: 250px; height: 250px; border-radius: 50%; background: #fff; overflow: hidden; border: 8px solid #4CAF50; margin: 30px auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
         <img src="{{ asset('img/avatar/' . Auth::user()->avatar_base) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_linea) }}" style="position: absolute; top: 0; left: 0; width: 100%; mix-blend-mode: multiply; transform: scale(2.0) translateY(2%);">
+        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_boca) }}" style="position: absolute; top: 0; left: 0; width: 100%; mix-blend-mode: multiply; transform: scale(2.0) translateY(2%);">
         <img src="{{ asset('img/avatar/' . Auth::user()->avatar_ojos) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
+        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_complemento) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
+
     </div>
 
     <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; margin-top: 20px;">

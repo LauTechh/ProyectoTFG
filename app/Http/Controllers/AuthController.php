@@ -38,24 +38,30 @@ class AuthController extends Controller
     }
 
     public function finalizarRegistro(Request $request)
-    {
-        // Recuperamos los datos que guardamos antes en la "mochila"
-        $datos = session('datos_registro');
+{
+    // 1. Recuperamos los datos básicos de la sesión (nombre, email, pass)
+    $datos = session('datos_registro');
 
-        // Ahora SÍ creamos el usuario con TODO: datos básicos + piezas de la patata
-        $usuario = User::create([
-            'name' => $datos['name'],
-            'email' => $datos['email'],
-            'password' => Hash::make($datos['password']),
-            'avatar_base' => $request->avatar_base,   // El PNG de la base
-            'avatar_linea' => $request->avatar_linea, // El PNG de la línea
-            'avatar_ojos' => $request->avatar_ojos,   // El PNG de los ojos
-        ]);
+    // 2. Creamos al usuario con las 4 capas que vienen del formulario
+    $usuario = User::create([
+        'name'     => $datos['name'],
+        'email'    => $datos['email'],
+        'password' => Hash::make($datos['password']),
+        
+        // Aquí usamos los nombres EXACTOS de los "name" de tus radio buttons
+        'avatar_base'        => $request->avatar_base,        // La patata de color
+        'avatar_boca'        => $request->avatar_boca,        // La boca seleccionada
+        'avatar_ojos'        => $request->avatar_ojos,        // Los ojos seleccionados
+        'avatar_complemento' => $request->avatar_complemento, // El accesorio
+    ]);
 
-        // Lo logueamos y lo mandamos al inicio
-        Auth::login($usuario);
-        return redirect()->to('/');
-    }
+    // 3. Limpiamos la sesión para no dejar basura
+    session()->forget('datos_registro');
+
+    // 4. Logueamos y entramos
+    Auth::login($usuario);
+    return redirect()->to('/');
+}
 
     public function logout(Request $request)
     {
