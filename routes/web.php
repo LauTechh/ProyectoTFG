@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\BookController;
 
 // 1. LA HOME AHORA ES TU MENÚ DE INVITADO
 Route::get('/', function () {
@@ -40,3 +41,12 @@ Route::middleware(['auth'])->group(function () {
 
 // 4. LOGOUT
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Ruta para ver el buscador
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+
+// Ruta para procesar la búsqueda en Google
+Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+
+// Ruta para guardar el libro elegido en tu base de datos (la prepararemos luego)
+Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
