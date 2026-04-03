@@ -33,19 +33,34 @@
 /* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
 @layer components {
 
-    /* Contenedor del avatar */
+    /* Contenedor del avatar en el Nav */
     .avatar-circle {
         position: relative;
         width: 50px;
-        /* Un poquito más grande que antes */
         height: 50px;
         border-radius: 50%;
+        /* Esto lo mantiene circular */
         overflow: hidden;
-        background: #f0f0f0;
+        background: white;
         display: inline-block;
         vertical-align: middle;
-        border: 2px solid white;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        /* 🟠 EL REBORDE COBRIZO (Igual que el logo) */
+        border: 2px solid #b87333;
+        padding: 2px;
+        /* Un poco de aire para que la patata no toque el borde */
+
+        box-shadow: 0 2px 5px rgba(184, 115, 51, 0.2);
+        /* Sombra cobriza muy suave */
+        transition: all 0.3s ease;
+    }
+
+    /* Efecto al pasar el ratón por el enlace del perfil */
+    .nav-profile-link:hover .avatar-circle {
+        transform: scale(1.1);
+        border-color: #cd7f32;
+        /* Brilla igual que el logo */
+        box-shadow: 0 4px 12px rgba(184, 115, 51, 0.4);
     }
 
     /* --- 2. COMPONENTES (Dentro de @layer components) --- */
@@ -189,23 +204,42 @@
     align-items: center;
     padding: 0;
     margin: 0;
-    text-decoration: none; /* Quita subrayados si los hubiera */
+    text-decoration: none;
+    /* Quita subrayados si los hubiera */
 }
 
 /* 2. La imagen del logo en sí: controlamos el tamaño */
 .logo-img {
-    height: 100px;          /* 📏 Ajusta este número para que el logo no sea más alto que el Nav */
-    width: auto;           /* Mantiene la proporción para que no se estire feo */
-    object-fit: contain;   /* Asegura que la imagen no se corte */
-    
-    /* Un pequeño margen si ves que se pega mucho al borde izquierdo */
-    margin-left: -10px;    
+    height: 60px;
+    /* 📏 Ajusta este número para que el logo no sea más alto que el Nav */
+    width: auto;
+    /* Mantiene la proporción para que no se estire feo */
+    object-fit: contain;
+    /* Asegura que la imagen no se corte */
+
+    /* 🟠 Estilo Cobrizo y Redondeado */
+    border: 2px solid #b87333;
+    /* Color cobre (Copper) */
+    border-radius: 12px;
+    /* Esquinas suavizadas */
+    padding: 3px;
+    /* Espacio entre el logo y el borde cobrizo */
+    background-color: rgba(184, 115, 51, 0.05);
+    /* Un toque de brillo cobrizo al fondo */
+
+    margin-left: 5px;
+    /* Separado un pelín del borde izquierdo */
+    transition: all 0.2s ease-in-out;
 }
 
-/* 3. Un efecto suave al pasar el ratón (para que sepa que es un enlace) */
+/* 3. Efecto al pasar el ratón */
 .logo-img:hover {
-    transform: scale(1.05); /* Crece un pelín */
-    transition: transform 0.2s ease-in-out;
+    transform: scale(1.1);
+    /* Crece un poquito más al pasar el ratón */
+    border-color: #cd7f32;
+    /* El cobre brilla un poco más (Bronce) */
+    box-shadow: 0 0 10px rgba(184, 115, 51, 0.3);
+    /* Sombra cobriza suave */
 }
 
 
