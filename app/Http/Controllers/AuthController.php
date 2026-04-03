@@ -29,39 +29,50 @@ class AuthController extends Controller
 
     public function registrar(Request $request)
     {
-        // En lugar de crear al usuario YA, guardamos sus datos en la "mochila" (sesión)
-        // Esto permite que los datos viajen de una página a otra sin perderse
+        // 1. La validación (que ya sabemos que funciona)
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ], [
+            'email.unique' => '¡Esta patata ya tiene dueño! El correo ya está registrado.',
+        ]);
+
+        // 2. BORRA O COMENTA ESTA LÍNEA (la que saca la pantalla negra):
+        // dd($request->all()); 
+
+        // 3. Guardamos en la mochila (sesión)
         session(['datos_registro' => $request->only('name', 'email', 'password')]);
 
-        // Mandamos al usuario a la pantalla de la patata
+        // 4. Redirigimos al Paso 2
         return redirect('/registro/paso2');
     }
 
     public function finalizarRegistro(Request $request)
-{
-    // 1. Recuperamos los datos básicos de la sesión (nombre, email, pass)
-    $datos = session('datos_registro');
+    {
+        // 1. Recuperamos los datos básicos de la sesión (nombre, email, pass)
+        $datos = session('datos_registro');
 
-    // 2. Creamos al usuario con las 4 capas que vienen del formulario
-    $usuario = User::create([
-        'name'     => $datos['name'],
-        'email'    => $datos['email'],
-        'password' => Hash::make($datos['password']),
-        
-        // Aquí usamos los nombres EXACTOS de los "name" de tus radio buttons
-        'avatar_base'        => $request->avatar_base,        // La patata de color
-        'avatar_boca'        => $request->avatar_boca,        // La boca seleccionada
-        'avatar_ojos'        => $request->avatar_ojos,        // Los ojos seleccionados
-        'avatar_complemento' => $request->avatar_complemento, // El accesorio
-    ]);
+        // 2. Creamos al usuario con las 4 capas que vienen del formulario
+        $usuario = User::create([
+            'name'     => $datos['name'],
+            'email'    => $datos['email'],
+            'password' => Hash::make($datos['password']),
 
-    // 3. Limpiamos la sesión para no dejar basura
-    session()->forget('datos_registro');
+            // Aquí usamos los nombres EXACTOS de los "name" de tus radio buttons
+            'avatar_base'        => $request->avatar_base,        // La patata de color
+            'avatar_boca'        => $request->avatar_boca,        // La boca seleccionada
+            'avatar_ojos'        => $request->avatar_ojos,        // Los ojos seleccionados
+            'avatar_complemento' => $request->avatar_complemento, // El accesorio
+        ]);
 
-    // 4. Logueamos y entramos
-    Auth::login($usuario);
-    return redirect()->to('/');
-}
+        // 3. Limpiamos la sesión para no dejar basura
+        session()->forget('datos_registro');
+
+        // 4. Logueamos y entramos
+        Auth::login($usuario);
+        return redirect()->to('/');
+    }
 
     public function logout(Request $request)
     {

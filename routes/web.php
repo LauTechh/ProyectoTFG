@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BookController;
 
+
 // 1. LA HOME AHORA ES TU MENÚ DE INVITADO
 Route::get('/', function () {
     return view('menu'); // Mostramos el menú a todo el mundo
@@ -31,7 +32,7 @@ Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro'])
 // 3. RUTAS PROTEGIDAS (Solo para logueados)
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', function () {
-        return view('perfil'); 
+        return view('perfil');
     })->name('perfil');
 
     Route::get('/mis-libros', function () {
@@ -50,3 +51,7 @@ Route::get('/books/search', [BookController::class, 'search'])->name('books.sear
 
 // Ruta para guardar el libro elegido en tu base de datos (la prepararemos luego)
 Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
+
+Route::get('/my-shelf', [BookController::class, 'myShelf'])->name('books.myShelf');
+
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');

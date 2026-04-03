@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany; // <-- Añadimos esto para las relaciones
 
 #[Fillable(['name', 'email', 'password', 'avatar_base', 'avatar_boca', 'avatar_ojos', 'avatar_complemento'])]
 #[Hidden(['password', 'remember_token'])]
@@ -29,4 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-}
+
+    /**
+     * Relación: Un usuario tiene muchos libros.
+     */
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class);
+    }
+} // <-- Solo UNA llave aquí al final

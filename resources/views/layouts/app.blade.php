@@ -8,6 +8,7 @@
     
     <link rel="icon" type="image/png" href="{{ asset('img/logo/logo_patata.png') }}">
 
+    {{-- Cargamos los activos compilados (JS y CSS) una sola vez --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -20,14 +21,15 @@
 
     <nav class="main-nav">
         <div class="nav-left">
-            <a href="/" class="nav-logo">
+            {{-- Usamos route('home') para que siempre vuelva al inicio correctamente --}}
+            <a href="{{ route('home') }}" class="nav-logo">
                 <img src="{{ asset('img/logo/logo_patata.png') }}" alt="Logo Patata Social Network" class="logo-img">
             </a>
         </div>
 
         <div class="nav-right">
             @auth
-            <a href="/perfil" class="nav-profile-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
+            <a href="{{ route('perfil') }}" class="nav-profile-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
 
                 <div class="avatar-circle">
                     {{-- Capa 1: Base de la Patata --}}
@@ -52,15 +54,15 @@
                 <span class="user-name" style="font-weight: bold; color: #333;">{{ Auth::user()->name }}</span>
             </a>
 
-            <form action="/logout" method="POST" class="logout-form" style="margin-left: 10px;">
+            <form action="{{ route('logout') }}" method="POST" class="logout-form" style="margin-left: 10px;">
                 @csrf
                 <button type="submit" class="btn-logout">Salir</button>
             </form>
             @endauth
 
             @guest
-            <a href="/login" class="link-login">Entrar</a>
-            <a href="/registro" class="btn-join">Unirse</a>
+            <a href="{{ route('login') }}" class="link-login">Entrar</a>
+            <a href="{{ route('registro') }}" class="btn-join">Unirse</a>
             @endguest
         </div>
     </nav>
@@ -70,5 +72,4 @@
     </main>
 
 </body>
-
 </html>

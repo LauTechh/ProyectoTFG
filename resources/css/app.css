@@ -321,6 +321,23 @@
     margin: 5px 0;
 }
 
+.btn-secondary {
+    display: inline-block;
+    background-color: #f3f4f6;
+    color: #374151;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+
 /* Forzamos transparencia final */
 * {
     background-color: initial;

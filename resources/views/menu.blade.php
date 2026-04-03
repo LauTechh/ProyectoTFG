@@ -2,25 +2,27 @@
 
 @section('content')
 <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-    <h1>📚 ¡Bienvenido a tu Red Social de Libros!</h1>
-    
+    {{-- Título principal --}}
+    <h1 style="margin-top: 20px; color: #7c2d12;">¡Bienvenida a la Red de Patatas! 🥔</h1>
+
     {{-- BLOQUE 1: Saludo dinámico --}}
     @auth
-        <p>Hola de nuevo, <strong>{{ Auth::user()->name }}</strong>. ¿Qué vamos a leer hoy?</p>
+    <p>Hola de nuevo, <strong>{{ Auth::user()->name }}</strong>. ¿Qué vamos a leer hoy?</p>
     @endauth
 
     @guest
-        <p>Explora el mundo de la lectura. ¡Regístrate para guardar tus propios libros!</p>
+    <p>Explora el mundo de la lectura. ¡Regístrate para guardar tus propios libros!</p>
     @endguest
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px;">
-        
+
         {{-- BLOQUE 2: Mi Biblioteca (Solo visible si estás logueado) --}}
         @auth
         <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee;">
             <h3>📖 Mi Biblioteca</h3>
             <p>Gestiona tus lecturas guardadas.</p>
-            <a href="/mis-libros" class="btn" style="display: inline-block; margin-top: 10px;">Ver mis libros</a>
+            {{-- Usamos tu ruta oficial: books.myShelf --}}
+            <a href="{{ route('books.myShelf') }}" class="btn" style="display: inline-block; margin-top: 10px;">Ver mis libros</a>
         </div>
         @endauth
 
@@ -28,7 +30,7 @@
         <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee;">
             <h3>🔍 Explorar</h3>
             <p>Busca nuevos libros en Google Books.</p>
-            <a href="/buscar" class="btn btn-dark" style="display: inline-block; margin-top: 10px;">Buscar libros</a>
+            <a href="{{ route('books.index') }}" class="btn-dark" style="display: inline-block; margin-top: 10px;">Buscar libros</a>
         </div>
 
         {{-- BLOQUE 4: Registro (Solo para invitados) --}}
@@ -36,7 +38,8 @@
         <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee;">
             <h3>🥔 ¡Únete!</h3>
             <p>Crea tu cuenta y personaliza tu patata.</p>
-            <a href="/registro" class="btn" style="display: inline-block; margin-top: 10px; background: #4CAF50; color: white;">Registrarme</a>
+            {{-- CAMBIO AQUÍ: De 'register' a 'registro' --}}
+            <a href="{{ route('registro') }}" class="btn" style="display: inline-block; margin-top: 10px; background: #4CAF50; color: white; text-decoration: none;">Registrarme</a>
         </div>
         @endguest
     </div>
