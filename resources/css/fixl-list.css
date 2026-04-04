@@ -1,0 +1,36 @@
+/* RESET ABSOLUTO PARA LA LISTA */
+.lista-patata-vertical {
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 40px auto !important;
+    float: none !important;
+    clear: both !important;
+}
+
+/* CADA FILA FORZADA */
+.fila-libro-patata {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    background: white !important;
+    margin-bottom: 15px !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    border: 2px solid #fed7aa !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.fila-libro-patata img {
+    width: 50px !important;
+    height: 70px !important;
+    margin-right: 20px !important;
+    flex-shrink: 0 !important;
+}
+
+.fila-libro-patata .info {
+    flex-grow: 1 !important;
+    text-align: left !important;
+}

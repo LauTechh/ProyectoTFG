@@ -1,5 +1,3 @@
-@import 'tailwindcss';
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -12,19 +10,13 @@
 
 /* --- 1. BASE Y TRANSPARENCIAS --- */
 @layer base {
-
-    html,
-    body {
+    html, body {
         margin: 0;
         padding: 0;
         min-height: 100vh !important;
     }
 
-    /* Forzamos transparencia en los contenedores raíz */
-    #app,
-    main,
-    .antialiased,
-    .container {
+    #app, main, .antialiased, .container {
         background-color: transparent !important;
         background: transparent !important;
     }
@@ -33,71 +25,48 @@
 /* --- 2. COMPONENTES (Avatar, Botones, etc.) --- */
 @layer components {
 
-    /* Contenedor del avatar en el Nav */
+    /* --- AVATAR Y PERFIL --- */
     .avatar-circle {
         position: relative;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        /* Esto lo mantiene circular */
         overflow: hidden;
         background: white;
         display: inline-block;
         vertical-align: middle;
-
-        /* 🟠 EL REBORDE COBRIZO (Igual que el logo) */
         border: 2px solid #b87333;
         padding: 2px;
-        /* Un poco de aire para que la patata no toque el borde */
-
         box-shadow: 0 2px 5px rgba(184, 115, 51, 0.2);
-        /* Sombra cobriza muy suave */
         transition: all 0.3s ease;
     }
 
-    /* Efecto al pasar el ratón por el enlace del perfil */
     .nav-profile-link:hover .avatar-circle {
         transform: scale(1.1);
         border-color: #cd7f32;
-        /* Brilla igual que el logo */
         box-shadow: 0 4px 12px rgba(184, 115, 51, 0.4);
     }
 
-    /* --- 2. COMPONENTES (Dentro de @layer components) --- */
-
     .avatar-layer {
         position: absolute;
-
-        /* 1. Bajamos el tamaño: de 400px a algo más razonable */
         width: 120px !important;
         height: 120px !important;
-
-        /* 2. Seguimos manteniendo los límites desactivados */
         max-width: none !important;
         max-height: none !important;
-
-        /* 3. Centrado */
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) !important;
-
         object-fit: contain;
     }
 
-    /* Aplicamos lo mismo a todas las capas para que no se descuadre la cara */
-    .layer-base,
-    .layer-boca,
-    .layer-ojos,
-    .layer-complement {
+    .layer-base, .layer-boca, .layer-ojos, .layer-complement {
         width: 120px !important;
         height: 120px !important;
     }
 
-    .layer-multiply {
-        mix-blend-mode: multiply;
-    }
+    .layer-multiply { mix-blend-mode: multiply; }
 
-    /* Estilos de botones que tenías "atrapados" */
+    /* --- BOTONES GENERALES --- */
     .btn-primary {
         background-color: #4CAF50;
         color: white;
@@ -108,6 +77,7 @@
         transition: transform 0.1s;
         display: inline-block;
         border: none;
+        cursor: pointer;
     }
 
     .btn-primary:hover {
@@ -115,22 +85,36 @@
         background-color: #45a049;
     }
 
-    /* Estilos del selector de avatar (Registro Paso 2) */
-    .avatar-option img {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        border: 4px solid #eee;
-        border-radius: 15px;
-        background: #fff;
-        transition: all 0.2s ease-in-out;
+    .btn-secondary {
+        display: inline-block;
+        background-color: #f3f4f6;
+        color: #374151;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .btn-secondary:hover { background-color: #e5e7eb; }
+
+    .btn-logout {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        padding: 6px 16px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
         cursor: pointer;
     }
 
-    .avatar-option input[type="radio"]:checked+img {
-        border-color: #4CAF50;
-        background-color: #e8f5e9;
-        box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+    .btn-logout:hover {
+        background: #ef4444;
+        color: white;
+        transform: scale(1.05);
     }
 }
 
@@ -138,207 +122,133 @@
 .main-nav {
     display: flex;
     justify-content: space-between;
-    /* Logo a la izquierda, resto a la derecha */
     align-items: center;
     padding: 10px 40px;
-    /* Espacio cómodo a los lados */
-
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
-
-    /* PEGADO A LOS MÁRGENES */
     margin: 0;
     width: 100%;
     box-sizing: border-box;
-    /* Para que el padding no estire el nav más de la cuenta */
-
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .nav-right {
     display: flex;
-    flex-direction: row;
-    /* Fuerza que sea una fila */
     align-items: center;
-    /* Centra todo verticalmente */
     gap: 15px;
-    /* Espacio constante entre elementos */
 }
 
-/* El enlace que envuelve a la patata y al nombre */
-.nav-profile-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* Espacio entre el círculo y el texto */
-    text-decoration: none;
-    color: inherit;
-}
-
-.logout-form {
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.btn-logout {
-    background: #fee2e2;
-    color: #ef4444;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    white-space: nowrap;
-    /* Evita que la palabra "Salir" se parta en dos */
-}
-
-/* ============================================================
-   🖼️ SECCIÓN NUEVA: AJUSTE DEL LOGO PNG
-   ============================================================ */
-
-/* 1. Contenedor del logo: asegura que esté centrado verticalmente */
 .nav-logo {
     display: flex;
     align-items: center;
-    padding: 0;
-    margin: 0;
     text-decoration: none;
-    /* Quita subrayados si los hubiera */
 }
 
-/* 2. La imagen del logo en sí: controlamos el tamaño */
 .logo-img {
     height: 60px;
-    /* 📏 Ajusta este número para que el logo no sea más alto que el Nav */
     width: auto;
-    /* Mantiene la proporción para que no se estire feo */
     object-fit: contain;
-    /* Asegura que la imagen no se corte */
-
-    /* 🟠 Estilo Cobrizo y Redondeado */
     border: 2px solid #b87333;
-    /* Color cobre (Copper) */
     border-radius: 12px;
-    /* Esquinas suavizadas */
     padding: 3px;
-    /* Espacio entre el logo y el borde cobrizo */
     background-color: rgba(184, 115, 51, 0.05);
-    /* Un toque de brillo cobrizo al fondo */
-
-    margin-left: 5px;
-    /* Separado un pelín del borde izquierdo */
     transition: all 0.2s ease-in-out;
 }
 
-/* 3. Efecto al pasar el ratón */
 .logo-img:hover {
     transform: scale(1.1);
-    /* Crece un poquito más al pasar el ratón */
     border-color: #cd7f32;
-    /* El cobre brilla un poco más (Bronce) */
     box-shadow: 0 0 10px rgba(184, 115, 51, 0.3);
-    /* Sombra cobriza suave */
 }
 
+/* --- 4. BUSCADOR DE LIBROS (LISTA HORIZONTAL) --- */
 
-.nav-profile-link:hover .avatar-circle {
-    transform: scale(1.05);
+.search-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 900px;
+    margin: 20px auto;
 }
 
-/* El nombre del usuario */
-.user-name {
-    font-size: 1rem;
-    font-weight: 700;
+.book-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 950px;
+    background: rgba(255, 255, 255, 0.9) !important;
+    margin: 0 auto 12px auto !important;
+    padding: 10px 25px !important;
+    border-radius: 15px !important;
+    border: 1px solid #fed7aa !important;
+    gap: 20px;
+}
+
+.book-row-img {
+    width: 40px;
+    height: 60px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.book-row-info {
+    flex: 2; /* Más espacio para el texto */
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* Alineado a la izquierda para mejor lectura con la foto */
+}
+
+.book-row-title {
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    margin: 0 !important;
     color: #2d3436;
-    /* Más oscuro para que resalte en el nav blanco */
-    margin: 0;
-    /* Quitamos márgenes que puedan empujar el botón */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px; /* Ajusta según prefieras */
 }
 
-.guest-container {
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 0 auto;
+.book-row-author {
+    margin: 0 !important;
+    color: #6b7280 !important;
+    font-size: 0.85rem !important;
+}
+
+/* EL GÉNERO: Control total desde aquí */
+.book-row-genre {
+    flex: 1 !important;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 0.75rem !important;
+    font-weight: 600;
+    
+    /* El estilo rosa del hachazo */
+    background-color: #fce7f3 !important; /* bg-pink-100 */
+    color: #db2777 !important;           /* text-pink-600 */
+    padding: 4px 12px !important;
+    border-radius: 9999px !important;
+    
+    max-width: fit-content;
+    white-space: nowrap;
 }
 
-.card-menu {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+.btn-add-shelf {
+    flex-shrink: 0;
+    background-color: #22c55e !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none;
+    cursor: pointer;
     transition: transform 0.2s;
 }
 
-.btn-logout {
-    background: rgba(239, 68, 68, 0.1);
-    /* Rojo muy clarito */
-    color: #ef4444;
-    /* Letra roja */
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    padding: 6px 16px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    transition: all 0.3s ease;
-}
-
-.btn-logout:hover {
-    background: #ef4444;
-    /* Al pasar el ratón se vuelve rojo total */
-    color: white;
+.btn-add-shelf:hover {
     transform: scale(1.05);
-    /* Crece un pelín */
-}
-
-/* Un contenedor suave para que el texto de bienvenida se lea bien */
-.welcome-text-container {
-    background: rgba(255, 255, 255, 0.7);
-    /* Fondo blanco translúcido */
-    backdrop-filter: blur(5px);
-    /* Desenfoca un poco el fondo */
-    padding: 15px 25px;
-    border-radius: 15px;
-    display: inline-block;
-    /* Para que no ocupe todo el ancho */
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.welcome-text-container h2,
-.welcome-text-container p {
-    color: #2d3436 !important;
-    /* Un gris casi negro muy legible */
-    margin: 5px 0;
-}
-
-.btn-secondary {
-    display: inline-block;
-    background-color: #f3f4f6;
-    color: #374151;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.btn-secondary:hover {
-    background-color: #e5e7eb;
-}
-
-
-/* Forzamos transparencia final */
-* {
-    background-color: initial;
+    background-color: #16a34a !important;
 }
