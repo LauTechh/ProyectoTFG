@@ -3,15 +3,23 @@
 @section('content')
 <div style="max-width: 800px; margin: 0 auto; text-align: center;">
     {{-- Título principal --}}
-    <h1 style="margin-top: 20px; color: #7c2d12;">¡Bienvenida a la Red de Patatas! 🥔</h1>
+    <div class="avatar-selector-beige-box">
 
+        <h1 style="margin-top: 20px; color: #7c2d12;">¡Bienvenida a la Red de Patatas! 🥔</h1>
+        @auth
+        <p>Hola de nuevo, <strong>{{ Auth::user()->name }}</strong>. ¿Qué vamos a leer hoy?</p>
+        @endauth
+
+        @guest
+        <p>¡Hola! <strong>Únete a la red</strong> para empezar a guardar tus libros.</p>
+        @endguest
+    </div>
     {{-- BLOQUE 1: Saludo dinámico --}}
     @auth
-    <p>Hola de nuevo, <strong>{{ Auth::user()->name }}</strong>. ¿Qué vamos a leer hoy?</p>
     @endauth
 
     @guest
-    <p>Explora el mundo de la lectura. ¡Regístrate para guardar tus propios libros!</p>
+    <p style="margin-top: 20px; color: #d5cfcd;">Explora el mundo de la lectura. ¡Regístrate para guardar tus propios libros!</p>
     @endguest
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px;">

@@ -18,17 +18,23 @@ class BookController extends Controller
     // 2. Esta función es la que "llama" a Google Books
     public function search(Request $request)
     {
-        $query = $request->input('query'); // Lo que tú escribas en el buscador
+        $query = $request->input('query');
 
-        // Llamamos a la API de Google
+        // Si no hay texto, volvemos atrás para no llamar a Google en vano
+        if (!$query) {
+            return redirect()->back();
+        }
+
         $response = Http::get("https://www.googleapis.com/books/v1/volumes", [
             'q' => $query,
-            'maxResults' => 10, // Traemos 10 libros para elegir
+            'maxResults' => 12, // Un par más para rellenar la rejilla
         ]);
 
+        // Importante: Asegúrate de que $books siempre sea un array, aunque esté vacío
         $books = $response->json()['items'] ?? [];
 
-        return view('books.results', compact('books'));
+        // Verificamos que la vista sea 'books.results' (con el punto)
+        return view('books.results', compact('books', 'query'));
     }
 
     public function store(Request $request)

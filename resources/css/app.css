@@ -30,13 +30,18 @@
 
 /* --- 1. BASE Y TRANSPARENCIAS --- */
 @layer base {
-    html, body {
+
+    html,
+    body {
         margin: 0;
         padding: 0;
         min-height: 100vh !important;
     }
 
-    #app, main, .antialiased, .container {
+    #app,
+    main,
+    .antialiased,
+    .container {
         background-color: transparent !important;
         background: transparent !important;
     }
@@ -77,12 +82,17 @@
         object-fit: contain;
     }
 
-    .layer-base, .layer-boca, .layer-ojos, .layer-complement {
+    .layer-base,
+    .layer-boca,
+    .layer-ojos,
+    .layer-complement {
         width: 120px !important;
         height: 120px !important;
     }
 
-    .layer-multiply { mix-blend-mode: multiply; }
+    .layer-multiply {
+        mix-blend-mode: multiply;
+    }
 
     /* --- BOTONES --- */
     .btn-primary {
@@ -124,7 +134,8 @@
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
-        overflow: visible; /* 🌟 Permite que el dibujo salga de la caja */
+        overflow: visible;
+        /* 🌟 Permite que el dibujo salga de la caja */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -170,7 +181,7 @@
         transform: scale(2.3) !important;
     }
 
-    .avatar-option input[type="radio"]:checked + img.avatar-img-large {
+    .avatar-option input[type="radio"]:checked+img.avatar-img-large {
         transform: scale(2.3) !important;
     }
 
@@ -227,20 +238,70 @@
         display: none;
     }
 
-} /* 🛠️ AJUSTE: Aquí cerramos el layer components correctamente */
+}
+
+/* 🛠️ AJUSTE: Aquí cerramos el layer components correctamente */
 
 /* --- 3. NAVEGACIÓN Y OTROS --- */
+/* --- 3. NAVEGACIÓN REPARADA --- */
 .main-nav {
     display: flex;
     justify-content: space-between;
+    /* Logo a la izquierda, resto a la derecha */
     align-items: center;
-    padding: 10px 40px;
-    background: rgba(255, 255, 255, 0.8);
+    padding: 0 40px;
+    background: rgba(255, 255, 255, 0.8) !important;
+    /* Blanco transparentoso */
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     width: 100%;
+    height: 80px;
     box-sizing: border-box;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1000;
 }
+
+/* Contenedor de la derecha (Buscador + Avatar + Salir) */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    /* Espacio real entre elementos */
+}
+
+/* Contenedor del buscador para que no empuje */
+.nav-search-form {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Ajuste del Avatar para que se vea */
+.avatar-circle {
+    flex-shrink: 0;
+    /* Impide que se aplaste */
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 50%;
+    border: 2px solid #b87333;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Forzamos que las capas del avatar queden dentro del circulito del nav */
+.avatar-circle .avatar-layer {
+    width: 100px !important;
+    /* Tamaño del dibujo */
+    height: 100px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}
+
+
 
 .nav-logo {
     display: flex;

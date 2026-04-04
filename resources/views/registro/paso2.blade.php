@@ -11,7 +11,7 @@
 
 
             {{-- 🌟 AÑADIMOS EL CONTENEDOR BEIGE AQUÍ 🌟 --}}
-            <div class="avatar-selector-beige-box">
+            <div class="avatar-selector-beige-box"style="margin-top: 20px; color: #7c2d12;>
 
 
                 <h2 class="mb-2">Paso 2: ¡Crea tu Patata-Avatar! 🥔</h2>
