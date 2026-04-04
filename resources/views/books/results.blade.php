@@ -2,10 +2,7 @@
 
 @section('content') {{-- Esto le dice: "Mete todo esto dentro del hueco de contenido" --}}
 <div class="container mx-auto p-6">
-    <div class="welcome-text-container mb-6">
-        <h2 class="text-2xl font-bold">📚 Resultados de tu búsqueda</h2>
-        <a href="{{ route('books.index') }}" class="text-blue-500 underline">Volver a buscar</a>
-    </div>
+
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($books as $book)

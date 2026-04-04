@@ -55,12 +55,28 @@ class BookController extends Controller
 
     public function myShelf()
     {
-        // Esto solo trae los libros QUE SON TUYOS
-        $books = Auth::user()->books;
+        // 1. Cogemos al usuario logueado
+        $user = Auth::user();
 
+        // 2. Traemos sus libros con la info de la tabla intermedia (pivot)
+        $books = $user->books;
+
+        // 3. Enviamos los libros a la vista (asegúrate de que el archivo se llame 'estanteria')
         return view('books.my-shelf', compact('books'));
     }
 
+    public function updateShelf(Request $request, $bookId)
+    {
+        $user = Auth::user();
+
+        // Actualizamos los datos en la tabla intermedia (el pivot)
+        $user->books()->updateExistingPivot($bookId, [
+            'estado' => $request->estado,
+            'puntuacion' => $request->puntuacion
+        ]);
+
+        return redirect()->back()->with('success', '¡Libro actualizado!');
+    }
 
     public function destroy(Book $book)
     {

@@ -18,8 +18,12 @@ class Book extends Model
     ];
 
     // 2. Definimos la relación: "Este libro pertenece a un usuario"
-    public function user(): BelongsTo
+
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        // Un libro también puede pertenecer a muchos usuarios
+        return $this->belongsToMany(User::class)
+            ->withPivot('estado', 'puntuacion')
+            ->withTimestamps();
     }
 }

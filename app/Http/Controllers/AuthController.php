@@ -38,9 +38,6 @@ class AuthController extends Controller
             'email.unique' => '¡Esta patata ya tiene dueño! El correo ya está registrado.',
         ]);
 
-        // 2. BORRA O COMENTA ESTA LÍNEA (la que saca la pantalla negra):
-        // dd($request->all()); 
-
         // 3. Guardamos en la mochila (sesión)
         session(['datos_registro' => $request->only('name', 'email', 'password')]);
 

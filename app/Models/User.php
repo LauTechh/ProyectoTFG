@@ -30,11 +30,14 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Relación: Un usuario tiene muchos libros.
-     */
-    public function books(): HasMany
+
+
+    public function books()
     {
-        return $this->hasMany(Book::class);
+        // Esto le dice a Laravel: "Un usuario tiene muchos libros a través de la tabla book_user"
+        // withPivot nos permite traer también el estado y la puntuación (las patatas)
+        return $this->belongsToMany(Book::class)
+            ->withPivot('estado', 'puntuacion')
+            ->withTimestamps();
     }
 } // <-- Solo UNA llave aquí al final

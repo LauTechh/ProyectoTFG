@@ -2,17 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Http\Controllers\BookController;
 
-
-// 1. LA HOME AHORA ES TU MENÚ DE INVITADO
+// 1. PÁGINA DE INICIO (Menú de invitado)
 Route::get('/', function () {
-    return view('menu'); // Mostramos el menú a todo el mundo
+    return view('menu');
 })->name('home');
 
-// 2. RUTAS DE ACCESO (Públicas)
+// 2. RUTAS DE ACCESO (Públicas: para usuarios no logueados)
 Route::get('/login', function () {
     return view('login');
 })->name('login');
@@ -29,29 +26,28 @@ Route::get('/registro/paso2', function () {
 });
 Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro'])->name('registro.finalizar');
 
-// 3. RUTAS PROTEGIDAS (Solo para logueados)
+
+// 3. RUTAS PROTEGIDAS (Solo para usuarios logueados con sus patatas)
 Route::middleware(['auth'])->group(function () {
+
+    // Perfil del usuario
     Route::get('/perfil', function () {
         return view('perfil');
     })->name('perfil');
 
-    Route::get('/mis-libros', function () {
-        return view('mis-libros'); // Tu futura biblioteca
-    })->name('mis.libros');
+    // MI ESTANTERÍA (Donde vemos los libros y las notas)
+    Route::get('/my-shelf', [BookController::class, 'myShelf'])->name('books.myShelf');
+
+    // BUSCADOR Y GUARDADO
+    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+    Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+    Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
+
+    // ELIMINAR LIBRO
+    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+
+    // LOGOUT (Cerrar sesión)
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::put('/my-shelf/{book}', [BookController::class, 'updateShelf'])->name('books.updateShelf');
 });
-
-// 4. LOGOUT
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Ruta para ver el buscador
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
-
-// Ruta para procesar la búsqueda en Google
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-
-// Ruta para guardar el libro elegido en tu base de datos (la prepararemos luego)
-Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
-
-Route::get('/my-shelf', [BookController::class, 'myShelf'])->name('books.myShelf');
-
-Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
