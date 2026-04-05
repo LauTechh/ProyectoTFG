@@ -465,33 +465,96 @@ body {
 }
 
 /* 3. Arreglamos las miniaturas de las opciones para que no se estiren */
-.cuadricula-opciones-avatar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    padding: 15px;
+/* 1. Escondemos el radio button físicamente pero que siga siendo funcional */
+.opcion-avatar input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
+/* 2. El contenedor (cuadrado) ahora es el protagonista */
 .opcion-avatar {
-    width: 80px !important;
-    height: 80px !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
-    background: white;
-    border-radius: 12px;
-    border: 2px solid #eee;
-    padding: 5px;
+    width: 85px !important;
+    height: 85px !important;
+    background-color: #ffffff;
+    border: 3px solid #e2e8f0;
+    /* Gris suave */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px;
+    position: relative;
 }
 
+/* 3. Efecto cuando pasas el ratón (Hover) */
+.opcion-avatar:hover {
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+}
+
+/* 4. EL ESTADO SELECCIONADO (Cuando el radio de dentro está checked) */
+.opcion-avatar:has(input:checked) {
+    border-color: #4CAF50 !important;
+    /* Verde vibrante */
+    background-color: #f0fdf4 !important;
+    /* Fondo verde clarito */
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+/* 5. La imagen dentro del cuadrado */
 .opcion-avatar img {
-    max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 /* 4. Ajuste para los radio buttons que se ven raros en tu imagen */
 .opcion-avatar input[type="radio"] {
     margin-right: 5px;
+}
+
+/* ==========================================================================
+   SUPER-ZOOM EXCLUSIVO PARA OJOS Y BOCA EN SELECCIÓN
+   ========================================================================== */
+
+/* 1. Preparamos los contenedores para el desbordamiento controlado */
+.columna-perfil-der .cuadricula-opciones-avatar .opcion-avatar {
+    overflow: visible !important;
+    /* Permitimos que la imagen se salga un poco si es necesario al escalar */
+    position: relative;
+    z-index: 1;
+    /* Base z-index */
+}
+
+/* 2. Zoom x3 SOLO para las imágenes de BOCA */
+/* Usamos nth-of-type(2) porque la boca es la segunda sección de h3+div */
+.columna-perfil-der .caja-beige-selector h3:nth-of-type(2)+.cuadricula-opciones-avatar .opcion-avatar img {
+    transform: scale(3.0) !important;
+    /* Tres veces más grande */
+    transform-origin: center center !important;
+    /* Escalado desde el centro */
+    object-fit: contain !important;
+    transition: transform 0.2s ease-in-out;
+    /* Suavidad si hay hover */
+}
+
+/* 3. Zoom x3 SOLO para las imágenes de OJOS */
+/* Usamos nth-of-type(3) porque los ojos son la tercera sección */
+.columna-perfil-der .caja-beige-selector h3:nth-of-type(3)+.cuadricula-opciones-avatar .opcion-avatar img {
+    transform: scale(3.0) !important;
+    /* Tres veces más grande */
+    transform-origin: center center !important;
+    object-fit: contain !important;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* 4. Opcional: Pequeño reajuste de Z-Index en Hover/Checked para evitar cortes feos */
+.columna-perfil-der .cuadricula-opciones-avatar .opcion-avatar:hover,
+.columna-perfil-der .cuadricula-opciones-avatar .opcion-avatar:has(input:checked) {
+    z-index: 10 !important;
+    /* Se superpone a los vecinos al interactuar */
 }
