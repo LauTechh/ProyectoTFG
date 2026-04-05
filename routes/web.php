@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibroController;
+use App\Http\Controllers\PerfilController; // Asegúrate de tener el controlador
 
 /*
 |--------------------------------------------------------------------------
@@ -73,4 +74,13 @@ Route::middleware(['auth'])->group(function () {
 
     // --- SALIR (LOGOUT) ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+
+Route::middleware('auth')->group(function () {
+    // Ruta para mostrar la vista de edición
+    Route::get('/perfil/editar-avatar', [PerfilController::class, 'editarAvatar'])->name('perfil.editar-avatar');
+
+    // Ruta para guardar los cambios (usamos PUT porque es una actualización)
+    Route::put('/perfil/actualizar-avatar', [PerfilController::class, 'actualizarAvatar'])->name('perfil.actualizar-avatar');
 });

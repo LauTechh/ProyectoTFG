@@ -1,25 +1,43 @@
 @extends('plantilla.app')
 
 @section('content')
-<div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 20px;">
-    <h1>Tu Perfil, {{ Auth::user()->name }} 🥔✨</h1>
-    <p style="color: #666;">Aquí es donde nacerá tu comunidad de lectores.</p>
+<div class="contenedor-perfil-layout">
 
-    <div style="position: relative; width: 250px; height: 250px; border-radius: 50%; background: #fff; overflow: hidden; border: 8px solid #4CAF50; margin: 30px auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_base) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_boca) }}" style="position: absolute; top: 0; left: 0; width: 100%; mix-blend-mode: multiply; transform: scale(2.0) translateY(2%);">
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_ojos) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
-        <img src="{{ asset('img/avatar/' . Auth::user()->avatar_complemento) }}" style="position: absolute; top: 0; left: 0; width: 100%; transform: scale(2.0) translateY(2%);">
-
+    <div class="columna-perfil-izq">
+        <div class="tarjeta-decorativa">
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop" alt="Decoración" class="img-espacio">
+            <p class="txt-decorativo">"Un libro es un jardín que se lleva en el bolsillo."</p>
+        </div>
     </div>
 
-    <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; margin-top: 20px;">
-        <h3>📖 Próximamente: Tu Biblioteca Personal</h3>
-        <p>Estamos conectando con Google Books para que puedas mostrar tus lecturas favoritas aquí.</p>
+    <div class="columna-perfil-der">
+
+        <div class="caja-avatar-perfil">
+            <div class="circulo-avatar-grande">
+                <img src="{{ asset('img/avatar/' . Auth::user()->avatar_base) }}" class="capa-v-avatar">
+                <img src="{{ asset('img/avatar/' . Auth::user()->avatar_boca) }}" class="capa-v-avatar mix-blend">
+                <img src="{{ asset('img/avatar/' . Auth::user()->avatar_ojos) }}" class="capa-v-avatar">
+                <img src="{{ asset('img/avatar/' . Auth::user()->avatar_complemento) }}" class="capa-v-avatar">
+            </div>
+
+            <div class="acciones-perfil">
+                <a href="{{ route('perfil.editar-avatar') }}" class="btn-perfil-accion">🎨 Cambiar Avatar</a> <a href="#" class="btn-perfil-accion">✏️ Cambiar Nombre</a>
+            </div>
+        </div>
+
+        <details class="datos-usuario-desplegable">
+            <summary>Mis datos de usuario</summary>
+            <div class="contenido-datos">
+                <p><strong>Nombre:</strong> {{ Auth::user()->name }}</p>
+                <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+                <p><strong>ADN Patata:</strong> {{ Auth::user()->avatar_base }}, {{ Auth::user()->avatar_ojos }}</p>
+            </div>
+        </details>
+
+        <div style="margin-top: 30px;">
+            <a href="/" class="btn-primario" style="font-size: 0.8rem; padding: 10px 20px;">⬅ Volver al menú</a>
+        </div>
     </div>
 
-    <div style="margin-top: 30px;">
-        <a href="/" class="btn">⬅ Volver al menú</a>
-    </div>
 </div>
 @endsection
