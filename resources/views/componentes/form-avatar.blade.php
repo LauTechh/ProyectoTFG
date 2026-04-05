@@ -55,9 +55,29 @@
 
 {{-- 2. VISTA PREVIA (Ahora encapsulada para el CSS de control de tamaño) --}}
 <div class="caja-vista-previa-avatar">
-    <img id="preview-base" class="capa-avatar" style="z-index: 10;">
-    <img id="preview-boca" class="capa-avatar" style="z-index: 20; mix-blend-mode: multiply;">
-    <img id="preview-ojos" class="capa-avatar" style="z-index: 30;">
-    <img id="preview-complemento" class="capa-avatar" style="z-index: 40;">
-    <p id="preview-text">Tu patata aparecerá aquí</p>
+    {{-- Si hay usuario (Editar Perfil), cargamos sus imágenes. Si no (Registro), src vacío --}}
+    <img id="preview-base"
+        class="capa-avatar"
+        style="z-index: 10;"
+        src="{{ Auth::check() && Auth::user()->avatar_base ? asset('img/avatar/' . Auth::user()->avatar_base) : '' }}">
+
+    <img id="preview-boca"
+        class="capa-avatar"
+        style="z-index: 20; mix-blend-mode: multiply;"
+        src="{{ Auth::check() && Auth::user()->avatar_boca ? asset('img/avatar/' . Auth::user()->avatar_boca) : '' }}">
+
+    <img id="preview-ojos"
+        class="capa-avatar"
+        style="z-index: 30;"
+        src="{{ Auth::check() && Auth::user()->avatar_ojos ? asset('img/avatar/' . Auth::user()->avatar_ojos) : '' }}">
+
+    <img id="preview-complemento"
+        class="capa-avatar"
+        style="z-index: 40;"
+        src="{{ Auth::check() && Auth::user()->avatar_complemento ? asset('img/avatar/' . Auth::user()->avatar_complemento) : '' }}">
+
+    {{-- El texto solo se ve si NO hay una base seleccionada --}}
+    <p id="preview-text" style="{{ Auth::check() && Auth::user()->avatar_base ? 'display:none;' : '' }}">
+        Tu patata aparecerá aquí
+    </p>
 </div>
