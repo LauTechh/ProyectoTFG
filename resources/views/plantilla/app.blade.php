@@ -6,24 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patata Social Network</title>
 
+    {{-- Icono de la web --}}
     <link rel="icon" type="image/png" href="{{ asset('img/logo/logo_patata.png') }}">
 
-    {{-- Cargamos los activos compilados (JS y CSS) una sola vez --}}
+    {{-- Cargamos los activos con Vite (Solo una vez) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('css/fix-list.css') }}"> {{-- O añádelo al array de Vite --}}
+
+    {{-- Si 'fix-list.css' es importante, lo ideal es que lo metas en resources/css 
+         y lo añadas al array de Vite arriba. Si no, déjalo aquí abajo: --}}
+    @if(file_exists(public_path('css/fix-list.css')))
+    <link rel="stylesheet" href="{{ asset('css/fix-list.css') }}">
+    @endif
 </head>
 
-<body class="antialiased {{ Auth::check() ? 'is-logged-in' : 'is-guest' }}"
+<body class="antialiased {{ Auth::check() ? 'esta-logueado' : 'es-invitado' }}"
     style="background-image: url('{{ Auth::check() ? asset('img/fondo/fondo2.png') : asset('img/fondo/fondo1.png') }}') !important; 
            background-size: cover !important; 
            background-attachment: fixed !important; 
            background-repeat: no-repeat !important; 
            background-color: transparent !important;">
 
-    @include('partials.nav')
+    {{-- Llamada a la nueva carpeta 'componentes' --}}
+    @include('componentes.nav')
 
-    <main class="main-content-layout"> {{-- Hemos cambiado 'container' por esta nueva clase --}}
+    <main class="diseño-contenido-principal">
         @yield('content')
     </main>
 

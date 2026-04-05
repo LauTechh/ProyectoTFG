@@ -2,52 +2,75 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\LibroController;
 
-// 1. PÁGINA DE INICIO (Pública)
+/*
+|--------------------------------------------------------------------------
+| 1. PÁGINA DE INICIO (Pública)
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return view('menu');
 })->name('home');
 
-// 2. RUTAS DE ACCESO (Públicas)
+
+/*
+|--------------------------------------------------------------------------
+| 2. RUTAS DE ACCESO (Públicas: Login y Registro)
+|--------------------------------------------------------------------------
+*/
+
+// --- LOGIN ---
 Route::get('/login', function () {
-    return view('login');
+    return view('login'); // Asegúrate de que login.blade.php esté en la raíz de views
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
 
+// --- REGISTRO (Carpeta 'registro') ---
 Route::get('/registro', function () {
-    return view('registro.registro');
+    return view('registro.registro'); // resources/views/registro/registro.blade.php
 })->name('registro');
 
 Route::post('/registro', [AuthController::class, 'registrar']);
+
 Route::get('/registro/paso2', function () {
-    return view('registro.paso2');
-});
+    return view('registro.paso2'); // resources/views/registro/paso2.blade.php
+})->name('registro.paso2');
+
 Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro'])->name('registro.finalizar');
 
-// --- 🌟 RUTA DE BÚSQUEDA LIBRE 🌟 ---
-// La sacamos del middleware para que los invitados puedan ver resultados
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+
+/*
+|--------------------------------------------------------------------------
+| 3. BÚSQUEDA DE LIBROS (Pública para todos)
+|--------------------------------------------------------------------------
+*/
+Route::get('/libros/buscar', [LibroController::class, 'buscar'])->name('libros.buscar');
 
 
-// 3. RUTAS PROTEGIDAS (Solo para usuarios logueados)
+/*
+|--------------------------------------------------------------------------
+| 4. RUTAS PROTEGIDAS (Solo para usuarios logueados)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
 
-    // Perfil del usuario
+    // --- PERFIL ---
     Route::get('/perfil', function () {
         return view('perfil');
     })->name('perfil');
 
-    // MI ESTANTERÍA
-    Route::get('/my-shelf', [BookController::class, 'myShelf'])->name('books.myShelf');
+    // --- ESTANTERÍA PERSONAL ---
+    Route::get('/mi-estanteria', [LibroController::class, 'miEstanteria'])->name('libros.estanteria');
 
-    // GESTIÓN DE LIBROS (Aquí sí necesitas estar logueado para guardar o borrar)
-    Route::get('/books', [BookController::class, 'index'])->name('books.index');
-    Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
-    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
-    Route::put('/my-shelf/{book}', [BookController::class, 'updateShelf'])->name('books.updateShelf');
+    // --- GESTIÓN DE LIBROS ---
+    Route::get('/libros', [LibroController::class, 'inicio'])->name('libros.inicio');
+    Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar');
+    Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');
+    Route::put('/mi-estanteria/{libro}', [LibroController::class, 'actualizarEstanteria'])->name('libros.actualizar');
 
-    // LOGOUT
+    // --- SALIR (LOGOUT) ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -8,8 +8,8 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* --- 0. CENTRADO TOTAL DEL REGISTRO --- */
-.guest-body {
+/* --- 0. CENTRADO TOTAL DEL REGISTRO / INVITADO --- */
+.cuerpo-invitado {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,9 @@
     box-sizing: border-box;
 }
 
-.guest-container {
+.contenedor-invitado {
+    background-color: rgba(255, 253, 240, 0.7) !important;
+
     width: 100%;
     max-width: 900px;
     display: flex;
@@ -51,7 +53,7 @@
 @layer components {
 
     /* --- AVATAR Y PERFIL --- */
-    .avatar-circle {
+    .circulo-avatar {
         position: relative;
         width: 50px;
         height: 50px;
@@ -66,13 +68,13 @@
         transition: all 0.3s ease;
     }
 
-    .nav-profile-link:hover .avatar-circle {
+    .enlace-perfil-nav:hover .circulo-avatar {
         transform: scale(1.1);
         border-color: #cd7f32;
         box-shadow: 0 4px 12px rgba(184, 115, 51, 0.4);
     }
 
-    .avatar-layer {
+    .capa-avatar {
         position: absolute;
         width: 120px !important;
         height: 120px !important;
@@ -82,20 +84,17 @@
         object-fit: contain;
     }
 
-    .layer-base,
-    .layer-boca,
-    .layer-ojos,
-    .layer-complement {
+    /* Clases para capas específicas */
+    .capa-base,
+    .capa-boca,
+    .capa-ojos,
+    .capa-complemento {
         width: 120px !important;
         height: 120px !important;
     }
 
-    .layer-multiply {
-        mix-blend-mode: multiply;
-    }
-
     /* --- BOTONES --- */
-    .btn-primary {
+    .btn-primario {
         background-color: #4CAF50;
         color: white;
         padding: 15px 30px;
@@ -109,14 +108,14 @@
         font-size: 1.1rem;
     }
 
-    .btn-primary:hover {
+    .btn-primario:hover {
         transform: translateY(-2px);
         background-color: #45a049;
         box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
     }
 
     /* --- SELECTOR DE AVATAR (REGISTRO) --- */
-    .avatar-options-grid {
+    .cuadricula-opciones-avatar {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -124,7 +123,7 @@
         padding: 20px;
     }
 
-    .avatar-option {
+    .opcion-avatar {
         cursor: pointer;
         position: relative;
         width: 100px;
@@ -134,19 +133,16 @@
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
-        overflow: visible;
-        /* 🌟 Permite que el dibujo salga de la caja */
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .avatar-option input[type="radio"] {
+    .opcion-avatar input[type="radio"] {
         display: none;
     }
 
-    /* 🖼️ LA IMAGEN DENTRO DE LA CAJA */
-    .avatar-option img {
+    .opcion-avatar img {
         width: 80%;
         height: 80%;
         object-fit: contain;
@@ -156,37 +152,24 @@
         left: 10%;
     }
 
-    .avatar-option:hover {
+    .opcion-avatar:hover {
         transform: scale(1.05);
         border-color: #cbd5e1;
     }
 
-    /* 🛠️ AJUSTE: Selector corregido para marcar el borde de la caja al seleccionar */
-    .avatar-option:has(input[type="radio"]:checked) {
+    .opcion-avatar:has(input[type="radio"]:checked) {
         border-color: #4CAF50 !important;
         background-color: #f0fdf4 !important;
         box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
     }
 
-    /* --- OJOS Y BOCA GIGANTES --- */
-    .avatar-option img.avatar-img-large {
+    /* Ojos y boca grandes en el selector */
+    .opcion-avatar img.img-avatar-grande {
         transform: scale(2.2) !important;
-        top: 10%;
-        left: 10%;
-        width: 80%;
-        height: 80%;
-    }
-
-    .avatar-option:hover img.avatar-img-large {
-        transform: scale(2.3) !important;
-    }
-
-    .avatar-option input[type="radio"]:checked+img.avatar-img-large {
-        transform: scale(2.3) !important;
     }
 
     /* --- CONTENEDOR BEIGE --- */
-    .avatar-selector-beige-box {
+    .caja-beige-selector {
         background-color: rgba(255, 253, 240, 0.7) !important;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -198,10 +181,9 @@
         border: 1px solid rgba(230, 220, 180, 0.5);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
         text-align: center;
-        box-sizing: border-box;
     }
 
-    .avatar-section-title {
+    .titulo-seccion-avatar {
         margin-top: 35px;
         margin-bottom: 10px;
         font-weight: 800;
@@ -214,7 +196,7 @@
     }
 
     /* --- VISTA PREVIA --- */
-    .avatar-preview-box {
+    .caja-vista-previa-avatar {
         position: relative;
         width: 220px;
         height: 220px;
@@ -227,31 +209,15 @@
         align-items: center;
         justify-content: center;
     }
-
-    .preview-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: none;
-    }
-
 }
 
-/* 🛠️ AJUSTE: Aquí cerramos el layer components correctamente */
-
-/* --- 3. NAVEGACIÓN Y OTROS --- */
-/* --- 3. NAVEGACIÓN REPARADA --- */
-.main-nav {
+/* --- 3. NAVEGACIÓN --- */
+.nav-principal {
     display: flex;
     justify-content: space-between;
-    /* Logo a la izquierda, resto a la derecha */
     align-items: center;
     padding: 0 40px;
     background: rgba(255, 255, 255, 0.8) !important;
-    /* Blanco transparentoso */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     width: 100%;
@@ -262,54 +228,19 @@
     z-index: 1000;
 }
 
-/* Contenedor de la derecha (Buscador + Avatar + Salir) */
-.nav-right {
+.nav-derecha {
     display: flex;
     align-items: center;
     gap: 25px;
-    /* Espacio real entre elementos */
 }
 
-/* Contenedor del buscador para que no empuje */
-.nav-search-form {
+.formulario-busqueda-nav {
     margin: 0;
     display: flex;
     align-items: center;
 }
 
-/* Ajuste del Avatar para que se vea */
-.avatar-circle {
-    flex-shrink: 0;
-    /* Impide que se aplaste */
-    width: 45px;
-    height: 45px;
-    background: white;
-    border-radius: 50%;
-    border: 2px solid #b87333;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Forzamos que las capas del avatar queden dentro del circulito del nav */
-.avatar-circle .avatar-layer {
-    width: 100px !important;
-    /* Tamaño del dibujo */
-    height: 100px !important;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-}
-
-
-
-.nav-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.logo-img {
+.logo-nav-img {
     height: 60px;
     width: auto;
     border: 2px solid #b87333;
@@ -317,8 +248,8 @@
     transition: 0.2s;
 }
 
-/* --- 4. BUSCADOR DE LIBROS --- */
-.search-results-list {
+/* --- 4. BUSCADOR DE LIBROS (Completado) --- */
+.lista-resultados-busqueda {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -326,7 +257,7 @@
     margin: 20px auto;
 }
 
-.book-row {
+.fila-libro {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -335,13 +266,64 @@
     border-radius: 15px !important;
     border: 1px solid #fed7aa !important;
     gap: 20px;
+    transition: transform 0.2s;
 }
 
-.book-row-genre {
+.fila-libro:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(251, 146, 60, 0.1);
+}
+
+.img-portada-libro {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-libro-caja {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.titulo-libro {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #4a3728;
+    margin: 0;
+}
+
+.autor-libro {
+    font-size: 0.9rem;
+    color: #8b5e3c;
+    margin: 0;
+}
+
+.genero-libro-etiqueta {
     background-color: #fce7f3 !important;
     color: #db2777 !important;
     padding: 4px 12px !important;
     border-radius: 9999px !important;
     font-size: 0.75rem !important;
     font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-añadir-estanteria {
+    background-color: #fb923c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-añadir-estanteria:hover {
+    background-color: #f97316;
+    transform: translateY(-1px);
 }

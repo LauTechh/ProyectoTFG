@@ -1,0 +1,16 @@
+public function buscar(Request $request)
+{
+    $query = $request->input('query');
+    if (!$query) return view('libros.resultados', ['libros' => []]);
+
+    // ESTA ES LA PARTE QUE CONECTA CON EL MUNDO REAL
+    $response = \Illuminate\Support\Facades\Http::withoutVerifying()
+        ->get("https://www.googleapis.com/books/v1/volumes", [
+            'q' => $query,
+            'maxResults' => 20,
+        ]);
+
+    $libros = $response->json()['items'] ?? [];
+
+    return view('libros.resultados', compact('libros'));
+}

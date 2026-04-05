@@ -47,30 +47,47 @@ class AuthController extends Controller
 
     public function finalizarRegistro(Request $request)
     {
-        // 1. Recuperamos los datos básicos de la sesión (nombre, email, pass)
-        $datos = session('datos_registro');
-
-        // 2. Creamos al usuario con las 4 capas que vienen del formulario
-        $usuario = User::create([
-            'name'     => $datos['name'],
-            'email'    => $datos['email'],
-            'password' => Hash::make($datos['password']),
-
-            // Aquí usamos los nombres EXACTOS de los "name" de tus radio buttons
-            'avatar_base'        => $request->avatar_base,        // La patata de color
-            'avatar_boca'        => $request->avatar_boca,        // La boca seleccionada
-            'avatar_ojos'        => $request->avatar_ojos,        // Los ojos seleccionados
-            'avatar_complemento' => $request->avatar_complemento, // El accesorio
+        // 1. Validamos que el usuario haya seleccionado TODAS las partes del avatar
+        $request->validate([
+            'avatar_base'        => 'required',
+            'avatar_boca'        => 'required',
+            'avatar_ojos'        => 'required',
+            'avatar_complemento' => 'required',
+        ], [
+            'required' => '¡Tu patata no puede nacer incompleta! Elige todas las opciones.'
         ]);
 
-        // 3. Limpiamos la sesión para no dejar basura
+        // 2. Recuperamos los datos del Paso 1 que guardamos en la sesión
+        $datos = session('datos_registro');
+
+        // SEGURIDAD: Si por alguna razón la sesión se perdió (tiempo expirado),
+        // mandamos al usuario al principio para que no pete la app.
+        if (!$datos) {
+            return redirect()->route('registro')->with('error', 'La sesión ha caducado. Empieza de nuevo.');
+        }
+
+        // 3. Creamos al usuario con todo el pack completo
+        $usuario = User::create([
+            'name'               => $datos['name'],
+            'email'              => $datos['email'],
+            'password'           => Hash::make($datos['password']),
+            'avatar_base'        => $request->avatar_base,
+            'avatar_boca'        => $request->avatar_boca,
+            'avatar_ojos'        => $request->avatar_ojos,
+            'avatar_complemento' => $request->avatar_complemento,
+        ]);
+
+        // 4. Limpiamos la mochila (sesión)
         session()->forget('datos_registro');
 
-        // 4. Logueamos y entramos
+        // 5. Iniciamos sesión automáticamente y mandamos a la Home
         Auth::login($usuario);
-        return redirect()->to('/');
+
+        return redirect()->to('/')->with('success', '¡Bienvenida al club de las patatas lectoras!');
     }
 
+
+    
     public function logout(Request $request)
     {
         Auth::logout(); // Cerramos la sesión del usuario

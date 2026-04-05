@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('plantilla.app')
 
 @section('content')
 <div class="py-12 bg-orange-50 min-h-screen">
@@ -21,7 +21,7 @@
                 </div>
 
                 {{-- Bloque de Estado y Puntuación --}}
-                <form action="{{ route('books.updateShelf', $book->id) }}" method="POST" class="w-full bg-orange-100 rounded-lg p-3 mb-4 border border-orange-200">
+                <form action="{{ route('libros.actualizar', $book->id) }}" method="POST" class="w-full bg-orange-100 rounded-lg p-3 mb-4 border border-orange-200">
                     @csrf
                     @method('PUT')
 
@@ -46,7 +46,7 @@
                     </div>
                 </form>
 
-                <form action="{{ route('books.destroy', $book) }}" method="POST" class="w-full mt-auto" onsubmit="return confirm('¿Seguro que quieres borrar este libro?')">
+                <form action="{{ route('libros.eliminar', $book) }}" method="POST" class="w-full mt-auto" onsubmit="return confirm('¿Seguro que quieres borrar este libro?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="w-full bg-red-500 text-white py-2 rounded-lg text-xs font-bold hover:bg-red-600 shadow-sm transition">

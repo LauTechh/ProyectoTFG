@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('plantilla.app')
 
 @section('content')
 <div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 20px;">
