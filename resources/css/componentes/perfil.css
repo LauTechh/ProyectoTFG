@@ -62,39 +62,60 @@
 /* 3. BOTONES DE ACCIÓN (Derecha - Cambiar Avatar/Nombre) */
 .acciones-perfil {
     display: flex;
-    gap: 15px;
+    justify-content: center;
+    /* <-- Esto centra los botones horizontalmente */
+    gap: 5px;
     margin-bottom: 30px;
+    width: 100%;
+    max-width: 500px;
+    /* Asegura que ocupe todo el ancho para poder centrar */
 }
 
 .btn-perfil-accion {
-    padding: 10px 20px;
+    flex: 1;
+    /* Esto hace que ambos botones crezcan por igual hasta llenar el max-width */
+    padding: 12px 25px;
+    /* Más aire por dentro */
     background: white;
-    border: 1px solid #fed7aa;
+    border: 2px solid #fed7aa;
+    /* Un pelín más grueso para que resalte */
     border-radius: 50px;
     color: #4a3728;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+    /* Un pelín más grande el texto */
     font-weight: bold;
     transition: all 0.3s;
     cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    /* Evita que el texto se parta en dos líneas */
 }
 
 .btn-perfil-accion:hover {
-    background: #4CAF50;
+    background: #7c2d12;
+    /* Color chocolate/patata oscura al pasar el ratón */
     color: white;
-    border-color: #4CAF50;
-    transform: translateY(-2px);
+    border-color: #7c2d12;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(124, 45, 18, 0.2);
 }
+
+
 
 /* 4. DESPLEGABLE DE DATOS (Details) */
 .datos-usuario-desplegable {
     width: 100%;
     max-width: 400px;
+    margin: 0 auto;
+    /* <-- Esto centra el bloque de datos horizontalmente */
     background: rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+
 
 .datos-usuario-desplegable summary {
     padding: 12px;
@@ -113,10 +134,58 @@
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+
+/* Añade esto a tu perfil.css si quieres que el botón de volver sea igual de ancho */
+.btn-primario {
+    display: inline-block;
+    min-width: 200px;
+    /* Le damos un cuerpo mínimo */
+    text-align: center;
+}
+
+
 /* Separadores */
 .separador-perfil {
     width: 100%;
     border: 0;
     border-top: 1px solid #fed7aa;
     margin: 20px 0;
+}
+
+.columna-perfil-der {
+    display: flex;
+    flex-direction: column;
+    /* Ponemos los elementos uno debajo de otro */
+    align-items: center;
+    /* ¡ESTO centra todo horizontalmente! */
+    justify-content: center;
+    /* Centra verticalmente si sobra espacio */
+    text-align: center;
+    /* Centra los textos internos */
+    width: 100%;
+}
+
+/* Para que el avatar y sus botones estén bien agrupados */
+.caja-avatar-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* El formulario de cambio de nombre */
+#form-nombre-container {
+    width: 100%;
+    max-width: 400px;
+    /* Para que no sea gigante en PC */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* El desplegable de datos */
+.datos-usuario-desplegable {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    /* El 'auto' lo mantiene centrado si el padre es flexible */
 }

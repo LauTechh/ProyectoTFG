@@ -1,4 +1,5 @@
-import { defineConfig } from 'vite'; // <--- ESTA ES LA LÍNEA MÁGICA
+// vite.config.js
+import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
@@ -6,7 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/css/componentes/libros.css',
+                'resources/css/componentes/libros.css', // <-- ¡AÑADE ESTA LÍNEA!
                 'resources/css/componentes/estanteria.css',
                 'resources/js/app.js',
             ],

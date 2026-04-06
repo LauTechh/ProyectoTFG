@@ -40,3 +40,20 @@ window.toggleFormNombre = function () {
         container.style.display = 'none';
     }
 };
+
+
+window.alertaInvitado = function () {
+    // Primero intentamos con SweetAlert si está cargado
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: '¡Hola, patata! 🥔',
+            text: 'Para añadir libros a tu biblioteca personal necesitas una cuenta.',
+            icon: 'info',
+            confirmButtonColor: '#f97316',
+            confirmButtonText: '¡Entendido!'
+        });
+    } else {
+        // Si por lo que sea Swal falla, que al menos salga el alert normal
+        alert("¡Hola, patata! 🥔 Para añadir libros necesitas una cuenta.");
+    }
+};

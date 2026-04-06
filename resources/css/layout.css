@@ -1,10 +1,19 @@
 .contenedor-perfil-layout {
     display: flex;
     max-width: 1100px;
-    margin: 40px auto;
+
+    /* CAMBIO AQUÍ: */
+    margin: 20px auto 40px auto;
+    /* Reducimos el margen superior para que no choque tanto con el Nav */
+
     gap: 30px;
     padding: 20px;
     align-items: flex-start;
+
+    /* SEGURIDAD: */
+    position: relative;
+    z-index: 1;
+    /* Para que siempre esté por debajo del z-index 1000 del Nav */
 }
 
 .columna-perfil-izq {
@@ -29,23 +38,34 @@
     /* Un toque de sombra para que resalte del sofá */
 }
 
+/* resources/css/layout.css */
 .nav-principal {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
+    padding: 0 50px;
+    /* Un poco más de aire a los lados */
+    background: rgba(250, 244, 234, 0.749);
+    /* Casi opaco para que se vea sólido */
+    backdrop-filter: blur(12px);
     width: 100%;
-    height: 80px;
+
+    /* --- EL CAMBIO DE GROSOR --- */
+    height: 90px;
+    /* Antes era 80px, ahora tiene más cuerpo */
+
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-sizing: border-box;
+
+    /* Opcional: una sombra un poco más marcada para que "flote" mejor */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 /* Control del logo en la barra de navegación */
 .logo-nav-img {
-    height: 50px;
+    height: 55px;
     /* O el tamaño que te guste */
     width: auto;
     border: 2px solid #b87333;
@@ -236,4 +256,50 @@
     cursor: pointer;
     margin-top: 10px;
     text-decoration: underline;
+}
+
+/* Estilos para el body de invitado */
+.es-invitado {
+    background-image: url('/img/fondo/fondo1.png') !important;
+    /* Asegúrate de que la ruta sea correcta */
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* El título principal de la zona invitado */
+/* En tu CSS */
+.titulo-invitado {
+    font-size: 1rem !important;
+    /* El !important obliga al navegador a obedecer */
+    margin-bottom: 15px !important;
+    line-height: 1.2 !important;
+    text-shadow: none !important;
+    /* Al ser tan pequeño, mejor sin sombra para que se lea */
+}
+
+/* El enlace de volver */
+.enlace-volver {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.enlace-volver a {
+    text-decoration: none;
+    color: #b87333;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.enlace-volver a:hover {
+    color: #cd7f32;
+}
+
+
+/* Puedes añadir esto al final de tu layout.css */
+.contenedor-auth-card.ancho-busqueda {
+    max-width: 900px;
 }

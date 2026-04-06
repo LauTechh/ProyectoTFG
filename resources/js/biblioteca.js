@@ -1,8 +1,6 @@
 // resources/js/biblioteca.js
 
-window.alertaInvitado = function () {
-    alert("¡Hola, patata! 🥔\n\nPara añadir libros a tu biblioteca personal necesitas una cuenta.");
-}
+
 
 window.añadirLibroSinRecargar = function (btn) {
     // 1. Buscamos los metas con seguridad

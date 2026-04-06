@@ -79,28 +79,28 @@ class LibroController extends Controller
 
     public function guardar(Request $request)
     {
-        // Si la petición viene de JavaScript, recogemos los datos del JSON
-        $data = $request->isJson() ? $request->all() : $request->all();
+        $data = $request->all();
 
         if (Auth::check()) {
-            $libro = Libro::firstOrCreate(
-                ['title' => $data['title'], 'author' => $data['author']],
-                [
-                    'genre'       => $data['genre'],
-                    'cover_url'   => $data['cover_url'],
-                    'user_id'     => Auth::id(),
-                ]
-            );
+            // CAMBIO: Usamos create() directamente en lugar de buscar si existe.
+            // Esto genera una ID única (1, 2, 3...) cada vez que pulsas el botón.
+            $libro = Libro::create([
+                'title'     => $data['title'],
+                'author'    => $data['author'],
+                'genre'     => $data['genre'] ?? 'Varios',
+                'cover_url' => $data['cover_url'] ?? null,
+                'user_id'   => Auth::id(), // El dueño es quien lo añade ahora
+            ]);
 
-            Auth::user()->libros()->syncWithoutDetaching([$libro->id => [
+            // Lo añadimos a la estantería (tabla intermedia)
+            Auth::user()->libros()->attach($libro->id, [
                 'estado' => 'por_leer',
                 'puntuacion' => 1
-            ]]);
+            ]);
 
-            // RESPUESTA PARA JAVASCRIPT
             return response()->json([
                 'success' => true,
-                'message' => '¡' . $libro->title . ' guardado!'
+                'message' => '¡Añadido con éxito! ID: ' . $libro->id
             ]);
         }
 
@@ -127,14 +127,17 @@ class LibroController extends Controller
         return redirect()->back()->with('success', '¡Libro actualizado!');
     }
 
-    public function eliminar(Libro $libro) // CAMBIO 5: Type-hinting con Libro
+    public function eliminar(Libro $libro)
     {
+        // Ahora sí comprobamos que el libro te pertenece a ti
         if ($libro->user_id !== Auth::id()) {
-            abort(403);
+            abort(403, 'No puedes borrar un libro que no has añadido tú.');
         }
 
+        // Al borrar el libro (delete), Laravel también debería limpiar 
+        // la tabla intermedia si tienes configurado el "onDelete cascade"
         $libro->delete();
 
-        return redirect()->back()->with('success', '¡Patata-libro eliminada!');
+        return redirect()->back()->with('success', '¡Libro eliminado de tu estantería!');
     }
 }

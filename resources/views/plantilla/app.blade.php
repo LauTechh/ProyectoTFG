@@ -4,23 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- 1. Metadatos de seguridad y rutas --}}
     @yield('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Esta es la línea que le da permiso a biblioteca.js para guardar --}}
+    <meta name="route-guardar-libro" content="{{ route('libros.guardar') }}">
 
     <title>Patata Social Network</title>
 
     {{-- Icono de la web --}}
     <link rel="icon" type="image/png" href="{{ asset('img/logo/logo_patata.png') }}">
 
-    {{-- Cargamos los activos con Vite (Solo una vez) --}}
-    {{-- Cargamos los tres activos con Vite --}}
+    {{-- 2. Activos con Vite --}}
     @vite([
     'resources/css/app.css',
     'resources/css/componentes/libros.css',
     'resources/css/componentes/estanteria.css',
     'resources/js/app.js'
     ])
-    {{-- Si 'fix-list.css' es importante, lo ideal es que lo metas en resources/css 
-         y lo añadas al array de Vite arriba. Si no, déjalo aquí abajo: --}}
+
+    {{-- CSS de emergencia (si existe) --}}
     @if(file_exists(public_path('css/fix-list.css')))
     <link rel="stylesheet" href="{{ asset('css/fix-list.css') }}">
     @endif
@@ -33,9 +37,17 @@
            background-repeat: no-repeat !important; 
            background-color: transparent !important;">
 
-    {{-- Llamada a la nueva carpeta 'componentes' --}}
+    {{-- Nav principal --}}
     @include('componentes.nav')
 
+
+    <div id="alerta-ajax" style="display: none; position: fixed; top: 110px; right: 20px; z-index: 2000;">
+        <div id="alerta-mensaje" style="background: #4CAF50; color: white; padding: 15px 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: bold;">
+            {{-- Aquí el JS escribirá el mensaje --}}
+        </div>
+    </div>
+
+    {{-- Contenido principal --}}
     <main class="diseño-contenido-principal">
         @yield('content')
     </main>

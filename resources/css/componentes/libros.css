@@ -9,12 +9,16 @@
 }
 
 .fila-libro-compacta {
-    display: grid;
-    grid-template-columns: 60px 1fr auto auto;
+    display: flex;
+    /* Pone la info y el botón en la misma línea */
+    justify-content: space-between;
+    /* Empuja el botón al final de la fila */
     align-items: center;
-    padding: 0.75rem 1.25rem;
-    background-color: rgba(255, 255, 255, 0.75);
-    border-radius: 1rem;
+    /* Centra el botón verticalmente con la imagen */
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 10px;
 }
 
 .btn-compacto-add {
@@ -165,4 +169,47 @@
     cursor: pointer;
     margin-top: 10px;
     text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+/* Estilo base del botón añadir */
+.btn-compacto-add {
+    background-color: #f97316;
+    /* Tu naranja */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto al pasar el ratón */
+.btn-compacto-add:hover {
+    background-color: #ea580c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto cuando se hace click */
+.btn-compacto-add:active {
+    transform: translateY(0);
+}
+
+/* Por si quieres que el de invitado se vea un pelín diferente (opcional) */
+/* .btn-compacto-add.invitado { background-color: #fb923c; } */
+.acciones-libro {
+    margin-left: auto;
+    /* Esto empuja el botón a la derecha de la fila */
 }

@@ -1,10 +1,69 @@
-/* resources/css/app.css */
-
+/* --- IMPORTS --- */
 @import "./variables.css";
-/* Con el ./ delante */
 @import "./layout.css";
-/* Con el ./ delante */
-
 @import "./componentes/avatar.css";
 @import "./componentes/perfil.css";
-/* @import "./componentes/libros.css"; */
+@import "./componentes/libros.css";
+/* <--- ¡QUITA LAS BARRITAS AQUÍ! Es vital */
+
+/* --- ESTILOS GLOBAL INVITADO --- */
+.es-invitado {
+    background-image: url('/img/fondo/fondo1.png') !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor que empuja el contenido bajo el Nav (80px) */
+.cuerpo-invitado {
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+    width: 100%;
+}
+
+/* La "tarjeta" blanca donde salen los resultados o el login */
+.contenedor-invitado {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    max-width: 1100px;
+    width: 90%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.titulo-invitado {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: #5d4037;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.enlace-volver {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.enlace-volver a {
+    text-decoration: none;
+    color: #b87333;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.enlace-volver a:hover {
+    color: #cd7f32;
+}
+/* Y en tu app.css para invitados */
+.es-invitado .seccion-auth {
+    padding-top: 100px; /* Margen para que no choque con el Nav de 80px */
+}
