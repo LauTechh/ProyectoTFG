@@ -21,7 +21,22 @@
             </div>
 
             <div class="acciones-perfil">
-                <a href="{{ route('perfil.editar-avatar') }}" class="btn-perfil-accion">🎨 Cambiar Avatar</a> <a href="#" class="btn-perfil-accion">✏️ Cambiar Nombre</a>
+                <a href="{{ route('perfil.editar-avatar') }}" class="btn-perfil-accion">🎨 Cambiar Avatar</a>
+                {{-- Cambiamos el enlace por un botón que activa el formulario --}}
+                <button onclick="toggleFormNombre()" class="btn-perfil-accion">✏️ Cambiar Nombre</button>
+            </div>
+
+            {{-- FORMULARIO DE CAMBIO DE NOMBRE (Oculto por defecto) --}}
+            <div id="form-nombre-container" style="display: none; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 15px; border: 1px solid #fed7aa;">
+                <form action="{{ route('perfil.actualizarNombre') }}" method="POST" class="flex flex-col gap-2">
+                    @csrf
+                    <input type="text" name="name" value="{{ Auth::user()->name }}"
+                        class="input-buscador-ancho !py-2 !text-sm w-full" required>
+                    <div class="flex gap-2 justify-end">
+                        <button type="button" onclick="toggleFormNombre()" class="text-xs text-stone-500 uppercase font-bold">Cancelar</button>
+                        <button type="submit" class="btn-compacto-add">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -40,4 +55,7 @@
     </div>
 
 </div>
+
+{{-- Script sencillo para mostrar/ocultar el formulario sin recargar --}}
+
 @endsection

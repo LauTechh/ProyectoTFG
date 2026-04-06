@@ -84,3 +84,6 @@ Route::middleware('auth')->group(function () {
     // Ruta para guardar los cambios (usamos PUT porque es una actualización)
     Route::put('/perfil/actualizar-avatar', [PerfilController::class, 'actualizarAvatar'])->name('perfil.actualizar-avatar');
 });
+
+
+Route::post('/perfil/actualizar-nombre', [PerfilController::class, 'actualizarNombre'])->name('perfil.actualizarNombre');

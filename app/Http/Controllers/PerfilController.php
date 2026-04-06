@@ -36,4 +36,21 @@ class PerfilController extends Controller
 
         return redirect()->route('perfil')->with('success', '¡Avatar actualizado! 🥔✨');
     }
+
+    public function actualizarNombre(Request $request)
+    {
+        // Cambiamos min:3 por min:1
+        $request->validate([
+            'name' => 'required|string|max:255|min:1',
+        ]);
+
+        $user = \App\Models\User::find(auth()->id());
+        $user->name = $request->input('name');
+        $user->save();
+
+        // Importante: Limpiamos la caché de la sesión para que el nombre cambie al instante
+        auth()->setUser($user);
+
+        return back()->with('success', '¡Nombre actualizado, patata corta! 🥔✨');
+    }
 }
