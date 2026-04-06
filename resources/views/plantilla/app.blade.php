@@ -16,6 +16,7 @@
     @vite([
     'resources/css/app.css',
     'resources/css/componentes/libros.css',
+    'resources/css/componentes/estanteria.css',
     'resources/js/app.js'
     ])
     {{-- Si 'fix-list.css' es importante, lo ideal es que lo metas en resources/css 
