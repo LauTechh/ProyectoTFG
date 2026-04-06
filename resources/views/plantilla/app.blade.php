@@ -12,8 +12,12 @@
     <link rel="icon" type="image/png" href="{{ asset('img/logo/logo_patata.png') }}">
 
     {{-- Cargamos los activos con Vite (Solo una vez) --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    {{-- Cargamos los tres activos con Vite --}}
+    @vite([
+    'resources/css/app.css',
+    'resources/css/componentes/libros.css',
+    'resources/js/app.js'
+    ])
     {{-- Si 'fix-list.css' es importante, lo ideal es que lo metas en resources/css 
          y lo añadas al array de Vite arriba. Si no, déjalo aquí abajo: --}}
     @if(file_exists(public_path('css/fix-list.css')))

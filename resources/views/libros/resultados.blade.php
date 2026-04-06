@@ -1,6 +1,5 @@
 @extends(Auth::check() ? 'plantilla.app' : 'plantilla.invitado')
 
-{{-- 1. Los "Metadatos" para que el JS sepa qué hacer --}}
 @section('meta')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="route-guardar-libro" content="{{ route('libros.guardar') }}">
@@ -19,7 +18,6 @@
             </form>
         </div>
 
-        {{-- Alerta AJAX (Invisible por defecto) --}}
         <div id="alerta-ajax" class="alerta-exito" style="display:none;">
             <p id="alerta-mensaje"></p>
         </div>
@@ -31,7 +29,8 @@
             $portada = $info['imageLinks']['thumbnail'] ?? 'https://via.placeholder.com/150x225/f97316/ffffff?text=No+Cover';
             @endphp
 
-            <div class="fila-libro">
+            {{-- USAMOS TU CLASE COMPACTA --}}
+            <div class="fila-libro-compacta">
                 <img src="{{ $portada }}" class="portada-libro-resultado" alt="Portada">
 
                 <div class="info-libro">
@@ -42,15 +41,18 @@
 
                 <div class="acciones-libro">
                     @auth
-                    <button class="btn-primario" onclick="añadirLibroSinRecargar(this)"
+                    {{-- USAMOS TU BOTÓN COMPACTO --}}
+                    <button class="btn-compacto-add" onclick="añadirLibroSinRecargar(this)"
                         data-title="{{ $info['title'] ?? '' }}"
                         data-author="{{ implode(', ', $info['authors'] ?? []) }}"
                         data-genre="{{ $info['categories'][0] ?? 'Lectura' }}"
-                        data-cover="{{ $portada }}">
+                        data-cover="{{ $portada }}"
+                        style="padding: 10px 20px; border: none; cursor: pointer;">
                         + Añadir
                     </button>
                     @else
-                    <button class="btn-primario" onclick="alertaInvitado()">
+                    <button class="btn-compacto-add" onclick="alertaInvitado()"
+                        style="padding: 10px 20px; border: none; cursor: pointer;">
                         + Añadir
                     </button>
                     @endauth
