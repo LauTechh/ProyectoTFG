@@ -53,31 +53,36 @@
     </div>
 </div>
 
-{{-- 2. VISTA PREVIA (Ahora encapsulada para el CSS de control de tamaño) --}}
+{{-- 2. VISTA PREVIA (Con seguros para evitar imágenes rotas) --}}
 <div class="caja-vista-previa-avatar">
-    {{-- Si hay usuario (Editar Perfil), cargamos sus imágenes. Si no (Registro), src vacío --}}
+
+    {{--
+        Añadimos display:none si no hay imagen. 
+        El JS se encargará de ponerlo en 'block' cuando el usuario elija.
+    --}}
+
     <img id="preview-base"
         class="capa-avatar"
-        style="z-index: 10;"
-        src="{{ Auth::check() && Auth::user()->avatar_base ? asset('img/avatar/' . Auth::user()->avatar_base) : '' }}">
+        style="z-index: 10; {{ (Auth::check() && Auth::user()->avatar_base) ? '' : 'display:none;' }}"
+        src="{{ (Auth::check() && Auth::user()->avatar_base) ? asset('img/avatar/' . Auth::user()->avatar_base) : '' }}">
 
     <img id="preview-boca"
         class="capa-avatar"
-        style="z-index: 20; mix-blend-mode: multiply;"
-        src="{{ Auth::check() && Auth::user()->avatar_boca ? asset('img/avatar/' . Auth::user()->avatar_boca) : '' }}">
+        style="z-index: 20; mix-blend-mode: multiply; {{ (Auth::check() && Auth::user()->avatar_boca) ? '' : 'display:none;' }}"
+        src="{{ (Auth::check() && Auth::user()->avatar_boca) ? asset('img/avatar/' . Auth::user()->avatar_boca) : '' }}">
 
     <img id="preview-ojos"
         class="capa-avatar"
-        style="z-index: 30;"
-        src="{{ Auth::check() && Auth::user()->avatar_ojos ? asset('img/avatar/' . Auth::user()->avatar_ojos) : '' }}">
+        style="z-index: 30; {{ (Auth::check() && Auth::user()->avatar_ojos) ? '' : 'display:none;' }}"
+        src="{{ (Auth::check() && Auth::user()->avatar_ojos) ? asset('img/avatar/' . Auth::user()->avatar_ojos) : '' }}">
 
     <img id="preview-complemento"
         class="capa-avatar"
-        style="z-index: 40;"
-        src="{{ Auth::check() && Auth::user()->avatar_complemento ? asset('img/avatar/' . Auth::user()->avatar_complemento) : '' }}">
+        style="z-index: 40; {{ (Auth::check() && Auth::user()->avatar_complemento) ? '' : 'display:none;' }}"
+        src="{{ (Auth::check() && Auth::user()->avatar_complemento) ? asset('img/avatar/' . Auth::user()->avatar_complemento) : '' }}">
 
-    {{-- El texto solo se ve si NO hay una base seleccionada --}}
-    <p id="preview-text" style="{{ Auth::check() && Auth::user()->avatar_base ? 'display:none;' : '' }}">
-        Tu patata aparecerá aquí
+    {{-- El texto de ayuda: Se oculta si ya hay una base cargada (perfil) --}}
+    <p id="preview-text" style="{{ (Auth::check() && Auth::user()->avatar_base) ? 'display:none;' : 'color: #8b5e3c; font-style: italic;' }}">
+        ¡Elige un color para empezar! 🥔
     </p>
 </div>

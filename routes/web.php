@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibroController;
-use App\Http\Controllers\PerfilController; // Asegúrate de tener el controlador
+use App\Http\Controllers\PerfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,34 +18,33 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| 2. RUTAS DE ACCESO (Públicas: Login y Registro)
+| 2. RUTAS DE ACCESO (Login y Registro Unificado)
 |--------------------------------------------------------------------------
 */
 
 // --- LOGIN ---
 Route::get('/login', function () {
-    return view('login'); // Asegúrate de que login.blade.php esté en la raíz de views
+    return view('login');
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
 
-// --- REGISTRO (Carpeta 'registro') ---
+// --- REGISTRO ---
 Route::get('/registro', function () {
-    return view('registro.registro'); // resources/views/registro/registro.blade.php
+    // Apuntamos a tu vista de registro (donde ahora está el selector de avatar)
+    return view('registro.registro');
 })->name('registro');
 
+// Esta es la ruta que recibe el nombre, email, pass Y avatar a la vez
 Route::post('/registro', [AuthController::class, 'registrar']);
 
-Route::get('/registro/paso2', function () {
-    return view('registro.paso2'); // resources/views/registro/paso2.blade.php
-})->name('registro.paso2');
-
-Route::post('/registro/finalizar', [AuthController::class, 'finalizarRegistro'])->name('registro.finalizar');
+// --- LOGOUT ---
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 /*
 |--------------------------------------------------------------------------
-| 3. BÚSQUEDA DE LIBROS (Pública para todos)
+| 3. BÚSQUEDA DE LIBROS (Pública)
 |--------------------------------------------------------------------------
 */
 Route::get('/libros/buscar', [LibroController::class, 'buscar'])->name('libros.buscar');
@@ -58,32 +57,19 @@ Route::get('/libros/buscar', [LibroController::class, 'buscar'])->name('libros.b
 */
 Route::middleware(['auth'])->group(function () {
 
-    // --- PERFIL ---
+    // --- PERFIL Y AVATAR ---
     Route::get('/perfil', function () {
         return view('perfil');
     })->name('perfil');
 
-    // --- ESTANTERÍA PERSONAL ---
-    Route::get('/mi-estanteria', [LibroController::class, 'miEstanteria'])->name('libros.estanteria');
+    Route::get('/perfil/editar-avatar', [PerfilController::class, 'editarAvatar'])->name('perfil.editar-avatar');
+    Route::put('/perfil/actualizar-avatar', [PerfilController::class, 'actualizarAvatar'])->name('perfil.actualizar-avatar');
+    Route::post('/perfil/actualizar-nombre', [PerfilController::class, 'actualizarNombre'])->name('perfil.actualizarNombre');
 
-    // --- GESTIÓN DE LIBROS ---
+    // --- ESTANTERÍA Y GESTIÓN DE LIBROS ---
+    Route::get('/mi-estanteria', [LibroController::class, 'miEstanteria'])->name('libros.estanteria');
     Route::get('/libros', [LibroController::class, 'inicio'])->name('libros.inicio');
     Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar');
     Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');
     Route::put('/mi-estanteria/{libro}', [LibroController::class, 'actualizarEstanteria'])->name('libros.actualizar');
-
-    // --- SALIR (LOGOUT) ---
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-
-Route::middleware('auth')->group(function () {
-    // Ruta para mostrar la vista de edición
-    Route::get('/perfil/editar-avatar', [PerfilController::class, 'editarAvatar'])->name('perfil.editar-avatar');
-
-    // Ruta para guardar los cambios (usamos PUT porque es una actualización)
-    Route::put('/perfil/actualizar-avatar', [PerfilController::class, 'actualizarAvatar'])->name('perfil.actualizar-avatar');
-});
-
-
-Route::post('/perfil/actualizar-nombre', [PerfilController::class, 'actualizarNombre'])->name('perfil.actualizarNombre');

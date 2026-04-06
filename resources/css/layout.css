@@ -13,14 +13,20 @@
 
 .columna-perfil-der {
     flex: 2;
-    background: rgba(255, 253, 240, 0.6);
+    background: rgba(255, 253, 240, 0.8);
+    /* He subido la opacidad de 0.6 a 0.8 para que se vea más el fondo */
     backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 30px;
     border: 1px solid rgba(184, 115, 51, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    /* CAMBIO CLAVE AQUÍ: */
+    display: block;
+    /* Cambiamos flex por block para que los elementos respiren uno debajo de otro */
+    width: 100%;
+    /* Que ocupe todo el espacio asignado */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Un toque de sombra para que resalte del sofá */
 }
 
 .nav-principal {
@@ -45,4 +51,46 @@
     border: 2px solid #b87333;
     border-radius: 12px;
     display: block;
+}
+
+/* =============================================================
+   BLOQUE DE AUTENTICACIÓN (Registro y Login)
+   ============================================================= */
+
+/* El contenedor principal que centra todo en la pantalla */
+.seccion-auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    /* Para que esté centrado verticalmente también */
+    padding: 20px;
+}
+
+/* La tarjeta beige que envuelve el formulario */
+.contenedor-auth-card {
+    background: rgba(255, 253, 240, 0.95);
+    /* Casi opaco para leer bien */
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: 30px;
+    border: 1px solid rgba(184, 115, 51, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+    width: 100%;
+    max-width: 600px;
+    /* <--- Esto es lo que evita que se estire a los lados */
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilo para los inputs para que no se peguen */
+.contenedor-auth-card input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
 }

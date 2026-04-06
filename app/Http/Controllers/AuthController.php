@@ -29,65 +29,41 @@ class AuthController extends Controller
 
     public function registrar(Request $request)
     {
-        // 1. La validación (que ya sabemos que funciona)
+        // 1. La validación total (Nombre, Email, Password + Pack Patata)
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-        ], [
-            'email.unique' => '¡Esta patata ya tiene dueño! El correo ya está registrado.',
-        ]);
-
-        // 3. Guardamos en la mochila (sesión)
-        session(['datos_registro' => $request->only('name', 'email', 'password')]);
-
-        // 4. Redirigimos al Paso 2
-        return redirect('/registro/paso2');
-    }
-
-    public function finalizarRegistro(Request $request)
-    {
-        // 1. Validamos que el usuario haya seleccionado TODAS las partes del avatar
-        $request->validate([
+            'name'               => 'required|string|max:255',
+            'email'              => 'required|email|unique:users,email',
+            'password'           => 'required|min:6',
+            // Validamos que la patata no nazca incompleta
             'avatar_base'        => 'required',
             'avatar_boca'        => 'required',
             'avatar_ojos'        => 'required',
             'avatar_complemento' => 'required',
         ], [
-            'required' => '¡Tu patata no puede nacer incompleta! Elige todas las opciones.'
+            'email.unique' => '¡Esta patata ya tiene dueño! El correo ya está registrado.',
+            'required'     => '¡Tu patata no puede nacer incompleta! Elige todas las opciones.'
         ]);
 
-        // 2. Recuperamos los datos del Paso 1 que guardamos en la sesión
-        $datos = session('datos_registro');
-
-        // SEGURIDAD: Si por alguna razón la sesión se perdió (tiempo expirado),
-        // mandamos al usuario al principio para que no pete la app.
-        if (!$datos) {
-            return redirect()->route('registro')->with('error', 'La sesión ha caducado. Empieza de nuevo.');
-        }
-
-        // 3. Creamos al usuario con todo el pack completo
+        // 2. Creamos al usuario con el pack completo de una sola vez
         $usuario = User::create([
-            'name'               => $datos['name'],
-            'email'              => $datos['email'],
-            'password'           => Hash::make($datos['password']),
+            'name'               => $request->name,
+            'email'              => $request->email,
+            'password'           => Hash::make($request->password),
             'avatar_base'        => $request->avatar_base,
             'avatar_boca'        => $request->avatar_boca,
             'avatar_ojos'        => $request->avatar_ojos,
             'avatar_complemento' => $request->avatar_complemento,
         ]);
 
-        // 4. Limpiamos la mochila (sesión)
-        session()->forget('datos_registro');
-
-        // 5. Iniciamos sesión automáticamente y mandamos a la Home
+        // 3. Iniciamos sesión automáticamente
         Auth::login($usuario);
 
+        // 4. ¡A la Home con su nueva identidad!
         return redirect()->to('/')->with('success', '¡Bienvenida al club de las patatas lectoras!');
     }
 
 
-    
+
     public function logout(Request $request)
     {
         Auth::logout(); // Cerramos la sesión del usuario
