@@ -1,6 +1,9 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
 import './avatar-preview'; // <-- Conecta tu código de la patata y avisos
+// resources/js/app.js
+import './biblioteca';
+
 
 // Hace que 'Swal' sea accesible globalmente
 window.Swal = Swal;

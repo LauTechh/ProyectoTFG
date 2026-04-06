@@ -94,3 +94,83 @@
     border: 1px solid #ddd;
     margin-top: 5px;
 }
+
+/* =============================================================
+   BLOQUE DE BÚSQUEDA (Reutilizando tu estética)
+   ============================================================= */
+
+/* Para que las filas de libros tengan aire */
+.lista-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* La tarjeta de cada libro: usamos tu color de fondo de perfil */
+.fila-libro {
+    background: white;
+    /* Resalta sobre el fondo beige */
+    padding: 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid rgba(184, 115, 51, 0.1);
+    transition: transform 0.2s;
+}
+
+.fila-libro:hover {
+    transform: scale(1.01);
+}
+
+/* Reutilizamos tus radios de borde y colores */
+.portada-libro-resultado {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-libro {
+    flex: 1;
+}
+
+.info-libro h3 {
+    margin: 0;
+    color: #7c2d12;
+    font-size: 1.1rem;
+}
+
+.info-libro p {
+    margin: 5px 0;
+    color: #8b5e3c;
+    font-size: 0.9rem;
+}
+
+/* Etiquetas de género con tus colores tierra */
+.etiqueta-genero {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.buscador-seccion-resultados {
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.buscador-flex {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.buscador-flex .auth-input {
+    flex: 1;
+    /* El input se estira todo lo posible */
+}
