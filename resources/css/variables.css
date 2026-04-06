@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    background-color: transparent;
+}
+
+/* Tipografías de libros */
+.libro-titulo-compacto {
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #44403c;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.libro-autor-compacto {
+    font-family: 'Georgia', serif;
+    font-size: 0.85rem;
+    color: #78716c;
+    font-style: italic;
+    margin: 0;
+}
+
+.txt-decorativo {
+    font-style: italic;
+    color: #78716c;
+    text-align: center;
+    font-size: 0.9rem;
+}

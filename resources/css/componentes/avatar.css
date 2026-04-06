@@ -1,0 +1,138 @@
+/* ==========================================================================
+   EL MUNDO DE LA PATATA (AVATAR)
+   ========================================================================== */
+
+/* 1. EL AVATAR EN EL PERFIL (Círculo Grande) */
+/* --- AVATAR GRANDE (PERFIL) --- */
+.circulo-avatar-grande {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: white;
+    overflow: hidden;
+    border: 6px solid #4CAF50;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    /* Aseguramos que el contenedor sea el punto de referencia */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- AVATAR GRANDE (PERFIL) --- */
+.capa-v-avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    /* 1. translate(-50%, -50%) -> NO TOCAR (es el ancla).
+       2. scale(2.0) -> El zoom.
+       3. translateX(-15%) -> NUEVO: El signo MENOS lo mueve a la IZQUIERDA.
+       4. translateY(25%) -> El signo MÁS lo mueve ABAJO.
+    */
+    transform: translate(-50%, -50%) scale(2.0) translateX(-1.5%) translateY(-1.5%) ;
+    /*translateX(-5%) translateY(-25%);*/
+
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.mix-blend {
+    mix-blend-mode: multiply;
+    /* Para que la boca se fusione con el color */
+}
+
+/* 2. EL SELECTOR DEL EDITOR (Cuadraditos) */
+.cuadricula-opciones-avatar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.opcion-avatar {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 85px !important;
+    height: 85px !important;
+    background-color: #ffffff;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible !important;
+    /* Para que el zoom no se corte */
+}
+
+/* Escondemos el radio button original */
+.opcion-avatar input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Efecto SELECCIONADO */
+.opcion-avatar:has(input:checked) {
+    border-color: #4CAF50 !important;
+    background-color: #f0fdf4 !important;
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+/* 3. ZOOM EXCLUSIVO PARA OJOS Y BOCA */
+/* Esto hace que en las miniaturas se vea de cerca lo que eliges */
+.caja-beige-selector h3:nth-of-type(2)+.cuadricula-opciones-avatar img,
+.caja-beige-selector h3:nth-of-type(3)+.cuadricula-opciones-avatar img {
+    transform: scale(3.0) !important;
+}
+
+/* ==========================================================================
+   MINI AVATAR (Barra de Navegación)
+   ========================================================================== */
+
+/* 1. El contenedor circular (Ya lo tenías, pero asegúrate de que esté así) */
+.circulo-avatar {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Corta lo que se salga */
+    background: white;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid #b87333;
+    /* Tu borde marrón cobrizo */
+    padding: 0;
+    /* Sin relleno extra */
+}
+
+/* 2. Las capas de imágenes dentro del mini-círculo */
+.capa-avatar,
+.capa-base,
+.capa-boca,
+.capa-ojos,
+.capa-complemento {
+    position: absolute;
+    /* Ajusta la imagen a 120px para que encaje bien en el círculo de 50px */
+    width: 120px;
+    height: 120px;
+    /* Centrado absoluto */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: contain;
+}
+
+/* 3. Efecto 'Hover' para el enlace de navegación */
+.enlace-perfil-nav:hover .circulo-avatar {
+    transform: scale(1.1);
+    border-color: #cd7f32;
+    /* Un tono más dorado */
+    box-shadow: 0 4px 12px rgba(184, 115, 51, 0.4);
+}

@@ -3,13 +3,34 @@
 @section('content')
 <div class="contenedor-perfil-layout">
 
+    {{-- COLUMNA IZQUIERDA (1/3): NAVEGACIÓN --}}
     <div class="columna-perfil-izq">
-        <div class="tarjeta-decorativa">
-            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop" alt="Decoración" class="img-espacio">
-            <p class="txt-decorativo">"Un libro es un jardín que se lleva en el bolsillo."</p>
+        <div class="tarjeta-decorativa shadow-sm">
+
+            <div class="cuerpo-tarjeta-navegacion">
+                <h3 class="libro-titulo-compacto">Navegación</h3>
+
+                <div class="grupo-botones-vertical">
+                    {{-- Botón Mi Estantería --}}
+                    <a href="{{ route('libros.estanteria') }}" class="btn-perfil-navegacion">
+                        📚 Mi Estantería
+                    </a>
+
+                    {{-- Botón Mis Amigos (Inactivo) --}}
+                    <button class="btn-perfil-navegacion btn-deshabilitado" title="Próximamente...">
+                        👥 Mis Amigos
+                    </button>
+                </div>
+
+                <hr class="separador-perfil">
+
+                <p class="txt-decorativo">
+                    "Un libro es un jardín que se lleva en el bolsillo."
+                </p>
+            </div>
         </div>
     </div>
-
+    {{-- COLUMNA DERECHA (2/3): GESTIÓN DE PERFIL --}}
     <div class="columna-perfil-der">
 
         <div class="caja-avatar-perfil">
@@ -22,7 +43,6 @@
 
             <div class="acciones-perfil">
                 <a href="{{ route('perfil.editar-avatar') }}" class="btn-perfil-accion">🎨 Cambiar Avatar</a>
-                {{-- Cambiamos el enlace por un botón que activa el formulario --}}
                 <button onclick="toggleFormNombre()" class="btn-perfil-accion">✏️ Cambiar Nombre</button>
             </div>
 
@@ -55,7 +75,4 @@
     </div>
 
 </div>
-
-{{-- Script sencillo para mostrar/ocultar el formulario sin recargar --}}
-
 @endsection
