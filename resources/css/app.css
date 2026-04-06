@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&display=swap');
 /* ==========================================================================
    ESTILOS GENERALES (CSS PURO)
    ========================================================================== */
@@ -557,4 +558,298 @@ body {
 .columna-perfil-der .cuadricula-opciones-avatar .opcion-avatar:has(input:checked) {
     z-index: 10 !important;
     /* Se superpone a los vecinos al interactuar */
+}
+
+/* ==========================================================================
+   --- ARMONIZACIÓN DE LA BIBLIOTECA DE PATATAS LECTORAS ---
+   ========================================================================== */
+
+/* 1. Contenedor Principal (Donde va TODO) */
+.lista-libros-busqueda {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* Un pelín más de aire entre libros */
+    margin-top: 3rem;
+    /* Espacio generoso por arriba */
+
+    /* El "dedo de margen" a los lados que pediste */
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    /* Centrado y ancho máximo para pantallas grandes */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 1. Tarjeta más fina (reducimos el padding vertical) */
+.fila-libro-compacta {
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    /* Imagen un poco más pequeña */
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.75rem 1.25rem;
+    /* Padding vertical reducido a casi la mitad */
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    border-radius: 1rem;
+    border: 1px solid rgba(254, 215, 170, 0.4);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.fila-libro-compacta:hover {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: #fb923c;
+    /* orange-400 */
+    transform: translateY(-3px);
+    /* Un ligero salto al pasar el ratón */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    /* Sombra más profunda */
+}
+
+/* 3. Elementos de la Tarjeta */
+.img-portada-compacta {
+    width: 50px;
+    height: 75px;
+    /* Ratio mantenido pero más pequeño */
+    border-radius: 0.4rem;
+    object-fit: cover;
+}
+
+.info-libro-compacta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 0.5rem;
+}
+
+
+
+/* Tipografía Clásica y Elegante (Georgia para el 'vibe' de libro) */
+.libro-titulo-compacto {
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    /* Antes era 1.3rem, ahora más fino */
+    font-weight: 700;
+    color: #44403c;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.libro-autor-compacto {
+    font-family: 'Georgia', serif;
+    font-size: 0.85rem;
+    /* Antes era 1rem */
+    color: #78716c;
+    font-style: italic;
+    margin: 0;
+}
+
+
+
+.input-buscador-ancho {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+}
+
+.genero-etiqueta-compacta {
+    font-size: 0.75rem;
+    /* Más sutil */
+    color: #f97316;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0 0.75rem;
+}
+
+/* 3. El Botón Armonizado */
+.btn-compacto-add {
+    padding: 0.5rem 1rem;
+    /* Botón menos alto */
+    background-color: #f97316;
+    color: white;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-compacto-add:hover {
+    background-color: #ea580c;
+    /* orange-600 */
+    transform: scale(1.03);
+    /* Un pelín más grande al hover */
+}
+
+
+
+
+
+/* Botón para invitados */
+.btn-compacto-invitado {
+    background-color: #d6d3d1;
+    /* stone-300: gris suave */
+    color: #78716c;
+    /* stone-500 */
+}
+
+.btn-compacto-invitado:hover {
+    background-color: #a8a29e;
+    /* stone-400 */
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+   --- EL NUEVO BUSCADOR DE LA PÁGINA (SÚPER ARMONIZADO) ---
+   ========================================================================== */
+
+.contenedor-buscador-pagina {
+    width: 100%;
+    /* Ocupa todo el ancho, pero con márgenes laterales */
+    max-width: 1000px;
+    margin: 0 auto 4rem auto;
+    /* Centrado y con espacio por abajo */
+    padding: 0 2rem;
+    /* El margen lateral que pediste */
+}
+
+.formulario-buscador-ancho {
+    display: flex;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 2.5rem;
+    /* Súper redondeado */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    /* Sombra elegante */
+    border: 1px solid rgba(254, 215, 170, 0.8);
+    /* orange-200 suave */
+}
+
+.input-buscador-ancho {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    font-size: 1.15rem;
+    border-radius: 1.75rem;
+    border: 2px solid #fed7aa;
+    /* orange-200 */
+    color: #44403c;
+    /* stone-800 */
+    outline: none;
+    background-color: transparent;
+    transition: all 0.2s;
+}
+
+.input-buscador-ancho:focus {
+    border-color: #f97316;
+    /* orange-500 */
+    background-color: white;
+}
+
+.btn-buscador-ancho {
+    padding: 1rem 2.5rem;
+    background-color: #f97316;
+    /* orange-500 */
+    color: white;
+    border-radius: 1.75rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
+}
+
+.btn-buscador-ancho:hover {
+    background-color: #ea580c;
+    /* orange-600 */
+}
+
+.btn-buscador-ancho:active {
+    transform: scale(0.97);
+    /* Efecto de pulsado */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 4. El Buscador Ancho de la Página */
+.contenedor-buscador-pagina {
+    width: 100%;
+    /* Ocupa todo el ancho */
+    max-width: 1000px;
+    /* Un máximo para que no sea excesivo en pantallas grandes */
+    margin: 0 auto 3rem auto;
+    /* Centrado y con espacio abajo */
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #fed7aa;
+    /* orange-200 */
+}
+
+.formulario-buscador-ancho {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.input-buscador-ancho {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 1.5rem;
+    border: 2px solid #fed7aa;
+    /* orange-200 */
+    color: #44403c;
+    /* stone-800 */
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-buscador-ancho:focus {
+    border-color: #f97316;
+    /* orange-500 */
+}
+
+.btn-buscador-ancho {
+    padding: 1rem 2rem;
+    background-color: #f97316;
+    /* orange-500 */
+    color: white;
+    border-radius: 1.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
+}
+
+.btn-buscador-ancho:hover {
+    background-color: #ea580c;
+    /* orange-600 */
+}
+
+.btn-buscador-ancho:active {
+    transform: scale(0.98);
 }

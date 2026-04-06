@@ -1,5 +1,7 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
+import './bootstrap';
+import './avatar-preview'; // <-- Esta línea conecta tu código de la patata y los avisos
 
 // Esto hace que puedas usar 'Swal' en cualquier parte si lo necesitas
 window.Swal = Swal;
