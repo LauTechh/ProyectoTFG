@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/componentes/libros.css', // <-- ¡AÑADE ESTA LÍNEA!
                 'resources/css/componentes/estanteria.css',
+                'resources/css/componentes/salas.css',
                 'resources/js/app.js',
             ],
             refresh: true,

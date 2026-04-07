@@ -1,4 +1,108 @@
-/* --- 1. Estructura Base (Igual para todas) --- */
+/* =======================================================
+   🏠 1. HOGAR DE CONCENTRACIÓN (Menú del Mapa)
+   ======================================================= */
+
+/* CORRECCIÓN CRÍTICA: Aquí tenías ".contenedor-mapa-casa .titulo-patata" 
+   mezclado con los estilos del contenedor. Ahora está separado. */
+.contenedor-mapa-casa {
+    background: transparent !important;
+    border: none !important;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 !important;
+}
+
+/* Velo oscuro exclusivo para la casa */
+.contenedor-mapa-casa::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(56, 35, 0, 0.7) !important;
+    z-index: -1;
+}
+
+/* --- TÍTULOS FLOTANTES --- */
+.contenedor-mapa-casa .caja-bienvenida {
+    background: transparent !important;
+    margin-bottom: -20px;
+    /* Sube la casa hacia el texto */
+    position: relative;
+    z-index: 2;
+}
+
+.contenedor-mapa-casa .titulo-patata {
+    color: #ffffff !important;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+/* CORRECCIÓN: Añadido .contenedor-mapa-casa para que no pinte de blanco 
+   los textos del menú principal de patatas */
+.contenedor-mapa-casa .caja-bienvenida p,
+.contenedor-mapa-casa .subtitulo-menu {
+    color: #e0e0e0 !important;
+    font-size: 0.9rem;
+    margin: 0;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --- LA CASA (TAMAÑO COMPLETO) --- */
+.mapa-interactivo-wrapper {
+    position: relative;
+    display: inline-block;
+    background: transparent !important;
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+}
+
+.mapa-interactivo-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.img-casa-mapeada {
+    width: 100%;
+    height: auto;
+    max-height: 75vh;
+    /* Evita el scroll vertical */
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    /* Efecto pegatina blanco fino */
+    filter: drop-shadow(2px 2px 0px #ffffff) drop-shadow(-2px -2px 0px #ffffff) drop-shadow(2px -2px 0px #ffffff) drop-shadow(-2px 2px 0px #ffffff) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+/* Botón volver exclusivo de la casa */
+.contenedor-mapa-casa .enlace-volver {
+    position: relative;
+    z-index: 2;
+    color: white !important;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* =======================================================
+   ⏱️ 2. PANTALLAS DE ESTUDIO (Salas individuales)
+   ======================================================= */
+
 .pantalla-estudio {
     min-height: 100vh;
     display: flex;
@@ -6,11 +110,9 @@
     align-items: center;
     justify-content: center;
     transition: background 0.5s ease;
-    /* Para que el cambio sea suave */
 }
 
 .cronometro-circular {
-    /* El estilo que ya teníamos en layout.css, pero aquí */
     width: 280px;
     height: 280px;
     border-radius: 50%;
@@ -20,26 +122,15 @@
     backdrop-filter: blur(10px);
 }
 
-/* --- 2. Personalización por Sala --- */
-
 /* DESPACHO ROSA 🌸 */
 .sala-despacho-rosa {
-    /* La barra inicial / significa "empieza a buscar desde la carpeta public" */
     background-image: url('/img/fondo/despacho-rosa.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
-    background-repeat: no-repeat !important;
-    height: 100vh;
-    width: 100%;
 }
 
 .sala-despacho-rosa .cronometro-circular {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border: 8px solid #fce7f3;
-    /* Rosa pastel */
     background: rgba(255, 255, 255, 0.4);
 }
 
@@ -51,7 +142,11 @@
 
 .sala-biblioteca .cronometro-circular {
     border: 8px solid #b87333;
-    /* Color cobre/madera */
     background: rgba(45, 26, 18, 0.6);
     color: #fffaf0;
+}
+
+area {
+    outline: none;
+    cursor: pointer;
 }
