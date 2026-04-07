@@ -29,12 +29,11 @@ class AuthController extends Controller
 
     public function registrar(Request $request)
     {
-        // 1. La validación total (Nombre, Email, Password + Pack Patata)
+        // 1. Validación (La mantenemos igual, está genial)
         $request->validate([
             'name'               => 'required|string|max:255',
             'email'              => 'required|email|unique:users,email',
             'password'           => 'required|min:6',
-            // Validamos que la patata no nazca incompleta
             'avatar_base'        => 'required',
             'avatar_boca'        => 'required',
             'avatar_ojos'        => 'required',
@@ -44,21 +43,25 @@ class AuthController extends Controller
             'required'     => '¡Tu patata no puede nacer incompleta! Elige todas las opciones.'
         ]);
 
-        // 2. Creamos al usuario con el pack completo de una sola vez
+        // 2. Creamos al usuario concatenando el nombre del archivo
+        // Esto asegura que en la BD se guarde "azulRelleno.png" y no solo "azul"
         $usuario = User::create([
             'name'               => $request->name,
             'email'              => $request->email,
             'password'           => Hash::make($request->password),
-            'avatar_base'        => $request->avatar_base,
-            'avatar_boca'        => $request->avatar_boca,
-            'avatar_ojos'        => $request->avatar_ojos,
-            'avatar_complemento' => $request->avatar_complemento,
+
+            // Si el value del radio es "azul", guardará "azulRelleno.png"
+            'avatar_base'        => $request->avatar_base . 'Relleno.png',
+
+            // Si tus archivos de boca/ojos/complemento YA terminan en .png en el value del HTML, 
+            // déjalos como estaban. Si no, añade el .png aquí también:
+            'avatar_boca'        => $request->avatar_boca . '.png',
+            'avatar_ojos'        => $request->avatar_ojos . '.png',
+            'avatar_complemento' => $request->avatar_complemento . '.png',
         ]);
 
-        // 3. Iniciamos sesión automáticamente
         Auth::login($usuario);
 
-        // 4. ¡A la Home con su nueva identidad!
         return redirect()->to('/')->with('success', '¡Bienvenida al club de las patatas lectoras!');
     }
 

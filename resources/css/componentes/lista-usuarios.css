@@ -1,0 +1,61 @@
+/* Estructura base */
+.menu-lateral {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    position: sticky;
+    top: 20px;
+}
+
+/* Los botones del menú */
+.btn-menu {
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid #eee;
+}
+
+.btn-menu.active {
+    background: #0d6efd;
+    color: white;
+}
+
+/* Estilo de la patata */
+.patata-card {
+    background: white;
+    border-radius: 20px;
+    border: none;
+    margin-top: 60px;
+    position: relative;
+}
+
+.avatar-completo-frame {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: -60px auto 10px auto;
+}
+
+.avatar-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Para que el contenido destaque sobre la imagen de fondo */
+.container-fluid {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    /* Un velo muy clarito para suavizar el fondo */
+    border-radius: 30px;
+    padding-top: 20px;
+}

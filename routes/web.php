@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\SalaController;
+use App\Http\Controllers\AmigoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,27 +20,22 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| 2. RUTAS DE ACCESO (Login y Registro Unificado)
+| 2. RUTAS DE ACCESO (Login y Registro)
 |--------------------------------------------------------------------------
 */
 
-// --- LOGIN ---
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
 
-// --- REGISTRO ---
 Route::get('/registro', function () {
-    // Apuntamos a tu vista de registro (donde ahora está el selector de avatar)
     return view('registro.registro');
 })->name('registro');
 
-// Esta es la ruta que recibe el nombre, email, pass Y avatar a la vez
 Route::post('/registro', [AuthController::class, 'registrar']);
 
-// --- LOGOUT ---
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
@@ -49,14 +45,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::get('/libros/buscar', [LibroController::class, 'buscar'])->name('libros.buscar');
-
-
 /*
 |--------------------------------------------------------------------------
 | 4. RUTAS PROTEGIDAS (Solo para usuarios logueados)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
 
     // --- PERFIL Y AVATAR ---
     Route::get('/perfil', function () {
@@ -73,10 +67,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar');
     Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');
     Route::put('/mi-estanteria/{libro}', [LibroController::class, 'actualizarEstanteria'])->name('libros.actualizar');
-});
 
-Route::middleware(['auth'])->group(function () {
+    // --- SALAS DE CONCENTRACIÓN ---
     Route::get('/salas', [SalaController::class, 'index'])->name('salas.index');
     Route::get('/salas/{tipo}', [SalaController::class, 'show'])->name('salas.show');
     Route::post('/salas/guardar', [SalaController::class, 'guardar'])->name('salas.guardar');
-});
+
+    // --- SISTEMA DE AMIGOS ---
+    Route::get('/buscar-amigos', [AmigoController::class, 'index'])->name('amigos.index');
+    Route::post('/amigos/enviar/{id}', [AmigoController::class, 'enviarSolicitud'])->name('amigos.enviar');
+    Route::post('/amigos/aceptar/{id}', [AmigoController::class, 'aceptarSolicitud'])->name('amigos.aceptar');
+    Route::post('/amigos/eliminar/{id}', [AmigoController::class, 'eliminarAmigo'])->name('amigos.eliminar');
+}); // <-- Asegúrate de que termine con });

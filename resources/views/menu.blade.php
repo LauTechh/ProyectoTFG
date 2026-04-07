@@ -29,6 +29,14 @@
             <p>Gestiona tus lecturas guardadas.</p>
             <a href="{{ route('libros.estanteria') }}" class="btn-menu">Ver mis libros</a>
         </div>
+        <div class="tarjeta-menu">
+            <div class="icono-tarjeta">🏠</div>
+            <h3>Concentración</h3>
+            <p>Registra tu tiempo de concentracion.</p>
+            <a href="{{ route('salas.index') }}" class="btn-menu">Ir a una sala</a>
+        </div>
+
+
         @endauth
 
         {{-- BLOQUE: Explorar --}}
