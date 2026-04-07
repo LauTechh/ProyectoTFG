@@ -1,48 +1,169 @@
-/* Estructura base */
-.menu-lateral {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    position: sticky;
-    top: 20px;
+.titulo-crema {
+    color: #fff7ed !important;
+    text-shadow: 1px 1px 3px rgba(154, 52, 18, 0.2);
+    /* Sombra en tono marrón muy sutil */
+    text-align: center;
 }
 
-/* Los botones del menú */
-.btn-menu {
+/* 1. ESTRUCTURA PRINCIPAL (1/3 y 2/3) */
+/* 1. ESTRUCTURA PRINCIPAL (Cambio de fijo a fluido) */
+.contenedor-perfil-layout {
+    display: flex !important;
+    width: 100% !important;
+    /* Ocupa todo el ancho disponible */
+    max-width: 1400px !important;
+    /* Pero no se estira más de esto */
+    margin: 40px auto !important;
+    gap: 20px !important;
+    /* Reducimos un poco el gap para ganar espacio */
+    padding: 0 20px !important;
+    /* Margen interno para que no pegue a los bordes */
+    align-items: flex-start !important;
+    box-sizing: border-box !important;
+}
+
+
+/* MENÚ IZQUIERDO (Uso de porcentaje en lugar de px fijos) */
+.columna-perfil-izq {
+    flex: 0 0 25% !important;
+    /* Ocupa el 25% del ancho */
+    min-width: 250px !important;
+    /* No se hace más pequeño que esto */
+}
+
+.tarjeta-navegacion-fija,
+.tarjeta-decorativa {
+    background: white !important;
+    border-radius: 25px !important;
+    padding: 30px !important;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-nav,
+.btn-perfil-navegacion {
     display: block;
-    padding: 12px 15px;
+    padding: 12px 20px;
     margin-bottom: 8px;
-    background: #f8f9fa;
-    color: #333;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    border: 1px solid #eee;
+    text-decoration: none !important;
+    color: #4b5563 !important;
+    border-radius: 15px;
+    transition: 0.3s;
+    font-weight: 600;
 }
 
-.btn-menu.active {
-    background: #0d6efd;
-    color: white;
+.btn-nav.active {
+    background: #fed7aa !important;
+    color: #9a3412 !important;
 }
 
-/* Estilo de la patata */
-.patata-card {
-    background: white;
+/* PANEL DERECHO */
+.columna-perfil-der {
+    flex: 1 !important;
+    /* Toma todo el espacio restante (el otro 75%) */
+    min-width: 0 !important;
+    /* Evita que el contenido desborde el flex */
+}
+
+.panel-derecho-amigos,
+.seccion-blanca-usuarios {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 35px !important;
+    padding: 60px 20px !important;
+    /* Menos padding lateral para pantallas estrechas */
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* EL GRID (Ajuste de columnas automático) */
+.grid-usuarios-container {
+    display: grid !important;
+    /* Esto es magia: crea columnas de al menos 250px, pero si no caben, las baja */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 80px 20px !important;
+    width: 100% !important;
+}
+
+/* El contenedor que creamos para cada usuario */
+.patata-item-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    /* Espacio para que el avatar que sobresale no choque arriba */
+}
+
+
+/* Efecto al pasar el ratón solo sobre el div del usuario individual */
+.patata-item-wrapper:hover .patata-card-elegante {
+    transform: translateY(-10px);
+}
+
+.info-usuario-container {
+    margin-top: 5px !important;
+    /* Menos espacio entre avatar y nombre */
+    margin-bottom: 5px !important;
+    /* Menos espacio antes del botón */
+}
+
+
+.badge-libros {
+    background: #fff7ed;
+    color: #9a3412;
+    padding: 4px 12px;
     border-radius: 20px;
-    border: none;
-    margin-top: 60px;
-    position: relative;
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
+
+/* LA TARJETA (Solo una clase para evitar líos) */
+.patata-card-elegante {
+    background: white !important;
+    width: 100% !important;
+    max-width: 210px !important;
+
+    /* 1. REDUCIMOS PADDING VERTICAL: 
+       Cambiamos el 25px (arriba/abajo) por algo más pequeño como 10px o 15px */
+    padding: 15px 15px !important;
+
+    /* 2. EVITAMOS ALTURAS MÍNIMAS: 
+       Asegúrate de NO tener un 'min-height'. Si lo tenías, ponlo en 'auto' */
+    min-height: auto !important;
+
+    /* 3. CONTROL DE FLEXBOX: 
+       Asegúrate de que los elementos no se separen demasiado */
+    justify-content: center !important;
+
+    /* Mantenemos el resto */
+    border-radius: 25px !important;
+    position: relative !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04) !important;
+    text-align: center;
+    border: 1px solid #f3f4f6 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* EL AVATAR (Pinchado arriba) */
 .avatar-completo-frame {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin: -60px auto 10px auto;
+    width: 200px !important;
+    height: 200px !important;
+
+    /* He cambiado -75px por -40px para que baje. 
+       Ajusta este número si lo quieres más arriba o más abajo */
+    margin: -10px auto 10px auto !important;
+
+    position: relative !important;
+    z-index: 10 !important;
+    /* Asegúrate de que siga por encima del texto */
 }
 
 .avatar-layer {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     left: 0;
     width: 100%;
@@ -50,12 +171,4 @@
     object-fit: contain;
 }
 
-/* Para que el contenido destaque sobre la imagen de fondo */
-.container-fluid {
-    position: relative;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.1);
-    /* Un velo muy clarito para suavizar el fondo */
-    border-radius: 30px;
-    padding-top: 20px;
-}
+/*

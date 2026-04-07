@@ -36,6 +36,13 @@
             <a href="{{ route('salas.index') }}" class="btn-menu">Ir a una sala</a>
         </div>
 
+        <div class="tarjeta-menu">
+            <div class="icono-tarjeta">🥔</div>
+            <h3>Más patatas</h3>
+            <p>Conoce más patatas.</p>
+            <a href="{{ route('amigos.index') }}" class="btn-menu">Ver mas patatas</a>
+        </div>
+
 
         @endauth
 
