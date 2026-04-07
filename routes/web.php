@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\SalaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,4 +73,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar');
     Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');
     Route::put('/mi-estanteria/{libro}', [LibroController::class, 'actualizarEstanteria'])->name('libros.actualizar');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/salas', [SalaController::class, 'index'])->name('salas.index');
+    Route::get('/salas/{tipo}', [SalaController::class, 'show'])->name('salas.show');
+    Route::post('/salas/guardar', [SalaController::class, 'guardar'])->name('salas.guardar');
 });

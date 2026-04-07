@@ -1,0 +1,57 @@
+/* --- 1. Estructura Base (Igual para todas) --- */
+.pantalla-estudio {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s ease;
+    /* Para que el cambio sea suave */
+}
+
+.cronometro-circular {
+    /* El estilo que ya teníamos en layout.css, pero aquí */
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+/* --- 2. Personalización por Sala --- */
+
+/* DESPACHO ROSA 🌸 */
+.sala-despacho-rosa {
+    /* La barra inicial / significa "empieza a buscar desde la carpeta public" */
+    background-image: url('/img/fondo/despacho-rosa.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    height: 100vh;
+    width: 100%;
+}
+
+.sala-despacho-rosa .cronometro-circular {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid #fce7f3;
+    /* Rosa pastel */
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* BIBLIOTECA 📚 */
+.sala-biblioteca {
+    background: url('/img/fondos/biblioteca-oscura.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.sala-biblioteca .cronometro-circular {
+    border: 8px solid #b87333;
+    /* Color cobre/madera */
+    background: rgba(45, 26, 18, 0.6);
+    color: #fffaf0;
+}

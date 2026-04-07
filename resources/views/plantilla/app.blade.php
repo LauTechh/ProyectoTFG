@@ -17,17 +17,18 @@
     <link rel="icon" type="image/png" href="{{ asset('img/logo/logo_patata.png') }}">
 
     {{-- 2. Activos con Vite --}}
+    {{-- 2. Activos con Vite --}}
     @vite([
     'resources/css/app.css',
     'resources/css/componentes/libros.css',
     'resources/css/componentes/estanteria.css',
-    'resources/js/app.js'
-    ])
+    'resources/css/componentes/salas.css', // <-- AÑADE ESTA LÍNEA 'resources/js/app.js'
+        ])
 
-    {{-- CSS de emergencia (si existe) --}}
-    @if(file_exists(public_path('css/fix-list.css')))
-    <link rel="stylesheet" href="{{ asset('css/fix-list.css') }}">
-    @endif
+        {{-- CSS de emergencia (si existe) --}}
+        @if(file_exists(public_path('css/fix-list.css')))
+        <link rel="stylesheet" href="{{ asset('css/fix-list.css') }}">
+        @endif
 </head>
 
 <body class="antialiased {{ Auth::check() ? 'esta-logueado' : 'es-invitado' }}"
