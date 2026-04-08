@@ -6,6 +6,10 @@
 
         <h1 class="titulo-invitado">🥔 Resultados para: {{ request('query') }}</h1>
 
+        <div class="enlace-volver">
+            <a href="{{ route('libros.estanteria') }}">← Ir a mi estantería</a>
+        </div>
+
         <div class="lista-resultados"> {{-- Clase de tu CSS para dar aire --}}
             @forelse($libros as $libro)
             @php

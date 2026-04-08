@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
     // --- ESTANTERÍA Y GESTIÓN DE LIBROS ---
     Route::get('/mi-estanteria', [LibroController::class, 'miEstanteria'])->name('libros.estanteria');
     Route::get('/libros', [LibroController::class, 'inicio'])->name('libros.inicio');
-    Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar');
+    Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar')->middleware('auth');
     Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');
     Route::put('/mi-estanteria/{libro}', [LibroController::class, 'actualizarEstanteria'])->name('libros.actualizar');
 

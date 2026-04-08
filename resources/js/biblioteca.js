@@ -1,6 +1,8 @@
 // resources/js/biblioteca.js
 
 
+console.log("✅ El archivo biblioteca.js ha sido cargado por el navegador.");
+
 
 window.añadirLibroSinRecargar = function (btn) {
     // 1. Buscamos los metas con seguridad
@@ -21,11 +23,13 @@ window.añadirLibroSinRecargar = function (btn) {
     const textoOriginal = btn.innerText;
     btn.innerText = "Guardando...";
 
+    // Dentro de biblioteca.js, cambia esto:
+    // Dentro de biblioteca.js
     const datos = {
-        title: btn.getAttribute('data-title'),
-        author: btn.getAttribute('data-author'),
-        genre: btn.getAttribute('data-genre'),
-        cover_url: btn.getAttribute('data-cover'),
+        titulo: btn.getAttribute('data-title'),
+        autor: btn.getAttribute('data-author'),
+        genero: btn.getAttribute('data-genre'),
+        portada: btn.getAttribute('data-cover'),
         _token: token
     };
 

@@ -14,6 +14,33 @@ class LibroController extends Controller
         return view('libros.index');
     }
 
+
+
+    public function buscar(Request $request)
+    {
+        $query = $request->input('query');
+        if (!$query) return view('libros.resultados', ['libros' => []]);
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::withoutVerifying()
+                ->timeout(10) // Si tarda más de 10s, dejamos de esperar
+                ->get("https://www.googleapis.com/books/v1/volumes", [
+                    'q' => $query,
+                    'maxResults' => 20,
+                ]);
+
+            $libros = $response->json()['items'] ?? [];
+        } catch (\Exception $e) {
+            // Si falla la red, enviamos una lista vacía para que no explote la web
+            $libros = [];
+        }
+
+        return view('libros.resultados', compact('libros'));
+    }
+
+
+
+
     public function buscar(Request $request)
     {
         $query = $request->input('query');
@@ -75,36 +102,6 @@ class LibroController extends Controller
         ...
     } catch (\Exception $e) { ... }
     */
-    }
-
-    public function guardar(Request $request)
-    {
-        $data = $request->all();
-
-        if (Auth::check()) {
-            // CAMBIO: Usamos create() directamente en lugar de buscar si existe.
-            // Esto genera una ID única (1, 2, 3...) cada vez que pulsas el botón.
-            $libro = Libro::create([
-                'title'     => $data['title'],
-                'author'    => $data['author'],
-                'genre'     => $data['genre'] ?? 'Varios',
-                'cover_url' => $data['cover_url'] ?? null,
-                'user_id'   => Auth::id(), // El dueño es quien lo añade ahora
-            ]);
-
-            // Lo añadimos a la estantería (tabla intermedia)
-            Auth::user()->libros()->attach($libro->id, [
-                'estado' => 'por_leer',
-                'puntuacion' => 1
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => '¡Añadido con éxito! ID: ' . $libro->id
-            ]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
     }
 
     public function miEstanteria()

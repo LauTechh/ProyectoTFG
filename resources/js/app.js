@@ -1,15 +1,13 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
-import './avatar-preview'; // <-- Conecta tu código de la patata y avisos
-// resources/js/app.js
-import './biblioteca';
+import './avatar-preview';
+import './biblioteca'; // Importado una sola vez, ¡perfecto!
 
-
-// Hace que 'Swal' sea accesible globalmente
+// Hace que 'Swal' sea accesible globalmente para usarlo en cualquier parte
 window.Swal = Swal;
 
+// --- ALERTAS DE VALIDACIÓN (SweetAlert) ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Buscamos si existe nuestro "aviso" de error en el HTML
     const alertData = document.getElementById('validation-alert');
 
     if (alertData) {
@@ -18,22 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'error',
             title: '¡Ups! Algo va mal',
             text: message,
-            confirmButtonColor: '#7c2d12', // Tu color cobrizo
+            confirmButtonColor: '#7c2d12',
             confirmButtonText: 'Entendido'
         });
     }
 });
 
-// --- FUNCIONALIDADES DEL PERFIL ---
-// Usamos window. para que el HTML encuentre la función fácilmente
+// --- FUNCIONALIDADES GLOBALES (Accesibles desde el HTML) ---
+
+// 1. Mostrar/Ocultar formulario de cambio de nombre
 window.toggleFormNombre = function () {
     const container = document.getElementById('form-nombre-container');
-
     if (!container) return;
 
     if (container.style.display === 'none' || container.style.display === '') {
         container.style.display = 'block';
-        // Foco automático al input para que empieces a escribir directo
         const input = container.querySelector('input');
         if (input) input.focus();
     } else {
@@ -41,19 +38,13 @@ window.toggleFormNombre = function () {
     }
 };
 
-
+// 2. Alerta para usuarios no registrados
 window.alertaInvitado = function () {
-    // Primero intentamos con SweetAlert si está cargado
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            title: '¡Hola, patata! 🥔',
-            text: 'Para añadir libros a tu biblioteca personal necesitas una cuenta.',
-            icon: 'info',
-            confirmButtonColor: '#f97316',
-            confirmButtonText: '¡Entendido!'
-        });
-    } else {
-        // Si por lo que sea Swal falla, que al menos salga el alert normal
-        alert("¡Hola, patata! 🥔 Para añadir libros necesitas una cuenta.");
-    }
+    Swal.fire({
+        title: '¡Hola, patata! 🥔',
+        text: 'Para añadir libros a tu biblioteca personal necesitas una cuenta.',
+        icon: 'info',
+        confirmButtonColor: '#f97316',
+        confirmButtonText: '¡Entendido!'
+    });
 };

@@ -10,15 +10,8 @@ class Libro extends Model
     // ESTA ES LA LÍNEA MÁGICA:
     protected $table = 'books';
 
-    protected $fillable = [
-        'title',
-        'author',
-        'genre',
-        'description',
-        'cover_url',
-        'user_id',
-    ];
-
+    protected $fillable = ['title', 'author', 'genre', 'cover_url', 'user_id'];
+    
     public function usuarios(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'book_user', 'book_id', 'user_id')
