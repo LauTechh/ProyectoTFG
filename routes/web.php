@@ -76,6 +76,8 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
     // --- SISTEMA DE AMIGOS ---
     Route::get('/buscar-amigos', [AmigoController::class, 'index'])->name('amigos.index');
     Route::post('/amigos/enviar/{id}', [AmigoController::class, 'enviarSolicitud'])->name('amigos.enviar');
+    // Rutas para gestionar solicitudes (Asegúrate de que los nombres coincidan)
     Route::post('/amigos/aceptar/{id}', [AmigoController::class, 'aceptarSolicitud'])->name('amigos.aceptar');
-    Route::post('/amigos/eliminar/{id}', [AmigoController::class, 'eliminarAmigo'])->name('amigos.eliminar');
+    Route::post('/amigos/rechazar/{id}', [AmigoController::class, 'rechazarSolicitud'])->name('amigos.rechazar');
+    Route::delete('/amigos/eliminar/{id}', [AmigoController::class, 'eliminarAmigo'])->name('amigos.eliminar');
 }); // <-- Asegúrate de que termine con });

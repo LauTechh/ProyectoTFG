@@ -30,4 +30,10 @@ class Amigo extends Model
     {
         return $this->belongsTo(User::class, 'amigo_id');
     }
+    
+    public function sender()
+    {
+        // El 'usuario_id' es el que envía la solicitud
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
 }

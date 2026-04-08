@@ -171,4 +171,67 @@
     object-fit: contain;
 }
 
+.alerta-patata-exitosa {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #bbf7d0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-pendiente {
+    background-color: #e5e7eb !important;
+    /* Gris claro */
+    color: #6b7280 !important;
+    /* Texto gris oscuro */
+    border: 1px solid #d1d5db !important;
+    cursor: not-allowed;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.btn-amigos {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+    border: 1px solid #bbf7d0 !important;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+.btn-eliminar-red {
+    background: none;
+    border: none;
+    color: #ef4444;
+    /* Rojo */
+    font-size: 0.75rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 5px;
+    transition: color 0.2s;
+}
+
+.btn-eliminar-red:hover {
+    color: #b91c1c;
+    text-decoration: none;
+}
+
+.badge-notificacion {
+    background-color: #ef4444;
+    /* Rojo vibrante */
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 999px;
+    /* Hace que sea un círculo/óvalo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
 /*

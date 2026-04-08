@@ -37,10 +37,16 @@
         </div>
 
         <div class="tarjeta-menu">
-            <div class="icono-tarjeta">🥔</div>
+            <div class="icono-tarjeta">
+                🥔
+                {{-- Si la variable inyectada es mayor a 0, mostramos la burbuja --}}
+                @if($solicitudesPendientes > 0)
+                <span class="burbuja-notificacion">{{ $solicitudesPendientes }}</span>
+                @endif
+            </div>
             <h3>Más patatas</h3>
             <p>Conoce más patatas.</p>
-            <a href="{{ route('amigos.index') }}" class="btn-menu">Ver mas patatas</a>
+            <a href="{{ route('amigos.index') }}" class="btn-menu">Ver</a>
         </div>
 
 

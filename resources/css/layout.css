@@ -254,6 +254,8 @@
     border: 1px solid #eee;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
+    /* Añadido para que la burbuja no se escape de la tarjeta */
+    position: relative;
 }
 
 .tarjeta-menu:hover {
@@ -265,6 +267,42 @@
 .icono-tarjeta {
     font-size: 3rem;
     margin-bottom: 15px;
+    display: inline-block;
+    /* Posicionamiento relativo para la burbuja */
+    position: relative;
+}
+
+/* --- BURBUJA DE NOTIFICACIÓN DE AMIGOS --- */
+.burbuja-notificacion {
+    position: absolute;
+    top: -5px;
+    right: -12px;
+    background-color: #ef4444;
+    /* Rojo vibrante */
+    color: white !important;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 50px;
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Animación para llamar la atención de la patata B */
+    animation: pulso-notificacion 2s infinite;
+    z-index: 10;
+}
+
+@keyframes pulso-notificacion {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .btn-menu {
