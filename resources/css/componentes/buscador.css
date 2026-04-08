@@ -1,0 +1,72 @@
+/* CONTENEDOR DEL BUSCADOR */
+.zona-busqueda-hero {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.formulario-busqueda-gigante {
+    width: 100%;
+    max-width: 550px;
+    /* Tamaño reducido al 85% del original */
+}
+
+.input-wrapper-busqueda {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fffaf5;
+    /* El color crema de tu nav */
+    border: 2px solid #ffedd5;
+    border-radius: 40px;
+    padding: 5px 5px 5px 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.input-wrapper-busqueda:focus-within {
+    border-color: #fb923c;
+    box-shadow: 0 8px 20px rgba(251, 146, 60, 0.12);
+}
+
+/* EL INPUT */
+.input-wrapper-busqueda input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    outline: none;
+    font-size: 1rem;
+    color: #5d4037;
+}
+
+/* EL ICONO */
+.icono-lupa {
+    color: #fb923c;
+    display: flex;
+    align-items: center;
+}
+
+.icono-lupa svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* EL BOTÓN */
+.btn-buscar-estilo {
+    background: #4CAF50;
+    /* Tu verde patata */
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-buscar-estilo:hover {
+    background: #45a049;
+    transform: scale(1.03);
+}

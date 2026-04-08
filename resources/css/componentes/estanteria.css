@@ -1,48 +1,56 @@
-/* resources/css/componentes/estanteria.css */
+/* resources/css/componentes/estanteria.css - REDUCCIÓN 10% */
 
 .contenedor-estanteria-manual {
-    padding: 30px;
-    max-width: 1200px;
+    padding: 27px;
+    /* Antes 30px */
+    max-width: 1080px;
+    /* Antes 1200px */
     margin: 0 auto;
 }
 
 .titulo-biblioteca {
     color: #fffdf0;
-    /* Color crema para que resalte sobre el fondo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     text-align: center;
-    margin-bottom: 40px;
-    font-size: 2.5rem;
+    margin-bottom: 36px;
+    /* Antes 40px */
+    font-size: 2.25rem;
+    margin-top: 50px;  /* <--- Ajusta este valor para bajarlo más o menos */
+    /* Antes 2.5rem */
 }
 
 .rejilla-libros {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    /* Mínimo de tarjeta de ~200px en lugar de 220px */
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 25px;
 }
 
 .tarjeta-libro-estanteria {
     background: rgba(255, 253, 240, 0.9);
-    /* Tu beige característico */
     backdrop-filter: blur(5px);
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 18px;
+    /* Antes 20px */
+    padding: 13.5px;
+    /* Antes 15px */
+    box-shadow: 0 9px 18px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease;
     border: 1px solid rgba(184, 115, 51, 0.2);
 }
 
 .tarjeta-libro-estanteria:hover {
-    transform: translateY(-10px);
+    transform: translateY(-9px);
 }
 
 .contenedor-portada-estanteria {
     width: 100%;
-    height: 250px;
+    height: 225px;
+    /* Antes 250px */
     overflow: hidden;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 11px;
+    /* Antes 12px */
+    margin-bottom: 13.5px;
+    box-shadow: 0 3.5px 7px rgba(0, 0, 0, 0.2);
 }
 
 .img-portada-estanteria {
@@ -52,43 +60,49 @@
 }
 
 .titulo-estanteria {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    /* Antes 1.1rem */
     color: #5d4037;
-    margin: 5px 0;
+    margin: 4.5px 0;
     font-weight: bold;
 }
 
 .autor-estanteria {
     color: #8b5e3c;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    /* Antes 0.9rem */
+    margin-bottom: 9px;
 }
 
 .fila-control {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    font-size: 0.85rem;
+    margin-top: 9px;
+    font-size: 0.76rem;
+    /* Antes 0.85rem */
 }
 
 .select-estanteria {
-    padding: 4px;
-    border-radius: 8px;
+    padding: 3.5px;
+    /* Antes 4px */
+    border-radius: 7px;
     border: 1px solid #ddd;
     background: white;
 }
 
 .btn-eliminar-manual {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 13.5px;
     background: #ffeded;
     color: #d32f2f;
     border: 1px solid #ffcdd2;
-    padding: 8px;
-    border-radius: 10px;
+    padding: 7px;
+    /* Antes 8px */
+    border-radius: 9px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
+    /* Antes 0.8rem */
     transition: background 0.3s;
 }
 

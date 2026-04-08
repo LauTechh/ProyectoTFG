@@ -4,66 +4,173 @@
 @import "./componentes/avatar.css";
 @import "./componentes/perfil.css";
 @import "./componentes/libros.css";
-/* <--- ¡QUITA LAS BARRITAS AQUÍ! Es vital */
+@import "./componentes/buscador.css";
+/* <--- Añade esto */
 
-/* --- ESTILOS GLOBAL INVITADO --- */
+/* --- 1. CONFIGURACIÓN GLOBAL (ESCALA 85%) --- */
+html {
+    /* Al bajar el font-size base, todo lo que use 'rem' se encoge solo */
+    font-size: 85%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Forzamos que los H1 no griten tanto */
+h1 {
+    font-size: 1.35rem !important;
+    margin-bottom: 0.45rem;
+}
+
+/* --- 2. EL NAV (AHORA MÁS FINO) --- */
+.nav-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 42px;
+    /* Reducido de 50px */
+    background: rgba(250, 244, 234, 0.749);
+    backdrop-filter: blur(12px);
+    height: 68px;
+    /* Reducido de 80px */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* --- 3. ESTILOS GLOBAL INVITADO --- */
 .es-invitado {
     background-image: url('/img/fondo/fondo1.png') !important;
     background-size: cover !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
-    margin: 0;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* Contenedor que empuja el contenido bajo el Nav (80px) */
-.cuerpo-invitado {
-    padding-top: 100px;
+/* --- 4. CONTENEDOR PRINCIPAL (REAJUSTADO AL NAV) --- */
+.seccion-auth {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex: 1;
     width: 100%;
+    /* Compensamos la nueva altura del Nav */
+    padding-top: 110px;
+    padding-bottom: 35px;
+    box-sizing: border-box;
 }
 
-/* La "tarjeta" blanca donde salen los resultados o el login */
-.contenedor-invitado {
+/* --- 5. LA TARJETA BEIGE (MÁS ESTILIZADA) --- */
+.contenedor-auth-card {
+    background: rgba(245, 241, 230, 0.95);
+    width: 90%;
+    max-width: 550px;
+    /* Reducido de 650px */
+    padding: 2.1rem 3.4rem;
+    /* Reducido de 2.5rem 4rem */
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(8px);
+    position: relative;
+}
+
+/* --- 6. TÍTULOS Y TEXTOS --- */
+.auth-titulo {
+    color: #5d4037;
+    text-align: center;
+    margin: 0 0 8px 0;
+    font-size: 1.7rem;
+    /* Reducido de 2rem */
+    font-weight: bold;
+}
+
+.auth-subtitulo {
+    color: #8b5e3c;
+    text-align: center;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+    /* Reducido de 1.1rem */
+}
+
+/* --- 7. MENÚ PRINCIPAL (HOME) --- */
+.contenedor-menu-principal {
+    max-width: 850px;
+    /* Reducido de 1000px */
+    margin: 0 auto;
+    padding: 110px 20px 50px 20px;
+}
+
+.caja-bienvenida {
+    background: rgba(245, 241, 230, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 34px;
+    /* Reducido de 40px */
+    border-radius: 25px;
+    border: 1px solid rgba(184, 115, 51, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    margin-bottom: 34px;
+    text-align: center;
+}
+
+.titulo-patata {
+    color: #5d4037;
+    font-size: 2.1rem;
+    /* Reducido de 2.5rem */
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    /* Reducido de 280px */
+    gap: 25px;
+}
+
+.tarjeta-menu {
     background: rgba(255, 255, 255, 0.9);
     padding: 30px;
+    /* Reducido de 35px */
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    max-width: 1100px;
-    width: 90%;
-    text-align: center;
-    margin-bottom: 40px;
 }
 
-.titulo-invitado {
-    margin-bottom: 20px;
-    font-size: 2.5rem;
-    color: #5d4037;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+/* --- 8. INPUTS Y BOTONES --- */
+.input-group {
+    margin-bottom: 15px;
 }
 
-.enlace-volver {
-    margin-top: 20px;
-    display: inline-block;
+.input-group label {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
 }
 
-.enlace-volver a {
-    text-decoration: none;
-    color: #b87333;
-    font-weight: bold;
-    transition: 0.3s;
+.input-group input {
+    padding: 12px;
+    /* Reducido de 14px */
+    border-radius: 10px;
+    font-size: 0.9rem;
 }
 
-.enlace-volver a:hover {
-    color: #cd7f32;
+.btn-primario {
+    margin-top: 17px;
+    padding: 13px;
+    /* Reducido de 15px */
+    border-radius: 10px;
+    font-size: 1rem;
 }
-/* Y en tu app.css para invitados */
-.es-invitado .seccion-auth {
-    padding-top: 100px; /* Margen para que no choque con el Nav de 80px */
+
+.auth-footer {
+    margin-top: 22px;
+    padding-top: 13px;
 }

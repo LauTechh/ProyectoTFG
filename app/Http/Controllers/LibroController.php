@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\Libro; // <-- CAMBIO 1: Importamos Libro, no Book
+use App\Models\Libro;
 use Illuminate\Support\Facades\Auth;
 
 class LibroController extends Controller
@@ -14,43 +14,19 @@ class LibroController extends Controller
         return view('libros.index');
     }
 
-
-
     public function buscar(Request $request)
     {
+        // 1. Recogemos lo que el usuario escribió (ya sea en el Nav o en la página)
         $query = $request->input('query');
-        if (!$query) return view('libros.resultados', ['libros' => []]);
+        $libros = [];
 
-        try {
-            $response = \Illuminate\Support\Facades\Http::withoutVerifying()
-                ->timeout(10) // Si tarda más de 10s, dejamos de esperar
-                ->get("https://www.googleapis.com/books/v1/volumes", [
-                    'q' => $query,
-                    'maxResults' => 20,
-                ]);
-
-            $libros = $response->json()['items'] ?? [];
-        } catch (\Exception $e) {
-            // Si falla la red, enviamos una lista vacía para que no explote la web
-            $libros = [];
-        }
-
-        return view('libros.resultados', compact('libros'));
-    }
-
-
-
-
-    public function buscar(Request $request)
-    {
-        $query = $request->input('query');
-
+        // 2. Si no hay búsqueda (primera vez que entra), mandamos a la vista con lista vacía
         if (!$query) {
-            return view('libros.resultados', ['libros' => []]);
+            return view('libros.index', ['libros' => []]);
         }
 
-        // --- COMIENZA EL TRUCO DEL ALMENDRUCO ---
-        // Creamos una lista de libros falsos para que puedas trabajar sin conexión a Google
+        // 3. Si hay búsqueda, cargamos los libros falsos (El Truco del Almendruco)
+        // Nota: Más adelante aquí pondremos la conexión real a Google Books
         $libros = [
             [
                 'volumeInfo' => [
@@ -78,46 +54,22 @@ class LibroController extends Controller
             ]
         ];
 
-        // Devolvemos la vista con estos libros falsos
-        return view('libros.resultados', compact('libros'));
-        // --- TERMINA EL TRUCO DEL ALMENDRUCO ---
-
-
-        /* Mantenemos esto comentado para que no se pierda, 
-       lo activaremos cuando Google nos perdone:
-
-    try {
-        $response = Http::withoutVerifying()
-            ->timeout(10)
-            ->get("https://www.googleapis.com/books/v1/volumes", [
-                'q' => $query,
-                'maxResults' => 20,
-            ]);
-
-        if ($response->successful()) {
-            $datos = $response->json();
-            $libros = $datos['items'] ?? [];
-            return view('libros.resultados', compact('libros'));
-        }
-        ...
-    } catch (\Exception $e) { ... }
-    */
+        // 4. Devolvemos SIEMPRE a 'libros.index' para que se vea el buscador
+        return view('libros.index', compact('libros'));
     }
 
     public function miEstanteria()
     {
         $usuario = Auth::user();
-        // CAMBIO 3: Usamos la relación libros() que definimos en User.php
         $books = $usuario->libros()->withPivot('estado', 'puntuacion')->get();
 
         return view('libros.estanteria', compact('books'));
     }
 
-    // Antes: public function actualizarEstanteria(Request $request, $libroId)
-    public function actualizarEstanteria(Request $request, Libro $libro) // <--- Cambiado a $libro
+    public function actualizarEstanteria(Request $request, Libro $libro)
     {
         $usuario = Auth::user();
-        $usuario->libros()->updateExistingPivot($libro->id, [ // <--- Usamos $libro->id
+        $usuario->libros()->updateExistingPivot($libro->id, [
             'estado' => $request->estado,
             'puntuacion' => $request->puntuacion
         ]);
@@ -126,13 +78,10 @@ class LibroController extends Controller
 
     public function eliminar(Libro $libro)
     {
-        // Ahora sí comprobamos que el libro te pertenece a ti
         if ($libro->user_id !== Auth::id()) {
             abort(403, 'No puedes borrar un libro que no has añadido tú.');
         }
 
-        // Al borrar el libro (delete), Laravel también debería limpiar 
-        // la tabla intermedia si tienes configurado el "onDelete cascade"
         $libro->delete();
 
         return redirect()->back()->with('success', '¡Libro eliminado de tu estantería!');
