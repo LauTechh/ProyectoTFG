@@ -53,9 +53,7 @@ Route::get('/libros/buscar', [LibroController::class, 'buscar'])->name('libros.b
 Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
 
     // --- PERFIL Y AVATAR ---
-    Route::get('/perfil', function () {
-        return view('perfil');
-    })->name('perfil');
+    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
 
     Route::get('/perfil/editar-avatar', [PerfilController::class, 'editarAvatar'])->name('perfil.editar-avatar');
     Route::put('/perfil/actualizar-avatar', [PerfilController::class, 'actualizarAvatar'])->name('perfil.actualizar-avatar');
@@ -72,6 +70,10 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
     Route::get('/salas', [SalaController::class, 'index'])->name('salas.index');
     Route::get('/salas/{tipo}', [SalaController::class, 'show'])->name('salas.show');
     Route::post('/salas/guardar', [SalaController::class, 'guardar'])->name('salas.guardar');
+
+    // 🎯 ESTA ES LA RUTA NUEVA PARA EL PULSO AUTOMÁTICO
+    Route::post('/salas/registrar-pulso', [SalaController::class, 'registrarPulso'])->name('salas.pulso');
+
 
     // --- SISTEMA DE AMIGOS ---
     Route::get('/buscar-amigos', [AmigoController::class, 'index'])->name('amigos.index');

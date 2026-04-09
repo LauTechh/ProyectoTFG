@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/componentes/estanteria.css',
                 'resources/css/componentes/salas.css',
                 'resources/js/app.js',
+                'resources/css/perfil.css',
             ],
             refresh: true,
         }),

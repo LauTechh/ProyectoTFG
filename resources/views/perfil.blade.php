@@ -63,10 +63,24 @@
         </div>
 
         <details class="datos-usuario-desplegable">
-            <summary>Mis datos de usuario</summary>
+            <summary>📊 Mis Estadísticas Patatiles</summary>
             <div class="contenido-datos">
                 <p><strong>Nombre:</strong> {{ Auth::user()->name }}</p>
                 <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+
+                <hr class="separador-perfil" style="margin: 10px 0;">
+
+
+
+                <p>
+                    <strong>⏱️ Tiempo de enfoque:</strong>
+                    @if(isset($minutosTotales) && $minutosTotales > 0)
+                    {{ $minutosTotales }} minutos
+                    @else
+                    ¡Todavía no has entrado en ninguna sala!
+                    @endif
+                </p>
+
                 <p><strong>ADN Patata:</strong> {{ Auth::user()->avatar_base }}, {{ Auth::user()->avatar_ojos }}</p>
             </div>
         </details>

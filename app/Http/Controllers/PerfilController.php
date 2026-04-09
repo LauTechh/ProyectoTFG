@@ -53,4 +53,27 @@ class PerfilController extends Controller
 
         return back()->with('success', '¡Nombre actualizado, patata corta! 🥔✨');
     }
+
+    public function index() // Asegúrate de que tu ruta en web.php apunte a 'index'
+    {
+        $user = auth()->user();
+
+        // 1. Género favorito (mantenlo en null hasta que tengas la tabla de libros lista)
+        $generoFavorito = null;
+
+        // 2. Tiempo de estudio: Forzamos la consulta a la tabla correcta
+        // Usamos el ID del usuario logueado para sumar sus segundos
+        $segundosTotales = \App\Models\SesionEstudio::where('user_id', $user->id)
+            ->sum('segundos') ?? 0;
+
+        // Convertimos a minutos (ej: 180s / 60 = 3)
+        $minutosTotales = floor($segundosTotales / 60);
+
+        // 3. Enviamos todo a la vista 'perfil'
+        return view('perfil', [
+            'user' => $user,
+            'generoFavorito' => $generoFavorito,
+            'minutosTotales' => $minutosTotales
+        ]);
+    }
 }

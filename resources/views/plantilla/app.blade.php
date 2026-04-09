@@ -11,7 +11,7 @@
     {{-- Esta es la línea que le da permiso a biblioteca.js para guardar --}}
     <meta name="route-guardar-libro" content="{{ route('libros.guardar') }}">
 
-    
+
     <title>Patata Social Network</title>
 
     {{-- Icono de la web --}}
@@ -34,12 +34,12 @@
 </head>
 
 <body class="antialiased {{ Auth::check() ? 'esta-logueado' : 'es-invitado' }}"
+    data-sala="@yield('clase-body', 'otra')"
     style="background-image: url('{{ Auth::check() ? asset('img/fondo/fondo2.png') : asset('img/fondo/fondo1.png') }}') !important; 
-           background-size: cover !important; 
-           background-attachment: fixed !important; 
-           background-repeat: no-repeat !important; 
-           background-color: transparent !important;">
-
+             background-size: cover !important; 
+             background-attachment: fixed !important; 
+             background-repeat: no-repeat !important; 
+             background-color: transparent !important;">
     {{-- Nav principal --}}
     @include('componentes.nav')
 
@@ -54,6 +54,38 @@
     <main class="diseño-contenido-principal">
         @yield('content')
     </main>
+
+    {{-- Script del Cronómetro Automático --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const salaActual = document.body.dataset.sala;
+
+            // Solo funciona si hay una sala detectada y no es 'otra'
+            if (salaActual && salaActual !== 'otra') {
+                console.log("⏱️ Cronómetro iniciado en: " + salaActual);
+
+                setInterval(() => {
+                    fetch("{{ route('salas.pulso') }}", { // Asegúrate de que la ruta se llame así en web.php
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({
+                                sala: salaActual
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log("✅ 30 segundos registrados en " + salaActual);
+                        })
+                        .catch(err => {
+                            console.error("❌ Error en el pulso:", err);
+                        });
+                }, 30000);
+            }
+        });
+    </script>
 
 </body>
 

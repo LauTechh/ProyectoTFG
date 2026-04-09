@@ -189,3 +189,12 @@
     margin: 20px auto;
     /* El 'auto' lo mantiene centrado si el padre es flexible */
 }
+
+.badge-tiempo {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid #fde68a;
+}
