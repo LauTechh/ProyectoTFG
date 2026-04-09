@@ -28,17 +28,18 @@ public function buscar(Request $request)
 PARA CONECTAR CON LIBROS FALSOS DE PRUEBA
 ========================================================================
 
-
- public function buscar(Request $request)
+  public function buscar(Request $request)
     {
+        // 1. Recogemos lo que el usuario escribió
         $query = $request->input('query');
+        $libros = [];
 
+        // 2. Si no hay búsqueda, se quedan en el buscador (index)
         if (!$query) {
-            return view('libros.resultados', ['libros' => []]);
+            return view('libros.index', ['libros' => []]);
         }
 
-        // --- COMIENZA EL TRUCO DEL ALMENDRUCO ---
-        // Creamos una lista de libros falsos para que puedas trabajar sin conexión a Google
+        // 3. TUS LIBROS FALSOS (Para pruebas estéticas)
         $libros = [
             [
                 'volumeInfo' => [
@@ -66,32 +67,9 @@ PARA CONECTAR CON LIBROS FALSOS DE PRUEBA
             ]
         ];
 
-        // Devolvemos la vista con estos libros falsos
+        // 4. 🎯 ¡EL CAMBIO! Ahora devolvemos la vista de resultados
         return view('libros.resultados', compact('libros'));
-        // --- TERMINA EL TRUCO DEL ALMENDRUCO ---
-
-
-        /* Mantenemos esto comentado para que no se pierda, 
-       lo activaremos cuando Google nos perdone:
-
-    try {
-        $response = Http::withoutVerifying()
-            ->timeout(10)
-            ->get("https://www.googleapis.com/books/v1/volumes", [
-                'q' => $query,
-                'maxResults' => 20,
-            ]);
-
-        if ($response->successful()) {
-            $datos = $response->json();
-            $libros = $datos['items'] ?? [];
-            return view('libros.resultados', compact('libros'));
-        }
-        ...
-    } catch (\Exception $e) { ... }
-    */
     }
-
 
 
 

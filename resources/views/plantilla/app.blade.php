@@ -11,6 +11,7 @@
     {{-- Esta es la línea que le da permiso a biblioteca.js para guardar --}}
     <meta name="route-guardar-libro" content="{{ route('libros.guardar') }}">
 
+    
     <title>Patata Social Network</title>
 
     {{-- Icono de la web --}}
@@ -22,7 +23,8 @@
     'resources/css/componentes/libros.css',
     'resources/css/componentes/estanteria.css',
     'resources/css/componentes/salas.css',
-    'resources/js/app.js'
+    'resources/js/app.js',
+    'resources/js/biblioteca.js'
     ])
 
     {{-- CSS de emergencia (si existe) --}}

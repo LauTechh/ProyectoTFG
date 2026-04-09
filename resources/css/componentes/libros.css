@@ -1,88 +1,57 @@
-.tarjeta-libro-estanteria {
-    background-color: rgba(255, 253, 240, 0.85) !important;
-    width: 200px !important;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s ease;
-}
-
-.fila-libro-compacta {
-    display: flex;
-    /* Pone la info y el botón en la misma línea */
-    justify-content: space-between;
-    /* Empuja el botón al final de la fila */
-    align-items: center;
-    /* Centra el botón verticalmente con la imagen */
-    padding: 15px;
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.btn-compacto-add {
-    background-color: #f97316;
-    color: white;
-    border-radius: 0.75rem;
-    font-weight: 700;
-}
-
-/* =============================================================
-   BLOQUE DE BÚSQUEDA (Reutilizando tu estética)
-   ============================================================= */
-
-/* Para que las filas de libros tengan aire */
+/* --- CONTENEDOR DE LISTAS --- */
 .lista-resultados {
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;
+    width: 100%;
 }
 
-/* La tarjeta de cada libro: usamos tu color de fondo de perfil */
-.fila-libro {
-    background: white;
-    /* Resalta sobre el fondo beige */
-    padding: 15px;
-    border-radius: 20px;
+/* --- TARJETA DE LIBRO (Usada en Resultados y Home) --- */
+.fila-libro,
+.tarjeta-libro-lista {
     display: flex;
     align-items: center;
-    gap: 20px;
-    border: 1px solid rgba(184, 115, 51, 0.1);
-    transition: transform 0.2s;
+    background: white;
+    padding: 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(254, 215, 170, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease;
 }
 
-.fila-libro:hover {
-    transform: scale(1.01);
+.fila-libro:hover,
+.tarjeta-libro-lista:hover {
+    transform: translateY(-5px);
+    border-color: #fb923c;
 }
 
-/* Reutilizamos tus radios de borde y colores */
 .portada-libro-resultado {
-    width: 60px;
-    height: 90px;
+    width: 70px;
+    height: 100px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
+    margin-right: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* --- INFORMACIÓN DEL LIBRO --- */
 .info-libro {
     flex: 1;
 }
 
 .info-libro h3 {
-    margin: 0;
     color: #7c2d12;
+    margin: 0;
     font-size: 1.1rem;
 }
 
 .info-libro p {
-    margin: 5px 0;
     color: #8b5e3c;
+    margin: 5px 0;
     font-size: 0.9rem;
 }
 
-/* Etiquetas de género con tus colores tierra */
 .etiqueta-genero {
     background: #fef3c7;
     color: #92400e;
@@ -90,126 +59,42 @@
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: bold;
+    display: inline-block;
 }
 
-.buscador-seccion-resultados {
-    padding: 20px 0;
-    margin-bottom: 20px;
-}
-
-.buscador-flex {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-}
-
-.buscador-flex .auth-input {
-    flex: 1;
-    /* El input se estira todo lo posible */
-}
-
-/* =============================================================
-   ESTANTERÍA (REUTILIZANDO PERFIL Y BÚSQUEDA)
-   ============================================================= */
-
-/* Reutilizamos la lógica de rejilla pero con tus tarjetas blancas */
-.rejilla-estanteria {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-/* La tarjeta es una mezcla de .fila-libro pero en vertical */
-.tarjeta-libro-estanteria {
-    background: white;
-    padding: 20px;
-    border-radius: 25px;
-    /* Como tus tarjetas de auth */
-    border: 1px solid rgba(184, 115, 51, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 15px;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.tarjeta-libro-estanteria:hover {
-    transform: translateY(-5px);
-}
-
-/* Imagen de portada usando tu estilo de sombra */
-.img-portada-estanteria {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Selects que encajen con tus inputs */
-.select-estanteria {
-    width: 100%;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    color: #5d4037;
-    background: #fffdf0;
-    /* Tu color crema */
-    font-size: 0.9rem;
-}
-
-.btn-eliminar-red {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 0.8rem;
-    cursor: pointer;
-    margin-top: 10px;
-    text-decoration: underline;
-}
-
-
-
-
-
-
-
-
-
-
-/* Estilo base del botón añadir */
-.btn-compacto-add {
+/* --- EL BOTÓN DE AÑADIR (Naranja) --- */
+.btn-compacto-add,
+.btn-añadir-naranja {
     background-color: #f97316;
-    /* Tu naranja */
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
-    font-family: inherit;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Efecto al pasar el ratón */
-.btn-compacto-add:hover {
+.btn-compacto-add:hover,
+.btn-añadir-naranja:hover {
     background-color: #ea580c;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
 }
 
-/* Efecto cuando se hace click */
-.btn-compacto-add:active {
-    transform: translateY(0);
+.btn-compacto-add:disabled {
+    background-color: #a8a29e;
+    cursor: not-allowed;
 }
 
-/* Por si quieres que el de invitado se vea un pelín diferente (opcional) */
-/* .btn-compacto-add.invitado { background-color: #fb923c; } */
-.acciones-libro {
-    margin-left: auto;
-    /* Esto empuja el botón a la derecha de la fila */
+/* --- EL TOAST DE ÉXITO (El que sale arriba) --- */
+.toast-exito {
+    background: #4ade80;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

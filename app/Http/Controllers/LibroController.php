@@ -14,19 +14,19 @@ class LibroController extends Controller
         return view('libros.index');
     }
 
+
     public function buscar(Request $request)
     {
-        // 1. Recogemos lo que el usuario escribió (ya sea en el Nav o en la página)
+        // 1. Recogemos lo que el usuario escribió
         $query = $request->input('query');
         $libros = [];
 
-        // 2. Si no hay búsqueda (primera vez que entra), mandamos a la vista con lista vacía
+        // 2. Si no hay búsqueda, se quedan en el buscador (index)
         if (!$query) {
             return view('libros.index', ['libros' => []]);
         }
 
-        // 3. Si hay búsqueda, cargamos los libros falsos (El Truco del Almendruco)
-        // Nota: Más adelante aquí pondremos la conexión real a Google Books
+        // 3. TUS LIBROS FALSOS (Para pruebas estéticas)
         $libros = [
             [
                 'volumeInfo' => [
@@ -54,17 +54,61 @@ class LibroController extends Controller
             ]
         ];
 
-        // 4. Devolvemos SIEMPRE a 'libros.index' para que se vea el buscador
-        return view('libros.index', compact('libros'));
+        // 4. 🎯 ¡EL CAMBIO! Ahora devolvemos la vista de resultados
+        return view('libros.resultados', compact('libros'));
     }
+
+    public function guardar(Request $request)
+    {
+        try {
+            // 1. Buscamos o creamos el libro en la tabla 'libros'
+            $libro = \App\Models\Libro::firstOrCreate(
+                ['title' => $request->titulo, 'author' => $request->autor],
+                [
+                    'cover_url' => $request->portada,
+                    'genre' => $request->genero ?? 'Varios',
+                    'user_id' => auth()->id() // Mantenemos esto por si tu DB lo pide
+                ]
+            );
+
+            // 2. ¡ESTO ES LO QUE LLENA TU ESTANTERÍA!
+            // Forzamos la inserción en la tabla intermedia book_user
+            \DB::table('book_user')->updateOrInsert(
+                [
+                    'user_id' => auth()->id(),
+                    'book_id' => $libro->id
+                ],
+                [
+                    'estado' => 'por_leer',
+                    'puntuacion' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
+
+            return response()->json(['success' => true, 'message' => '¡Patata guardada! 🥔']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+
 
     public function miEstanteria()
     {
-        $usuario = Auth::user();
+        $usuario = \App\Models\User::find(auth()->id());
+
+        // Obtenemos los libros usando la relación que definimos en User.php
         $books = $usuario->libros()->withPivot('estado', 'puntuacion')->get();
 
         return view('libros.estanteria', compact('books'));
     }
+
+
+
+
+
 
     public function actualizarEstanteria(Request $request, Libro $libro)
     {
