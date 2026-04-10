@@ -24,24 +24,8 @@
             ✨ Terminar y ver progreso
         </a>
 
-        <a href="{{ route('salas.index') }}" class="btn-volver-atras" style="text-decoration: none;">❌ Salir</a>
+        <a href="{{ route('salas.index') }}" class="btn-volver-atras" style="text-decoration: none;">❌ Salir sin guardar</a>
     </div>
 
-    <script>
-        // Mantenemos el cronómetro VISUAL para que Paula vea su progreso
-        let segundosTotales = 0;
-        const display = document.getElementById('timer');
-
-        setInterval(() => {
-            segundosTotales++;
-
-            let hrs = Math.floor(segundosTotales / 3600);
-            let mins = Math.floor((segundosTotales % 3600) / 60);
-            let secs = segundosTotales % 60;
-
-            display.innerText =
-                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }, 1000);
-    </script>
 </div>
 @endsection

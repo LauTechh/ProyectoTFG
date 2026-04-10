@@ -23,8 +23,8 @@
     'resources/css/componentes/libros.css',
     'resources/css/componentes/estanteria.css',
     'resources/css/componentes/salas.css',
-    'resources/js/app.js',
-    'resources/js/biblioteca.js'
+    'resources/js/app.js'
+    // ❌ QUITA de aquí la línea de 'resources/js/biblioteca.js'
     ])
 
     {{-- CSS de emergencia (si existe) --}}

@@ -1,7 +1,8 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
 import './avatar-preview';
-import './biblioteca'; // Importado una sola vez, ¡perfecto!
+import './biblioteca';
+import './cronometro';
 
 // Hace que 'Swal' sea accesible globalmente para usarlo en cualquier parte
 window.Swal = Swal;
