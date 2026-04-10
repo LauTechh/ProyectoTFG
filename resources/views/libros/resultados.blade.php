@@ -30,6 +30,7 @@
             @php
             $info = $libro['volumeInfo'];
             $portada = $info['imageLinks']['thumbnail'] ?? asset('img/no-portada.png');
+            $generoNivelado = $libro['genero_nuestro'] ?? 'Ficción';
             @endphp
 
             <div class="fila-libro">
@@ -38,7 +39,9 @@
                 <div class="info-libro">
                     <h3>{{ $info['title'] ?? 'Sin título' }}</h3>
                     <p>{{ implode(', ', $info['authors'] ?? ['Autor desconocido']) }}</p>
-                    <span class="etiqueta-genero">{{ $info['categories'][0] ?? 'Lectura' }}</span>
+                    <span class="etiqueta-genero">
+                        {{ $libro['genero_nuestro'] ?? 'Ficción' }}
+                    </span>
                 </div>
 
                 <div class="acciones-libro">
@@ -47,6 +50,8 @@
                         onclick="añadirLibroSinRecargar(this)"
                         data-title="{{ $info['title'] ?? '' }}"
                         data-author="{{ implode(', ', $info['authors'] ?? []) }}"
+
+                        data-genre="{{ $libro['genero_nuestro'] ?? 'Ficción' }}"
                         data-cover="{{ $portada }}">
                         + Añadir
                     </button>

@@ -61,6 +61,10 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
 
     // --- ESTANTERÍA Y GESTIÓN DE LIBROS ---
     Route::get('/mi-estanteria', [LibroController::class, 'miEstanteria'])->name('libros.estanteria');
+
+    // 🔍 NUEVA RUTA PARA EL FILTRO AJAX
+    Route::get('/estanteria/filtrar', [LibroController::class, 'filtrar'])->name('libros.filtrar');
+
     Route::get('/libros', [LibroController::class, 'inicio'])->name('libros.inicio');
     Route::post('/libros/guardar', [LibroController::class, 'guardar'])->name('libros.guardar')->middleware('auth');
     Route::delete('/libros/{libro}', [LibroController::class, 'eliminar'])->name('libros.eliminar');

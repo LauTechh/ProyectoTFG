@@ -1,15 +1,12 @@
 // resources/js/biblioteca.js
 
-
 console.log("✅ El archivo biblioteca.js ha sido cargado por el navegador.");
 
-
+// --- 1. FUNCIÓN PARA AÑADIR LIBROS (AJAX) ---
 window.añadirLibroSinRecargar = function (btn) {
-    // 1. Buscamos los metas con seguridad
     const metaToken = document.querySelector('meta[name="csrf-token"]');
     const metaRoute = document.querySelector('meta[name="route-guardar-libro"]');
 
-    // Comprobación de seguridad: Si no existen, avisamos y paramos
     if (!metaToken || !metaRoute) {
         console.warn("⚠️ Falta configuración de metadatos en el layout.");
         return;
@@ -18,13 +15,10 @@ window.añadirLibroSinRecargar = function (btn) {
     const token = metaToken.getAttribute('content');
     const urlGuardar = metaRoute.getAttribute('content');
 
-    // Desactivamos el botón para evitar doble click
     btn.disabled = true;
     const textoOriginal = btn.innerText;
     btn.innerText = "Guardando...";
 
-    // Dentro de biblioteca.js, cambia esto:
-    // Dentro de biblioteca.js
     const datos = {
         titulo: btn.getAttribute('data-title'),
         autor: btn.getAttribute('data-author'),
@@ -38,7 +32,7 @@ window.añadirLibroSinRecargar = function (btn) {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': token // Es buena práctica enviarlo también en la cabecera
+            'X-CSRF-TOKEN': token
         },
         body: JSON.stringify(datos)
     })
@@ -51,25 +45,20 @@ window.añadirLibroSinRecargar = function (btn) {
                 const alertaDiv = document.getElementById('alerta-ajax');
                 const alertaMensaje = document.getElementById('alerta-mensaje');
 
-                // 1. Mostramos la alerta superior y se queda ahí o se va sola
                 if (alertaMensaje) alertaMensaje.innerText = "✨ " + data.message;
                 if (alertaDiv) alertaDiv.style.display = 'block';
 
-                // 2. Feedback visual inmediato en el botón
                 btn.innerText = "✅ ¡Añadido!";
                 btn.style.backgroundColor = "#4CAF50";
                 btn.style.color = "white";
 
-                // 3. REINICIO DEL BOTÓN: Después de 2 segundos, vuelve a ser clicable
                 setTimeout(() => {
                     btn.disabled = false;
                     btn.innerText = "+ Añadir";
-                    // Limpiamos los estilos en línea para que vuelva a usar los de tu CSS (layout.css)
                     btn.style.backgroundColor = "";
                     btn.style.color = "";
                 }, 2000);
 
-                // 4. La alerta de arriba sí la quitamos después de un rato para no estorbar
                 setTimeout(() => {
                     if (alertaDiv) alertaDiv.style.display = 'none';
                 }, 4000);
@@ -85,4 +74,42 @@ window.añadirLibroSinRecargar = function (btn) {
             btn.disabled = false;
             btn.innerText = textoOriginal;
         });
-}
+};
+
+// --- 2. LÓGICA PARA FILTRAR POR GÉNERO (NUEVO) ---
+document.addEventListener('click', function (e) {
+    // Verificamos si lo que se ha pulsado es un botón de filtro
+    if (e.target && e.target.classList.contains('btn-filtro')) {
+        const boton = e.target;
+        const genero = boton.getAttribute('data-genero');
+        const contenedor = document.getElementById('contenedor-libros-ajax');
+
+        // 1. Efecto visual: botón activo
+        document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
+        boton.classList.add('active');
+
+        // 2. Animación de carga (opcional pero queda profesional)
+        if (contenedor) contenedor.style.opacity = '0.5';
+
+        // 3. Petición al servidor (usa encodeURIComponent por si el género tiene espacios)
+        fetch(`/estanteria/filtrar?genero=${encodeURIComponent(genero)}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Error al filtrar');
+                return response.json();
+            })
+            .then(data => {
+                if (contenedor) {
+                    contenedor.innerHTML = data.html;
+                    contenedor.style.opacity = '1';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (contenedor) contenedor.style.opacity = '1';
+            });
+    }
+});

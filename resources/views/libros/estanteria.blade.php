@@ -4,7 +4,8 @@
 <div class="contenedor-estanteria-manual">
     <h2 class="titulo-biblioteca">Mi Estantería de Patatas 🥔</h2>
 
-    <div class="rejilla-libros">
+    {{-- 1. Quitamos el ">" extra que rompía el Grid --}}
+    <div class="rejilla-libros" id="contenedor-libros-ajax">
         @forelse($books as $book)
         <div class="tarjeta-libro-estanteria">
 
@@ -23,12 +24,28 @@
                     @method('PUT')
 
                     <div class="fila-control">
-                        <span>Estado</span>
-                        <select name="estado" onchange="this.form.submit()" class="select-estanteria">
-                            <option value="por_leer" {{ $book->pivot->estado == 'por_leer' ? 'selected' : '' }}>📖 Por leer</option>
-                            <option value="leyendo" {{ $book->pivot->estado == 'leyendo' ? 'selected' : '' }}>👓 Leyendo</option>
-                            <option value="leido" {{ $book->pivot->estado == 'leido' ? 'selected' : '' }}>✅ Leído</option>
-                        </select>
+                        <span style="font-weight: 700; color: #8b5e3c;">Género</span>
+                        <strong class="etiqueta-lectura">
+                            @switch($book->genre)
+                            @case('Fantasía') 🧚‍♀️ Fantasía @break
+                            @case('Romance') 💖 Romance @break
+                            @case('Terror') 👻 Terror @break
+                            @case('Ciencia Ficción') 🚀 Ciencia Ficción @break
+                            @case('Aventura') 🗺️ Aventura @break
+                            @case('Historia') 📜 Historia @break
+                            @case('Clásicos') 🏛️ Clásicos @break
+                            @default 📚 {{ $book->genre ?? 'Ficción' }}
+                            @endswitch
+                        </strong>
+                    </div>
+
+                    <div class="fila-control">
+                        <spanstyle="font-weight: 700; color: #8b5e3c;">Estado</span>
+                            <select name="estado" onchange="this.form.submit()" class="select-estanteria">
+                                <option value="por_leer" {{ $book->pivot->estado == 'por_leer' ? 'selected' : '' }}>📖 Por leer</option>
+                                <option value="leyendo" {{ $book->pivot->estado == 'leyendo' ? 'selected' : '' }}>👓 Leyendo</option>
+                                <option value="leido" {{ $book->pivot->estado == 'leido' ? 'selected' : '' }}>✅ Leído</option>
+                            </select>
                     </div>
 
                     <div class="fila-control">
@@ -43,17 +60,18 @@
                     </div>
                 </form>
 
-                <form action="{{ route('libros.eliminar', $book) }}" method="POST" onsubmit="return confirm('¿Borrar esta patata?')">
+                <form action="{{ route('libros.eliminar', $book->id) }}" method="POST" onsubmit="return confirm('¿Borrar esta patata?')">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-eliminar-manual">Eliminar de la red</button>
+                    <button type="submit" class="btn-eliminar-manual">
+                        Eliminar de la estanteria
+                    </button>
                 </form>
             </div>
-
         </div>
         @empty
         <p style="color: white; text-align: center; width: 100%;">Aún no tienes libros. 🥔</p>
         @endforelse
-    </div>
-</div>
+    </div> {{-- Cierre de rejilla-libros --}}
+</div> {{-- Cierre de contenedor-estanteria-manual --}}
 @endsection

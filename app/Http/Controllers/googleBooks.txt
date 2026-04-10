@@ -2,27 +2,37 @@
 PARA CONECTAR CON GOOGLE EN LIBROSCONTOLLER
 ========================================================================
 
-public function buscar(Request $request)
-{
-    $query = $request->input('query');
-    if (!$query) return view('libros.resultados', ['libros' => []]);
+ public function buscar(Request $request)
+    {
+        $query = $request->input('query');
+        if (!$query) return view('libros.resultados', ['libros' => []]);
 
-    try {
-        $response = \Illuminate\Support\Facades\Http::withoutVerifying()
-            ->timeout(10) // Si tarda más de 10s, dejamos de esperar
-            ->get("https://www.googleapis.com/books/v1/volumes", [
-                'q' => $query,
-                'maxResults' => 20,
-            ]);
+        try {
+            $response = \Illuminate\Support\Facades\Http::withoutVerifying()
+                ->timeout(10) // Si tarda más de 10s, dejamos de esperar
+                ->get("https://www.googleapis.com/books/v1/volumes", [
+                    'q' => $query,
+                    'maxResults' => 20,
+                ]);
 
-        $libros = $response->json()['items'] ?? [];
-    } catch (\Exception $e) {
-        // Si falla la red, enviamos una lista vacía para que no explote la web
-        $libros = [];
+            $libros = $response->json()['items'] ?? [];
+
+
+
+            // 🎯 PROCESAMOS LOS GÉNEROS AQUÍ
+            foreach ($libros as &$libro) {
+                $generoOriginal = $libro['volumeInfo']['categories'][0] ?? 'Varios';
+                // Creamos la etiqueta traducida para la vista
+                $libro['genero_nuestro'] = $this->traducirGenero($generoOriginal);
+            }
+        } catch (\Exception $e) {
+            // Si falla la red, enviamos una lista vacía para que no explote la web
+            $libros = [];
+        }
+
+        return view('libros.resultados', compact('libros'));
     }
 
-    return view('libros.resultados', compact('libros'));
-}
 
 ========================================================================
 PARA CONECTAR CON LIBROS FALSOS DE PRUEBA
@@ -74,3 +84,51 @@ PARA CONECTAR CON LIBROS FALSOS DE PRUEBA
 
 
 
+========================================================================
+ public function buscar(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (!$query) {
+            return view('libros.index', ['libros' => []]);
+        }
+
+        // 1. TUS LIBROS FALSOS (o los que vengan de la API)
+        $libros = [
+            [
+                'volumeInfo' => [
+                    'title' => 'El misterio de la patata dorada',
+                    'authors' => ['Pepe Patatón'],
+                    'categories' => ['Aventura'], // Google diría algo como "Action & Adventure"
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/f97316/ffffff?text=Libro+1']
+                ]
+            ],
+            [
+                'volumeInfo' => [
+                    'title' => 'Laravel para mentes inquietas',
+                    'authors' => ['Programadora Estrella'],
+                    'categories' => ['Computers'], // Esto lo traduciremos a Ficción o Tecnología
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/fb923c/ffffff?text=Libro+2']
+                ]
+            ],
+            [
+                'volumeInfo' => [
+                    'title' => 'Harry Potter y la API bloqueada',
+                    'authors' => ['J.K. Rowling'],
+                    'categories' => ['Juvenile Fiction / Fantasy'],
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/fdba74/ffffff?text=Libro+3']
+                ]
+            ]
+        ];
+
+        // 2. 🎯 PROCESAMOS LOS GÉNEROS ANTES DE ENVIARLOS A LA VISTA
+        foreach ($libros as &$libro) {
+            // Obtenemos el género original (el primero de la lista o 'Varios')
+            $generoOriginal = $libro['volumeInfo']['categories'][0] ?? 'Varios';
+
+            // Creamos una nueva clave 'genero_nuestro' con la traducción
+            $libro['genero_nuestro'] = $this->traducirGenero($generoOriginal);
+        }
+
+        return view('libros.resultados', compact('libros'));
+    }
