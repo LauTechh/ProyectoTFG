@@ -17,9 +17,9 @@
                         📚 Mi Estantería
                     </a>
 
-                    <button class="btn-perfil-navegacion btn-deshabilitado" title="Próximamente...">
+                    <a href="{{ url('/buscar-amigos?tab=mis-amigos') }}" class="btn-perfil-navegacion">
                         👥 Mis Amigos
-                    </button>
+                    </a>
                 </div>
 
                 <hr class="separador-perfil">

@@ -78,4 +78,15 @@ class User extends Authenticatable
 
         return $enviados->merge($recibidos);
     }
+    /**
+     * Relación de amigos: Usuarios que han aceptado la solicitud
+     */
+    public function amigos()
+    {
+        // Esta relación conecta User con User a través de la tabla 'amigos'
+        // 'usuario_id' es el que envía, 'amigo_id' es el que recibe
+        return $this->belongsToMany(User::class, 'amigos', 'usuario_id', 'amigo_id')
+            ->wherePivot('estado', 'aceptada') // Solo los confirmados
+            ->withPivot('estado');
+    }
 }

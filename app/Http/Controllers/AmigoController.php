@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Amigo;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -143,5 +144,34 @@ class AmigoController extends Controller
         }
 
         return back()->with('error', 'No se pudo encontrar la relación.');
+    }
+
+
+
+    public function visitarPerfil($id)
+    {
+        $userId = auth()->id();
+
+        // 1. Buscamos al amigo
+        $amigo = User::findOrFail($id);
+
+        // 2. Verificamos si existe una relación ACEPTADA entre ambos
+        // Da igual si tú eres usuario_id o amigo_id
+        $sonAmigos = \App\Models\Amigo::where('estado', 'aceptada')
+            ->where(function ($q) use ($userId, $id) {
+                $q->where(function ($q2) use ($userId, $id) {
+                    $q2->where('usuario_id', $userId)->where('amigo_id', $id);
+                })->orWhere(function ($q2) use ($userId, $id) {
+                    $q2->where('usuario_id', $id)->where('amigo_id', $userId);
+                });
+            })->exists();
+
+        // 3. Si no son amigos, mandamos error y volvemos atrás
+        if (!$sonAmigos) {
+            return redirect()->back()->with('error', '¡Solo puedes visitar perfiles de amigos confirmados!');
+        }
+
+        // 4. Si todo está ok, vamos a tu vista
+        return view('amigos.perfil-amigo', compact('amigo'));
     }
 }

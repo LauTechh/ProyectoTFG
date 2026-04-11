@@ -86,4 +86,10 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
     Route::post('/amigos/aceptar/{id}', [AmigoController::class, 'aceptarSolicitud'])->name('amigos.aceptar');
     Route::post('/amigos/rechazar/{id}', [AmigoController::class, 'rechazarSolicitud'])->name('amigos.rechazar');
     Route::delete('/amigos/eliminar/{id}', [AmigoController::class, 'eliminarAmigo'])->name('amigos.eliminar');
+
+
+    // Ponla cerca de tus rutas de perfil o amigos
+    Route::get('/visitar-perfil/{id}', [AmigoController::class, 'visitarPerfil'])
+        ->name('amigos.visitar')
+        ->middleware('auth');
 }); // <-- Asegúrate de que termine con });

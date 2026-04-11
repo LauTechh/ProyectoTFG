@@ -12,6 +12,8 @@ export default defineConfig({
                 'resources/css/componentes/salas.css',
                 'resources/js/app.js',
                 'resources/css/perfil.css',
+                'resources/css/perfil.css',
+                'resources/css/perfil-amigo.css',
             ],
             refresh: true,
         }),

@@ -1,6 +1,19 @@
 /* ==========================================================================
    COMPONENTES ESPECÍFICOS DEL PERFIL
    ========================================================================== */
+.contenedor-perfil-layout {
+    margin-top: 100px;
+    /* <--- Ajusta este número según la altura de tu nav */
+    padding-bottom: 50px;
+    /* Para que no quede pegado abajo también */
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 /* 1. LA TARJETA DECORATIVA (Columna Izquierda) */
 .tarjeta-decorativa {
