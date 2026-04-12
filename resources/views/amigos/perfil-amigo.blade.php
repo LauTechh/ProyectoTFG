@@ -44,7 +44,14 @@
                 </p>
             </div>
 
-            <div style="margin-top: 25px;">
+            {{-- GRUPO DE BOTONES --}}
+            <div class="grupo-botones-vertical" style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
+
+                {{-- Nuevo botón para la estantería específica del amigo --}}
+                <a href="{{ url('/buscar-libros-amigo/' . $amigo->id) }}" class="btn-perfil-navegacion" style="background-color: #fff7ed; border-color: #fb923c;">
+                    📚 La estantería de {{ $amigo->name }}
+                </a>
+
                 <a href="{{ url('/buscar-amigos?tab=mis-amigos') }}" class="btn-perfil-navegacion">
                     ⬅ Volver a mis amigos
                 </a>

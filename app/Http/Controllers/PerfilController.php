@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // <--- AÑADE ESTA LÍNEA
+use App\Models\User; // Asegúrate de tener el import arriba
 
 class PerfilController extends Controller
 {
@@ -75,5 +76,20 @@ class PerfilController extends Controller
             'generoFavorito' => $generoFavorito,
             'minutosTotales' => $minutosTotales
         ]);
+    }
+
+
+
+
+    public function verEstanteriaAmigo($id)
+    {
+        // 1. Buscamos al amigo
+        $amigo = User::findOrFail($id);
+
+        // 2. IMPORTANTE: Usamos "libros" porque así se llama en tu modelo User.php
+        $books = $amigo->libros;
+
+        // 3. Pasamos los datos a la vista
+        return view('amigos.estanteria-amigo', compact('amigo', 'books'));
     }
 }
