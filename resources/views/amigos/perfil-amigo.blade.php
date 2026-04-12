@@ -48,10 +48,10 @@
             <div class="grupo-botones-vertical" style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
 
                 {{-- Nuevo botón para la estantería específica del amigo --}}
-                <a href="{{ url('/buscar-libros-amigo/' . $amigo->id) }}" class="btn-perfil-navegacion" style="background-color: #fff7ed; border-color: #fb923c;">
-                    📚 La estantería de {{ $amigo->name }}
+                {{-- En el grupo de botones --}}
+                <a href="#seccion-estanteria" class="btn-perfil-navegacion" style="background-color: #fff7ed; border-color: #fb923c;">
+                    📚 Ver Estantería
                 </a>
-
                 <a href="{{ url('/buscar-amigos?tab=mis-amigos') }}" class="btn-perfil-navegacion">
                     ⬅ Volver a mis amigos
                 </a>
@@ -59,18 +59,40 @@
         </div>
     </div>
 
-    {{-- COLUMNA DERECHA (2/3): LA BIBLIOTECA --}}
-    <div class="columna-perfil-der">
+    {{-- COLUMNA DERECHA (2/3): CONTENIDO DINÁMICO --}}
+    <div class="columna-perfil-der" id="seccion-estanteria">
         <div class="tarjeta-decorativa shadow-sm" style="min-height: 500px; padding: 30px;">
             <h2 class="titulo-biblioteca">📚 Biblioteca de {{ $amigo->name }}</h2>
             <p class="text-muted">Echa un vistazo a lo que está leyendo tu amigo...</p>
 
             <hr class="separador-perfil">
 
-            {{-- Zona donde irán los libros --}}
-            <div class="zona-vacia-estanteria">
-                <span style="font-size: 3rem; opacity: 0.3;">📖</span>
-                <p>Cargando los libros de {{ $amigo->name }}...</p>
+            <div class="rejilla-libros-amigo" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+                @forelse($books as $book)
+                <div class="tarjeta-libro-estanteria">
+                    <div class="contenedor-portada-estanteria">
+                        <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" style="width: 100%; border-radius: 8px;">
+                    </div>
+                    <div class="cuerpo-tarjeta-estanteria" style="text-align: center; margin-top: 10px;">
+                        <h4 style="font-size: 0.9rem; margin-bottom: 5px;">{{ $book->title }}</h4>
+
+                        <div class="badge-estado" style="font-size: 0.8rem; background: #f3f4f6; border-radius: 12px; padding: 2px 8px; display: inline-block;">
+                            @if($book->pivot->estado == 'leyendo') 👓 Leyendo
+                            @elseif($book->pivot->estado == 'leido') ✅ Leído
+                            @else 📖 Por leer @endif
+                        </div>
+
+                        <div class="puntuacion-patatas" style="margin-top: 5px;">
+                            {{ str_repeat('🥔', $book->pivot->puntuacion ?? 0) }}
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="zona-vacia-estanteria" style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+                    <span style="font-size: 3rem; opacity: 0.3;">📖</span>
+                    <p>{{ $amigo->name }} aún no tiene libros en su estantería.</p>
+                </div>
+                @endforelse
             </div>
         </div>
     </div>

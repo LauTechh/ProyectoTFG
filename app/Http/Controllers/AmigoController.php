@@ -155,8 +155,7 @@ class AmigoController extends Controller
         // 1. Buscamos al amigo
         $amigo = User::findOrFail($id);
 
-        // 2. Verificamos si existe una relación ACEPTADA entre ambos
-        // Da igual si tú eres usuario_id o amigo_id
+        // 2. Verificamos si existe una relación ACEPTADA (Tu código está perfecto aquí)
         $sonAmigos = \App\Models\Amigo::where('estado', 'aceptada')
             ->where(function ($q) use ($userId, $id) {
                 $q->where(function ($q2) use ($userId, $id) {
@@ -166,12 +165,15 @@ class AmigoController extends Controller
                 });
             })->exists();
 
-        // 3. Si no son amigos, mandamos error y volvemos atrás
+        // 3. Si no son amigos, fuera
         if (!$sonAmigos) {
             return redirect()->back()->with('error', '¡Solo puedes visitar perfiles de amigos confirmados!');
         }
 
-        // 4. Si todo está ok, vamos a tu vista
-        return view('amigos.perfil-amigo', compact('amigo'));
+        // --- NUEVO PASO: Cargar los libros del amigo ---
+        $books = $amigo->libros; // Usamos 'libros' porque así se llama en tu modelo User
+
+        // 4. Enviamos AMBOS datos a la vista
+        return view('amigos.perfil-amigo', compact('amigo', 'books'));
     }
 }

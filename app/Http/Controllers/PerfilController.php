@@ -80,16 +80,13 @@ class PerfilController extends Controller
 
 
 
-
-    public function verEstanteriaAmigo($id)
+    public function visitarPerfil($id)
     {
-        // 1. Buscamos al amigo
         $amigo = User::findOrFail($id);
 
-        // 2. IMPORTANTE: Usamos "libros" porque así se llama en tu modelo User.php
+        // Cargamos los libros del amigo aquí mismo
         $books = $amigo->libros;
 
-        // 3. Pasamos los datos a la vista
-        return view('amigos.estanteria-amigo', compact('amigo', 'books'));
+        return view('amigos.perfil-amigo', compact('amigo', 'books'));
     }
 }
