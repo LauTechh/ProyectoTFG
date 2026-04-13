@@ -53,61 +53,72 @@
 
     {{-- COLUMNA DERECHA (2/3): CONTENIDO --}}
     <div class="columna-perfil-der">
-        {{-- He quitado el min-height inline y el fondo manual para que lo controle solo el CSS --}}
-        <div class="panel-contenido-principal shadow-sm">
-            {{-- PESTAÑA 1: ESTANTERÍA --}}
-            <div id="tab-estanteria" class="contenido-tab">
-                <h2 class="titulo-biblioteca">📚 Biblioteca de {{ $amigo->name }}</h2>
-                <p class="text-muted">Echa un vistazo a lo que está leyendo tu amigo...</p>
+        {{-- El marco transparente que ahora controla el CSS --}}
+        <div class="tarjeta-decorativa">
+            <div class="panel-contenido-principal">
 
-                <hr class="separador-perfil">
+                {{-- PESTAÑA 1: ESTANTERÍA --}}
+                <div id="tab-estanteria" class="contenido-tab">
+                    {{-- Nuevo Bloque: Cabecera Estructurada --}}
+                    <div class="header-biblioteca">
+                        <h2 class="titulo-biblioteca">📚 Biblioteca de {{ $amigo->name }}</h2>
+                        <span class="stats-biblioteca">{{ $books->count() }} Libros</span>
+                    </div>
 
-                <div class="rejilla-libros-amigo">
-                    @forelse($books as $book)
-                    <div class="tarjeta-libro-estanteria">
-                        <div class="contenedor-portada-estanteria">
-                            <img src="{{ $book->cover_url }}" alt="{{ $book->title }}">
-                        </div>
-                        <div class="cuerpo-tarjeta-estanteria">
-                            <h4 class="titulo-libro-amigo">{{ $book->title }}</h4>
+                    <div class="seccion-filtros">
+                        <p class="texto-informativo">Echa un vistazo a lo que está leyendo tu amigo...</p>
+                    </div>
 
-                            <div class="badge-estado">
-                                @if($book->pivot->estado == 'leyendo') 👓 Leyendo
-                                @elseif($book->pivot->estado == 'leido') ✅ Leído
-                                @else 📖 Por leer @endif
+                    <div class="rejilla-libros-amigo">
+                        @forelse($books as $book)
+                        <div class="tarjeta-libro-estanteria">
+                            <div class="contenedor-portada-estanteria">
+                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}">
                             </div>
 
-                            <div class="puntuacion-patatas">
-                                {{ str_repeat('🥔', $book->pivot->puntuacion ?? 0) }}
+                            <div class="info-libro-mini">
+                                <h4 class="titulo-libro-amigo">{{ $book->title }}</h4>
+
+                                <div class="badge-estado">
+                                    @if($book->pivot->estado == 'leyendo') 👓 Leyendo
+                                    @elseif($book->pivot->estado == 'leido') ✅ Leído
+                                    @else 📖 Por leer @endif
+                                </div>
+
+                                <div class="puntuacion-patatas">
+                                    {{ str_repeat('🥔', $book->pivot->puntuacion ?? 0) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @empty
-                    <div class="zona-vacia-estanteria">
-                        <span>📖</span>
-                        <p>{{ $amigo->name }} aún no tiene libros en su estantería.</p>
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-            {{-- PESTAÑA 2: INFORMACIÓN --}}
-            <div id="tab-info" class="contenido-tab" style="display: none;">
-                <h2 class="titulo-biblioteca">ℹ️ Sobre {{ $amigo->name }}</h2>
-                <hr class="separador-perfil">
-                <div class="info-amigo-container">
-                    <div class="info-item">
-                        <p><strong>📧 Email:</strong> {{ $amigo->email }}</p>
-                    </div>
-                    <div class="info-item">
-                        <p><strong>📅 Miembro desde:</strong> {{ $amigo->created_at->format('d/m/Y') }}</p>
-                    </div>
-                    <div class="info-item">
-                        <p><strong>📚 Total libros:</strong> {{ $books->count() }}</p>
+                        @empty
+                        <div class="zona-vacia-estanteria">
+                            <span>📖</span>
+                            <p>{{ $amigo->name }} aún no tiene libros en su estantería.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
-            </div>
 
+                {{-- PESTAÑA 2: INFORMACIÓN --}}
+                <div id="tab-info" class="contenido-tab" style="display: none;">
+                    <div class="header-biblioteca">
+                        <h2 class="titulo-biblioteca">ℹ️ Sobre {{ $amigo->name }}</h2>
+                    </div>
+                    <div class="seccion-filtros">
+                        <p class="texto-informativo">Detalles de la cuenta y actividad.</p>
+                    </div>
+
+                    <div class="info-amigo-container">
+                        <div class="info-item">
+                            <p><strong>📧 Email:</strong> {{ $amigo->email }}</p>
+                        </div>
+                        <div class="info-item">
+                            <p><strong>📅 Miembro desde:</strong> {{ $amigo->created_at->format('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

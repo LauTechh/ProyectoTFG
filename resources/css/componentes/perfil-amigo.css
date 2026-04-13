@@ -1,30 +1,45 @@
-/* LAYOUT PRINCIPAL */
+/* ==========================================================================
+   LAYOUT PRINCIPAL: ESPACIADO Y ARMONÍA
+   ========================================================================== */
 .contenedor-perfil-layout {
-    margin: 90px auto 50px auto;
+    margin: 110px auto 50px auto;
     display: flex;
-    /* Aumentamos la distancia entre las dos mitades */
-    gap: 40px;
-    max-width: 1350px;
-    padding: 0 30px;
+    max-width: 1400px;
+    padding: 0 40px;
     align-items: flex-start;
+    /* Quitamos el gap para controlar el espacio solo desde la derecha */
+    gap: 0;
 }
 
-/* TARJETA IZQUIERDA: FORZAR CENTRADO */
-.columna-perfil-izq .tarjeta-decorativa {
-    flex: 0.75;
-    /* Un poco más estrecha para enfatizar la separación */
+/* ==========================================================================
+   COLUMNA IZQUIERDA (KIM): MÁS AIRE PARA LOS BOTONES
+   ========================================================================== */
+/* COLUMNA IZQUIERDA: TAL CUAL LA TENÍAS */
+.columna-perfil-izq {
+    flex: 0 0 320px;
     position: sticky;
-    /* Opcional: para que Kim te siga al hacer scroll */
-    top: 100px;
+    top: 110px;
+}
+
+.columna-perfil-izq .tarjeta-decorativa {
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid #e2e8f0;
+    padding: 40px 30px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .circulo-avatar-grande {
     display: flex !important;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 20px auto !important;
-    width: 220px;
-    height: 220px;
+    margin: 0 auto 25px auto !important;
+    width: 200px;
+    /* Un pelín más pequeño para dar más aire */
+    height: 200px;
     border-radius: 50%;
     position: relative;
     background: linear-gradient(145deg, #dcfce7, #ffffff);
@@ -37,51 +52,43 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 85%;
+    width: 80%;
     object-fit: contain;
 }
 
 .nombre-usuario {
-    width: 100% !important;
-    text-align: center !important;
     font-size: 1.8rem;
-    font-weight: 800;
+    font-weight: 850;
     color: #1a2e05;
-    margin: 10px 0 !important;
+    margin: 10px 0 5px 0 !important;
 }
 
 .txt-decorativo {
-    width: 100%;
-    text-align: center;
-    color: #64748b;
-    font-size: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
+    /* Más espacio antes de la botonera */
 }
 
-.separador-perfil {
-    width: 100%;
-    border: 0;
-    border-top: 2px solid #f1f5f9;
-    margin: 15px 0;
-}
-
-/* BOTONES */
+/* GRUPO DE BOTONES: Más desahogados */
 .grupo-botones-vertical {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
+    /* Mayor espacio entre botones */
 }
 
 .btn-perfil-navegacion {
     width: 100%;
-    padding: 14px;
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    color: #475569;
-    font-weight: 600;
+    padding: 16px;
+    /* Botones más altos y cómodos */
+    border-radius: 18px;
+    border: 1px solid #f1f5f9;
+    background: #f8fafc;
+    color: #64748b;
+    font-weight: 700;
     transition: all 0.3s ease;
     cursor: pointer;
     text-align: center;
@@ -89,7 +96,9 @@
 }
 
 .btn-perfil-navegacion:hover {
-    background: #f8fafc;
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #1e293b;
     transform: translateY(-2px);
 }
 
@@ -97,116 +106,108 @@
     background: #fb923c !important;
     color: white !important;
     border-color: #f97316 !important;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
 }
 
-/* ==========================================================================
-   ESTÉTICA PREMIUM: COLUMNA DERECHA
-   ========================================================================== */
-/* ==========================================================================
-   COLUMNA DERECHA: PANEL ÚNICO Y LIMPIO
-   ========================================================================== */
+/* PASILLO Y ESTRUCTURA */
+.columna-perfil-der {
+    flex: 1;
+    margin-left: 90px;
+}
 
-/* 1. Este es el div "transparentoso" (el marco exterior) */
 .columna-perfil-der .tarjeta-decorativa {
-    background: rgba(255, 255, 255, 0.3) !important;
-    backdrop-filter: blur(12px);
-    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 35px;
+    padding: 10px !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
-
-    /* Reducimos el padding lateral al mínimo para que el blanco mande */
-    padding: 20px 10px !important;
-
-    display: flex;
-    justify-content: center;
 }
 
-/* 4. EL PANEL BLANCO OPACO (Donde están los libros) */
 .panel-contenido-principal {
     background: #ffffff;
-    border-radius: 26px;
-    border: 1px solid #e2e8f0;
-
-    /* Ocupa el 98% del marco transparente para que el "borde" sea fino */
-    width: 98%;
-    padding: 40px;
-    min-height: 700px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 28px;
+    padding: 45px 50px;
+    min-height: 750px;
 }
+/* ==========================================================================
+   COLUMNA DERECHA: REFINAMIENTO DE TAMAÑOS
+   ========================================================================= */
 
-/* Cabecera de la sección */
-.titulo-biblioteca {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #1e293b;
+/* 1. Aseguramos que los títulos y textos informativos tengan contraste */
+.header-biblioteca {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    padding-right: 10px;
 }
 
-/* Línea divisoria más sutil */
-.separador-perfil {
-    width: 100%;
-    border: 0;
-    border-top: 1px solid #f1f5f9;
-    margin: 25px 0 35px 0;
+.titulo-biblioteca {
+    font-size: 2rem; /* Tamaño sólido */
+    font-weight: 900;
+    color: #0f172a; /* Azul muy oscuro para máxima legibilidad */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Ajuste de la rejilla para que no se pegue a los bordes del panel */
+.stats-biblioteca {
+    background: #f1f5f9;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #475569;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.texto-informativo {
+    color: #64748b; /* Gris azulado para que se lea bien sobre blanco */
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* 2. REJILLA: Reducción del 10% en las tarjetas */
 .rejilla-libros-amigo {
     display: grid;
-    /* Al ser más ancho el div blanco, podemos ajustar el tamaño mínimo */
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 25px;
+    /* Bajamos de 200px a 180px para lograr ese 10% de reducción */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px; /* Gap un poco más cerrado para acompañar el tamaño pequeño */
+    padding-top: 10px;
 }
 
-/* Tarjeta de libro mejorada */
+/* 3. TARJETA DE LIBRO: Más compacta y elegante */
 .tarjeta-libro-estanteria {
-    background: #f8fafc;
-    /* Un gris muy suave para que el libro destaque */
-    padding: 15px;
-    border-radius: 20px;
+    background: #ffffff;
+    padding: 10px; /* Menos padding interno para que no "infle" el tamaño */
+    border-radius: 20px; /* Radio ligeramente menor acorde al tamaño */
     border: 1px solid #f1f5f9;
     transition: all 0.3s ease;
 }
 
-.tarjeta-libro-estanteria:hover {
-    background: #ffffff;
-    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
-    border-color: #fb923c;
-    /* Acento naranja al pasar el ratón */
+.contenedor-portada-estanteria {
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    aspect-ratio: 2/3;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Contenedor de la información del amigo (Pestaña Info) */
-.info-amigo-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.info-item {
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 18px;
-    border: 1px solid #f1f5f9;
-}
-
-.info-item strong {
-    color: #fb923c;
-    font-size: 0.8rem;
-    display: block;
-    margin-bottom: 5px;
-    text-transform: uppercase;
+/* 4. TÍTULO DEL LIBRO: Que se vea perfecto */
+.titulo-libro-amigo {
+    font-size: 0.9rem; /* Un pelín más pequeño para la tarjeta mini */
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.25;
+    margin-bottom: 10px;
+    /* Evita que títulos largos descuadren la tarjeta */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .badge-estado {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: #f1f5f9;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #475569;
-    margin-top: 5px;
+    font-size: 0.7rem; /* Ajuste a tarjeta mini */
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 800;
 }
