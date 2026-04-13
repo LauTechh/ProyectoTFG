@@ -1,56 +1,212 @@
-/* resources/css/perfil-amigo.css */
-
-/* 1. Empujamos todo el layout hacia abajo para que no lo tape el NAV */
+/* LAYOUT PRINCIPAL */
 .contenedor-perfil-layout {
-    margin-top: 100px;
-    /* Ajusta según la altura de tu nav */
+    margin: 90px auto 50px auto;
     display: flex;
-    gap: 30px;
+    /* Aumentamos la distancia entre las dos mitades */
+    gap: 40px;
+    max-width: 1350px;
+    padding: 0 30px;
     align-items: flex-start;
-    /* Evita que las tarjetas se estiren verticalmente */
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
 }
 
-/* 2. Proporciones de las columnas */
-.columna-perfil-izq {
-    flex: 1;
-    /* 1/3 del espacio aproximadamente */
-    min-width: 300px;
+/* TARJETA IZQUIERDA: FORZAR CENTRADO */
+.columna-perfil-izq .tarjeta-decorativa {
+    flex: 0.75;
+    /* Un poco más estrecha para enfatizar la separación */
+    position: sticky;
+    /* Opcional: para que Kim te siga al hacer scroll */
+    top: 100px;
 }
 
-.columna-perfil-der {
-    flex: 2;
-    /* 2/3 del espacio */
+.circulo-avatar-grande {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px auto !important;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    position: relative;
+    background: linear-gradient(145deg, #dcfce7, #ffffff);
+    border: 4px solid #86efac;
+    box-shadow: 0 10px 25px -5px rgba(134, 239, 172, 0.4);
+}
+
+.capa-v-avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    object-fit: contain;
+}
+
+.nombre-usuario {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1a2e05;
+    margin: 10px 0 !important;
+}
+
+.txt-decorativo {
+    width: 100%;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.separador-perfil {
+    width: 100%;
+    border: 0;
+    border-top: 2px solid #f1f5f9;
+    margin: 15px 0;
+}
+
+/* BOTONES */
+.grupo-botones-vertical {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
-/* 3. Estilos específicos para la Biblioteca */
-.titulo-biblioteca {
-    color: #4a3728;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.zona-vacia-estanteria {
-    transition: all 0.3s ease;
-    background-color: #fcfcfc;
-}
-
-.zona-vacia-estanteria:hover {
-    border-color: #fed7aa;
-    background-color: #fffaf5;
-}
-
-/* 4. Ajuste para que el botón de volver se vea bien */
 .btn-perfil-navegacion {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
     text-align: center;
-    transition: transform 0.2s;
+    text-decoration: none;
 }
 
 .btn-perfil-navegacion:hover {
-    transform: scale(1.02);
+    background: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.btn-tab-amigo.active {
+    background: #fb923c !important;
+    color: white !important;
+    border-color: #f97316 !important;
+}
+
+/* ==========================================================================
+   ESTÉTICA PREMIUM: COLUMNA DERECHA
+   ========================================================================== */
+/* ==========================================================================
+   COLUMNA DERECHA: PANEL ÚNICO Y LIMPIO
+   ========================================================================== */
+
+/* 1. Este es el div "transparentoso" (el marco exterior) */
+.columna-perfil-der .tarjeta-decorativa {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(12px);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    /* Reducimos el padding lateral al mínimo para que el blanco mande */
+    padding: 20px 10px !important;
+
+    display: flex;
+    justify-content: center;
+}
+
+/* 4. EL PANEL BLANCO OPACO (Donde están los libros) */
+.panel-contenido-principal {
+    background: #ffffff;
+    border-radius: 26px;
+    border: 1px solid #e2e8f0;
+
+    /* Ocupa el 98% del marco transparente para que el "borde" sea fino */
+    width: 98%;
+    padding: 40px;
+    min-height: 700px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Cabecera de la sección */
+.titulo-biblioteca {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+/* Línea divisoria más sutil */
+.separador-perfil {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #f1f5f9;
+    margin: 25px 0 35px 0;
+}
+
+/* Ajuste de la rejilla para que no se pegue a los bordes del panel */
+.rejilla-libros-amigo {
+    display: grid;
+    /* Al ser más ancho el div blanco, podemos ajustar el tamaño mínimo */
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 25px;
+}
+
+/* Tarjeta de libro mejorada */
+.tarjeta-libro-estanteria {
+    background: #f8fafc;
+    /* Un gris muy suave para que el libro destaque */
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.tarjeta-libro-estanteria:hover {
+    background: #ffffff;
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    border-color: #fb923c;
+    /* Acento naranja al pasar el ratón */
+}
+
+/* Contenedor de la información del amigo (Pestaña Info) */
+.info-amigo-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-item {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid #f1f5f9;
+}
+
+.info-item strong {
+    color: #fb923c;
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.badge-estado {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    margin-top: 5px;
 }

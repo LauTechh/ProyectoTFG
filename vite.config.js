@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/css/perfil.css',
                 'resources/css/perfil.css',
                 'resources/css/perfil-amigo.css',
+                'resources/css/componentes/perfil-amigo.css',
             ],
             refresh: true,
         }),

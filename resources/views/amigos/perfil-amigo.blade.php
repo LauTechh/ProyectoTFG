@@ -1,18 +1,17 @@
 @extends('plantilla.app')
 
 @section('content')
-{{-- Cargamos ambos: el base y las correcciones específicas para amigos --}}
-@vite(['resources/css/perfil.css', 'resources/css/perfil-amigo.css'])
+{{-- CARGA ÚNICA: Ruta corregida para evitar el error 404 --}}
+@vite(['resources/css/componentes/perfil-amigo.css'])
 
 <div class="contenedor-perfil-layout">
 
-    {{-- COLUMNA IZQUIERDA (1/3): IDENTIDAD DEL AMIGO --}}
+    {{-- COLUMNA IZQUIERDA (1/3): IDENTIDAD --}}
     <div class="columna-perfil-izq">
-        <div class="tarjeta-decorativa shadow-sm" style="padding: 20px;">
+        <div class="tarjeta-decorativa shadow-sm">
 
-            {{-- Avatar: El contenedor ya tiene el tamaño y forma por CSS --}}
+            {{-- Avatar --}}
             <div class="circulo-avatar-grande">
-                {{-- Capas de la patata --}}
                 <img src="{{ asset('img/avatar/base/' . basename($amigo->avatar_base ?? 'azulRelleno.png')) }}"
                     class="capa-v-avatar" style="z-index: 1;">
 
@@ -28,74 +27,100 @@
                 @endif
             </div>
 
-            <h3 class="nombre-usuario text-center" style="margin-top: 15px; color: #365314; font-weight: bold;">
+            <h3 class="nombre-usuario">
                 {{ $amigo->name }}
             </h3>
 
+            <p class="txt-decorativo">Nivel de amistad: Máximo 🥔✨</p>
+
             <hr class="separador-perfil">
 
-            {{-- Bloque de información extra --}}
-            <div class="contenedor-relleno">
-                <img src="https://via.placeholder.com/250x150?text=Info+Amigo"
-                    alt="Relleno"
-                    style="width: 100%; border-radius: 15px; border: 2px dashed #d1d5db; opacity: 0.6;">
-                <p class="txt-decorativo" style="font-size: 0.7rem; margin-top: 10px; color: #666;">
-                    Próximamente: Algo muy guay aquí... 🥔✨
-                </p>
-            </div>
+            <div class="grupo-botones-vertical">
+                <button class="btn-perfil-navegacion btn-tab-amigo active" data-target="tab-estanteria">
+                    📚 Estantería
+                </button>
 
-            {{-- GRUPO DE BOTONES --}}
-            <div class="grupo-botones-vertical" style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-perfil-navegacion btn-tab-amigo" data-target="tab-info">
+                    ℹ️ Información
+                </button>
 
-                {{-- Nuevo botón para la estantería específica del amigo --}}
-                {{-- En el grupo de botones --}}
-                <a href="#seccion-estanteria" class="btn-perfil-navegacion" style="background-color: #fff7ed; border-color: #fb923c;">
-                    📚 Ver Estantería
-                </a>
                 <a href="{{ url('/buscar-amigos?tab=mis-amigos') }}" class="btn-perfil-navegacion">
-                    ⬅ Volver a mis amigos
+                    ⬅ Volver
                 </a>
             </div>
         </div>
     </div>
 
-    {{-- COLUMNA DERECHA (2/3): CONTENIDO DINÁMICO --}}
-    <div class="columna-perfil-der" id="seccion-estanteria">
-        <div class="tarjeta-decorativa shadow-sm" style="min-height: 500px; padding: 30px;">
-            <h2 class="titulo-biblioteca">📚 Biblioteca de {{ $amigo->name }}</h2>
-            <p class="text-muted">Echa un vistazo a lo que está leyendo tu amigo...</p>
+    {{-- COLUMNA DERECHA (2/3): CONTENIDO --}}
+    <div class="columna-perfil-der">
+        {{-- He quitado el min-height inline y el fondo manual para que lo controle solo el CSS --}}
+        <div class="panel-contenido-principal shadow-sm">
+            {{-- PESTAÑA 1: ESTANTERÍA --}}
+            <div id="tab-estanteria" class="contenido-tab">
+                <h2 class="titulo-biblioteca">📚 Biblioteca de {{ $amigo->name }}</h2>
+                <p class="text-muted">Echa un vistazo a lo que está leyendo tu amigo...</p>
 
-            <hr class="separador-perfil">
+                <hr class="separador-perfil">
 
-            <div class="rejilla-libros-amigo" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
-                @forelse($books as $book)
-                <div class="tarjeta-libro-estanteria">
-                    <div class="contenedor-portada-estanteria">
-                        <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" style="width: 100%; border-radius: 8px;">
-                    </div>
-                    <div class="cuerpo-tarjeta-estanteria" style="text-align: center; margin-top: 10px;">
-                        <h4 style="font-size: 0.9rem; margin-bottom: 5px;">{{ $book->title }}</h4>
-
-                        <div class="badge-estado" style="font-size: 0.8rem; background: #f3f4f6; border-radius: 12px; padding: 2px 8px; display: inline-block;">
-                            @if($book->pivot->estado == 'leyendo') 👓 Leyendo
-                            @elseif($book->pivot->estado == 'leido') ✅ Leído
-                            @else 📖 Por leer @endif
+                <div class="rejilla-libros-amigo">
+                    @forelse($books as $book)
+                    <div class="tarjeta-libro-estanteria">
+                        <div class="contenedor-portada-estanteria">
+                            <img src="{{ $book->cover_url }}" alt="{{ $book->title }}">
                         </div>
+                        <div class="cuerpo-tarjeta-estanteria">
+                            <h4 class="titulo-libro-amigo">{{ $book->title }}</h4>
 
-                        <div class="puntuacion-patatas" style="margin-top: 5px;">
-                            {{ str_repeat('🥔', $book->pivot->puntuacion ?? 0) }}
+                            <div class="badge-estado">
+                                @if($book->pivot->estado == 'leyendo') 👓 Leyendo
+                                @elseif($book->pivot->estado == 'leido') ✅ Leído
+                                @else 📖 Por leer @endif
+                            </div>
+
+                            <div class="puntuacion-patatas">
+                                {{ str_repeat('🥔', $book->pivot->puntuacion ?? 0) }}
+                            </div>
                         </div>
                     </div>
+                    @empty
+                    <div class="zona-vacia-estanteria">
+                        <span>📖</span>
+                        <p>{{ $amigo->name }} aún no tiene libros en su estantería.</p>
+                    </div>
+                    @endforelse
                 </div>
-                @empty
-                <div class="zona-vacia-estanteria" style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-                    <span style="font-size: 3rem; opacity: 0.3;">📖</span>
-                    <p>{{ $amigo->name }} aún no tiene libros en su estantería.</p>
-                </div>
-                @endforelse
             </div>
+
+            {{-- PESTAÑA 2: INFORMACIÓN --}}
+            <div id="tab-info" class="contenido-tab" style="display: none;">
+                <h2 class="titulo-biblioteca">ℹ️ Sobre {{ $amigo->name }}</h2>
+                <hr class="separador-perfil">
+                <div class="info-amigo-container">
+                    <div class="info-item">
+                        <p><strong>📧 Email:</strong> {{ $amigo->email }}</p>
+                    </div>
+                    <div class="info-item">
+                        <p><strong>📅 Miembro desde:</strong> {{ $amigo->created_at->format('d/m/Y') }}</p>
+                    </div>
+                    <div class="info-item">
+                        <p><strong>📚 Total libros:</strong> {{ $books->count() }}</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-
 </div>
+
+<script>
+    document.querySelectorAll('.btn-tab-amigo').forEach(boton => {
+        boton.addEventListener('click', () => {
+            document.querySelectorAll('.contenido-tab').forEach(cont => cont.style.display = 'none');
+            const target = document.getElementById(boton.getAttribute('data-target'));
+            if (target) target.style.display = 'block';
+            document.querySelectorAll('.btn-tab-amigo').forEach(b => b.classList.remove('active'));
+            boton.classList.add('active');
+        });
+    });
+</script>
 @endsection
