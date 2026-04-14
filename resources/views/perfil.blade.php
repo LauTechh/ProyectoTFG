@@ -70,7 +70,19 @@
 
                 <hr class="separador-perfil" style="margin: 10px 0;">
 
-
+                {{-- NUEVA ESTADÍSTICA --}}
+                <p>
+                    <strong>⭐ Género más valorado:</strong>
+                    @if(isset($estadisticasGeneros) && $estadisticasGeneros->count() > 0)
+                    <span style="color: #fb923c; font-weight: 800;">
+                        {{-- Si genre está vacío, ponemos 'Varios' por defecto --}}
+                        {{ $estadisticasGeneros->first()->genre ?? 'Narrativa' }}
+                    </span>
+                    <small>({{ number_format($estadisticasGeneros->first()->media_puntuacion, 1) }} ★)</small>
+                    @else
+                    <span style="color: #94a3b8; font-style: italic;">¡Aún no has puntuado nada!</span>
+                    @endif
+                </p>
 
                 <p>
                     <strong>⏱️ Tiempo de enfoque:</strong>

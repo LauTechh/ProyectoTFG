@@ -23,79 +23,41 @@ class LibroController extends Controller
             return view('libros.index', ['libros' => []]);
         }
 
-        // 1. Catálogo de prueba con un libro por cada uno de tus géneros
+        // 1. TUS LIBROS FALSOS (o los que vengan de la API)
         $libros = [
             [
                 'volumeInfo' => [
-                    'title' => 'Harry Potter y la API Bloqueada',
+                    'title' => 'El misterio de la patata dorada',
+                    'authors' => ['Pepe Patatón'],
+                    'categories' => ['Aventura'], // Google diría algo como "Action & Adventure"
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/f97316/ffffff?text=Libro+1']
+                ]
+            ],
+            [
+                'volumeInfo' => [
+                    'title' => 'Laravel para mentes inquietas',
+                    'authors' => ['Programadora Estrella'],
+                    'categories' => ['Computers'], // Esto lo traduciremos a Ficción o Tecnología
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/fb923c/ffffff?text=Libro+2']
+                ]
+            ],
+            [
+                'volumeInfo' => [
+                    'title' => 'Harry Potter y la API bloqueada',
                     'authors' => ['J.K. Rowling'],
-                    'categories' => ['Juvenile Fiction / Fantasy'], // Debería ser Fantasía
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/fdba74/ffffff?text=Fantasía']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Drácula en el Servidor',
-                    'authors' => ['Bram Stoker'],
-                    'categories' => ['Horror'], // Debería ser Terror
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/7f1d1d/ffffff?text=Terror']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Orgullo y Programación',
-                    'authors' => ['Jane Austen'],
-                    'categories' => ['Romance'], // Debería ser Romance
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/db2777/ffffff?text=Romance']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Crónicas Marcianas de PHP',
-                    'authors' => ['Ray Bradbury'],
-                    'categories' => ['Science Fiction'], // Debería ser Ciencia Ficción
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/2563eb/ffffff?text=Ciencia+Ficcion']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'El Quijote del Código',
-                    'authors' => ['Miguel de Cervantes'],
-                    'categories' => ['Classics'], // Debería ser Clásicos
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/78350f/ffffff?text=Clasicos']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Indiana Jones y el Token Perdido',
-                    'authors' => ['George Lucas'],
-                    'categories' => ['Action & Adventure'], // Debería ser Aventura
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/059669/ffffff?text=Aventura']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Sapiens: De Bits a Humanos',
-                    'authors' => ['Yuval Noah Harari'],
-                    'categories' => ['History'], // Debería ser Historia
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/4b5563/ffffff?text=Historia']
-                ]
-            ],
-            [
-                'volumeInfo' => [
-                    'title' => 'Una Novela Genérica',
-                    'authors' => ['Autor Desconocido'],
-                    'categories' => ['Literary Fiction'], // Debería ser Ficción
-                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/d1d5db/ffffff?text=Ficcion']
+                    'categories' => ['Juvenile Fiction / Fantasy'],
+                    'imageLinks' => ['thumbnail' => 'https://via.placeholder.com/150/fdba74/ffffff?text=Libro+3']
                 ]
             ]
         ];
 
-        // 2. 🎯 ¡IMPORTANTE! Aplicamos el traductor a cada libro de prueba
-        // Así verificamos que el "LIKE" simulado funciona con los fragmentos
+        // 2. 🎯 PROCESAMOS LOS GÉNEROS ANTES DE ENVIARLOS A LA VISTA
         foreach ($libros as &$libro) {
-            $generoGoogle = $libro['volumeInfo']['categories'][0] ?? 'Varios';
-            $libro['genero_nuestro'] = $this->traducirGenero($generoGoogle);
+            // Obtenemos el género original (el primero de la lista o 'Varios')
+            $generoOriginal = $libro['volumeInfo']['categories'][0] ?? 'Varios';
+
+            // Creamos una nueva clave 'genero_nuestro' con la traducción
+            $libro['genero_nuestro'] = $this->traducirGenero($generoOriginal);
         }
 
         return view('libros.resultados', compact('libros'));
@@ -105,14 +67,15 @@ class LibroController extends Controller
     public function guardar(Request $request)
     {
         try {
-            // 🎯 Usamos la función privada para no repetir código
-            $generoFinal = $this->traducirGenero($request->genero);
+            // 🎯 CAMBIO CLAVE: Combinamos género y título para que el traductor sea infalible
+            $textoParaAnalizar = ($request->genero ?? '') . ' ' . ($request->titulo ?? '');
+            $generoFinal = $this->traducirGenero($textoParaAnalizar);
 
             $libro = Libro::firstOrCreate(
                 ['title' => $request->titulo, 'author' => $request->autor],
                 [
                     'cover_url' => $request->portada,
-                    'genre' => $generoFinal,
+                    'genre' => $generoFinal, // Se guarda ya traducido (ej: "Fantasía")
                     'user_id' => auth()->id()
                 ]
             );
@@ -177,12 +140,16 @@ class LibroController extends Controller
         $genero = $request->get('genero');
         $user = auth()->user();
 
-        if ($genero === 'todos') {
-            $books = $user->books; // Ajusta 'books' según tu relación en el modelo User
-        } else {
-            $books = $user->books()->where('genre', $genero)->get();
+        // Usamos el query builder para que la base de datos trabaje por nosotros
+        $query = $user->books();
+
+        if ($genero !== 'todos' && !empty($genero)) {
+            $query->where('genre', $genero);
         }
 
+        $books = $query->get();
+
+        // Renderizamos la vista parcial que ya tienes
         $html = view('partials.lista_libros_estanteria', compact('books'))->render();
 
         return response()->json(['html' => $html]);
@@ -206,7 +173,22 @@ class LibroController extends Controller
 
 
 
+    public function obtenerEstadisticasValoracion()
+    {
+        $user = auth()->user();
 
+        $generosValorados = $user->books()
+            ->select(
+                'genre',
+                \DB::raw('count(*) as total_libros'),
+                \DB::raw('AVG(rating) as media_puntuacion') // Suponiendo que tu columna se llama 'rating'
+            )
+            ->groupBy('genre')
+            ->orderBy('media_puntuacion', 'desc')
+            ->get();
+
+        return $generosValorados;
+    }
 
 
 
@@ -219,32 +201,63 @@ class LibroController extends Controller
 
 
     // --- FUNCIÓN PRIVADA DE TRADUCCIÓN ---
-    private function traducirGenero($generoOriginal)
+    private function traducirGenero($textoAnalizar)
     {
-        $original = strtolower(trim($generoOriginal ?? 'Varios'));
+        $original = strtolower(trim($textoAnalizar ?? 'Varios'));
 
-        // Aquí definimos los "patrones SQL" (sin los %, porque PHP usa barras / /)
         $mapaGeneros = [
-            'Fantasía' => ['fantas', 'magi', 'wizard', 'witch', 'potter', 'naranjo', 'myth'],
-            'Terror'   => ['horror', 'terror', 'rror', 'miedo', 'ghos', 'suspens'],
-            'Romance'  => ['roman', 'love', 'amor', 'relat'],
-            'Ciencia Ficción' => ['scien', 'fi', 'space', 'robot', 'dystop'],
-            'Clásicos' => ['classic', 'antiqu', 'ancient'],
-            'Aventura' => ['avent', 'advent', 'action', 'explor'],
-            'Historia' => ['histo', 'biogra'],
+            // 1. PRIORIDAD MÁXIMA: Romántica
+            'Romántica'       => ['amor', 'love', 'roman', 'relat', 'amo', 'noviazgo', 'beso'],
+
+            // 2. Fantasía (Reforzada para Mistborn y similares)
+            'Fantasía'        => [
+                'fantas',
+                'magia',
+                'wizard',
+                'witch',
+                'potter',
+                'myth',
+                'dragones',
+                'mistborn',
+                'bruma',
+                'épica',
+                'epic',
+                'sword',
+                'espada',
+                'sorcer'
+            ],
+
+            // 3. Policiaca y Terror
+            'Policiaca'       => ['crimen', 'polic', 'detect', 'mister', 'noir', 'thrill', 'investig'],
+            'Terror'          => ['horror', 'terror', 'miedo', 'ghos', 'suspens', 'paranormal'],
+
+            // 4. Ciencia Ficción (Más patrones comunes)
+            'Ciencia Ficción' => [
+                'science fiction',
+                'space',
+                'robot',
+                'dystop',
+                'sci-fi',
+                'futurist',
+                'cyber',
+                'estelar',
+                'galact'
+            ],
+
+            'Aventura'        => ['aventur', 'adventur', 'action', 'explor'],
+            'Historia'        => ['histor', 'biogra', 'war', 'guerra'],
+            'Clásicos'        => ['classic', 'antiqu', 'ancient'],
         ];
 
         foreach ($mapaGeneros as $categoriaOficial => $patrones) {
             foreach ($patrones as $patron) {
-                // Esto es el equivalente a: WHERE genero LIKE '%$patron%'
                 if (str_contains($original, $patron)) {
                     return $categoriaOficial;
                 }
             }
         }
 
-        // Si Google dice "Juvenile Fiction" y no cazamos nada arriba,
-        // o si es cualquier otra cosa, lo dejamos como Ficción en español.
-        return 'Ficción';
+        // Tu cambio a Narrativa (¡queda genial!)
+        return 'Narrativa';
     }
 }

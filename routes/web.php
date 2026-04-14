@@ -90,6 +90,33 @@ Route::middleware(['auth'])->group(function () { // <-- Aquí faltaban los ()
     // Hemos quitado el "use" de aquí porque ya está arriba del todo
     Route::get('/buscar-libros-amigo/{id}', [PerfilController::class, 'verEstanteriaAmigo'])->name('amigo.estanteria');
     Route::get('/visitar-perfil/{id}', [AmigoController::class, 'visitarPerfil'])->name('amigos.visitar');
-
-    
 }); // <-- Asegúrate de que termine con });
+
+Route::get('/limpiar-generos-db', function () {
+    $libros = Libro::all();
+    $contador = 0;
+
+    // Instanciamos el controlador para usar su función privada traducirGenero
+    $controller = new LibroController();
+
+    // Usamos Reflexión para poder acceder a la función 'traducirGenero' si es privada
+    $reflection = new \ReflectionMethod(LibroController::class, 'traducirGenero');
+    $reflection->setAccessible(true);
+
+    foreach ($libros as $libro) {
+        // Analizamos título + género antiguo
+        $textoParaAnalizar = $libro->genre . ' ' . $libro->title;
+
+        // Ejecutamos la traducción
+        $nuevoGenero = $reflection->invoke($controller, $textoParaAnalizar);
+
+        // Si el género ha cambiado, actualizamos
+        if ($libro->genre !== $nuevoGenero) {
+            $libro->genre = $nuevoGenero;
+            $libro->save();
+            $contador++;
+        }
+    }
+
+    return "¡Limpieza terminada! Se han actualizado $contador libros. 🥔✨";
+});

@@ -3,15 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <--- AÑADE ESTA LÍNEA
-use App\Models\User; // Asegúrate de tener el import arriba
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PerfilController extends Controller
 {
-    //
+    public function index()
+    {
+        $usuario = auth()->user();
+
+        // 1. CÁLCULO DEL GÉNERO MÁS VALORADO
+        // Usamos 'libros' (la relación) y 'puntuacion' (la columna de tu DB)
+        $estadisticasGeneros = $usuario->libros()
+            ->select('genre', DB::raw('AVG(book_user.puntuacion) as media_puntuacion'))
+            ->whereNotNull('book_user.puntuacion')
+            ->where('book_user.puntuacion', '>', 0)
+            ->groupBy('genre')
+            ->orderBy('media_puntuacion', 'desc')
+            ->get();
+
+        // 2. Tiempo de estudio
+        $segundosTotales = \App\Models\SesionEstudio::where('user_id', $usuario->id)
+            ->sum('segundos') ?? 0;
+
+        $minutosTotales = floor($segundosTotales / 60);
+
+        // 3. Enviamos todo a la vista 'perfil'
+        return view('perfil', [
+            'user' => $usuario, // Mantenemos 'user' porque tu vista Blade ya lo usa así
+            'estadisticasGeneros' => $estadisticasGeneros,
+            'minutosTotales' => $minutosTotales
+        ]);
+    }
+
     public function editarAvatar()
     {
-        // Simplemente devolvemos la vista que crearemos en el paso 3
         return view('perfil.editar-avatar');
     }
 
@@ -19,7 +46,6 @@ class PerfilController extends Controller
     {
         $user = Auth::user();
 
-        // Validamos que lleguen los datos
         $request->validate([
             'avatar_base' => 'required',
             'avatar_boca' => 'required',
@@ -27,7 +53,6 @@ class PerfilController extends Controller
             'avatar_complemento' => 'required',
         ]);
 
-        // Actualizamos al usuario
         $user->update([
             'avatar_base' => $request->avatar_base,
             'avatar_boca' => $request->avatar_boca,
@@ -40,51 +65,24 @@ class PerfilController extends Controller
 
     public function actualizarNombre(Request $request)
     {
-        // Cambiamos min:3 por min:1
         $request->validate([
             'name' => 'required|string|max:255|min:1',
         ]);
 
-        $user = \App\Models\User::find(auth()->id());
+        $user = User::find(auth()->id());
         $user->name = $request->input('name');
         $user->save();
 
-        // Importante: Limpiamos la caché de la sesión para que el nombre cambie al instante
         auth()->setUser($user);
 
-        return back()->with('success', '¡Nombre actualizado, patata corta! 🥔✨');
+        return back()->with('success', '¡Nombre actualizado! 🥔✨');
     }
-
-    public function index() // Asegúrate de que tu ruta en web.php apunte a 'index'
-    {
-        $user = auth()->user();
-
-        // 1. Género favorito (mantenlo en null hasta que tengas la tabla de libros lista)
-        $generoFavorito = null;
-
-        // 2. Tiempo de estudio: Forzamos la consulta a la tabla correcta
-        // Usamos el ID del usuario logueado para sumar sus segundos
-        $segundosTotales = \App\Models\SesionEstudio::where('user_id', $user->id)
-            ->sum('segundos') ?? 0;
-
-        // Convertimos a minutos (ej: 180s / 60 = 3)
-        $minutosTotales = floor($segundosTotales / 60);
-
-        // 3. Enviamos todo a la vista 'perfil'
-        return view('perfil', [
-            'user' => $user,
-            'generoFavorito' => $generoFavorito,
-            'minutosTotales' => $minutosTotales
-        ]);
-    }
-
-
 
     public function visitarPerfil($id)
     {
         $amigo = User::findOrFail($id);
 
-        // Cargamos los libros del amigo aquí mismo
+        // 🎯 Aquí ya lo tenías bien como "libros"
         $books = $amigo->libros;
 
         return view('amigos.perfil-amigo', compact('amigo', 'books'));
