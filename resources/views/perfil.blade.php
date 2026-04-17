@@ -86,13 +86,22 @@
 
                 <p>
                     <strong>⏱️ Tiempo de enfoque:</strong>
-                    @if(isset($minutosTotales) && $minutosTotales > 0)
-                    {{ $minutosTotales }} minutos
-                    @else
-                    ¡Todavía no has entrado en ninguna sala!
-                    @endif
+                    @if(isset($tiemposPorSala) && $tiemposPorSala->count() > 0)
+                <ul style="list-style: none; padding-left: 10px; margin-top: 5px;">
+                    @foreach($tiemposPorSala as $sesion)
+                    <li style="font-size: 0.9rem;">
+                        📍 {{ ucwords(str_replace('-', ' ', $sesion->sala)) }}:
+                        <strong>{{ floor($sesion->total_segundos / 60) }}m {{ $sesion->total_segundos % 60 }}s</strong>
+                    </li>
+                    @endforeach
+                </ul>
+                <div style="margin-top: 5px; border-top: 1px dashed #fdba74; padding-top: 5px;">
+                    <strong>Total:</strong> {{ $minutosTotales }} minutos
+                </div>
+                @else
+                <span style="color: #94a3b8; font-style: italic;">¡Todavía no has entrado en ninguna sala!</span>
+                @endif
                 </p>
-
                 <p><strong>ADN Patata:</strong> {{ Auth::user()->avatar_base }}, {{ Auth::user()->avatar_ojos }}</p>
             </div>
         </details>

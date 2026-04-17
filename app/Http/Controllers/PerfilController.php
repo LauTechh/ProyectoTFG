@@ -14,26 +14,31 @@ class PerfilController extends Controller
         $usuario = auth()->user();
 
         // 1. CÁLCULO DEL GÉNERO MÁS VALORADO
-        // Usamos 'libros' (la relación) y 'puntuacion' (la columna de tu DB)
         $estadisticasGeneros = $usuario->libros()
-            ->select('genre', DB::raw('AVG(book_user.puntuacion) as media_puntuacion'))
+            ->select('books.genre', \Illuminate\Support\Facades\DB::raw('AVG(book_user.puntuacion) as media_puntuacion'))
             ->whereNotNull('book_user.puntuacion')
             ->where('book_user.puntuacion', '>', 0)
-            ->groupBy('genre')
+            ->groupBy('books.genre')
             ->orderBy('media_puntuacion', 'desc')
             ->get();
 
-        // 2. Tiempo de estudio
-        $segundosTotales = \App\Models\SesionEstudio::where('user_id', $usuario->id)
-            ->sum('segundos') ?? 0;
+        // 2. Tiempo de estudio (DESGLOSADO POR SALA)
+        // 🎯 Añadimos esta parte para el desglose en el perfil
+        $tiemposPorSala = \App\Models\SesionEstudio::where('user_id', $usuario->id)
+            ->select('sala', \Illuminate\Support\Facades\DB::raw('SUM(segundos) as total_segundos'))
+            ->groupBy('sala')
+            ->get();
 
+        // Calculamos el total general (lo que ya tenías)
+        $segundosTotales = $tiemposPorSala->sum('total_segundos') ?? 0;
         $minutosTotales = floor($segundosTotales / 60);
 
         // 3. Enviamos todo a la vista 'perfil'
         return view('perfil', [
-            'user' => $usuario, // Mantenemos 'user' porque tu vista Blade ya lo usa así
+            'user' => $usuario,
             'estadisticasGeneros' => $estadisticasGeneros,
-            'minutosTotales' => $minutosTotales
+            'minutosTotales' => $minutosTotales,
+            'tiemposPorSala' => $tiemposPorSala // 👈 ¡ESTA ES LA CLAVE!
         ]);
     }
 

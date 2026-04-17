@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SesionEstudio extends Model
 {
@@ -13,12 +14,19 @@ class SesionEstudio extends Model
 
     protected $fillable = [
         'user_id',
-        'sala',
+        'sala', // Lo cambiamos aquí para que coincida con la migración
         'segundos',
         'fecha_inicio'
     ];
 
-    // 💡 SI TU TABLA NO TIENE LAS COLUMNAS created_at y updated_at, 
-    // Laravel dará error 500 a menos que pongas esta línea:
-    public $timestamps = false;
+    // Cambiamos a true porque es mejor tener el control de cuándo se creó el registro
+    public $timestamps = true;
+
+    /**
+     * Relación con el usuario: Una sesión pertenece a un usuario.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
