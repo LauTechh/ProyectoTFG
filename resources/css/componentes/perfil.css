@@ -211,3 +211,12 @@
     font-weight: bold;
     border: 1px solid #fde68a;
 }
+
+.nombre-usuario-perfil {
+    font-family: 'Tu-Fuente-Favorita', sans-serif;
+    color: #7c2d12;
+    /* Ese marrón/naranja oscuro que usas */
+    text-shadow: 1px 1px 0px white;
+    /* Para que resalte sobre el fondo */
+    letter-spacing: -0.5px;
+}

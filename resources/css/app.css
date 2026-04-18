@@ -5,6 +5,10 @@
 @import "./componentes/perfil.css";
 @import "./componentes/libros.css";
 @import "./componentes/buscador.css";
+/* Importamos los estilos de los componentes */
+@import "./componentes/libros.css";
+@import "./componentes/estanteria.css";
+@import "./componentes/salas.css";
 /* <--- Añade esto */
 
 /* --- 1. CONFIGURACIÓN GLOBAL (ESCALA 85%) --- */
@@ -173,4 +177,69 @@ h1 {
 .auth-footer {
     margin-top: 22px;
     padding-top: 13px;
+}
+
+/* Contenedor general */
+.alerta-contenedor {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    padding: 0 20px;
+}
+
+/* Caja de la alerta */
+.alerta-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 5px solid;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Colores de Éxito */
+.alerta-exito .alerta-contenido {
+    background-color: #dcfce7;
+    /* Verde clarito */
+    color: #15803d;
+    /* Verde oscuro */
+    border-color: #22c55e;
+}
+
+/* Colores de Error */
+.alerta-error .alerta-contenido {
+    background-color: #fee2e2;
+    /* Rojo clarito */
+    color: #b91c1c;
+    /* Rojo oscuro */
+    border-color: #ef4444;
+}
+
+/* Botón de cerrar */
+.alerta-cerrar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+}
+
+.alerta-cerrar:hover {
+    opacity: 1;
+}
+
+/* Estilo para el AJAX (la que ya tenías) */
+.alerta-ajax-flotante {
+    position: fixed;
+    top: 110px;
+    right: 20px;
+    z-index: 2000;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
 }

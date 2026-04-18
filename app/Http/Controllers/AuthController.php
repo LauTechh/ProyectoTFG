@@ -62,6 +62,18 @@ class AuthController extends Controller
         return redirect()->to('/')->with('success', '¡Bienvenida al club de las patatas lectoras!');
     }
 
+    public function mostrarLogin()
+    {
+        // Cambiamos 'login' por 'auth.login'
+        return view('auth.login');
+    }
+
+    public function mostrarRegistro()
+    {
+        // Cambiamos 'registro' por 'auth.registro'
+        return view('auth.registro');
+    }
+
     /**
      * Cierra la sesión y limpia la información del navegador.
      */
