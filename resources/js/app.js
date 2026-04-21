@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- FUNCIONALIDADES GLOBALES (Accesibles desde el HTML) ---
 
 // 1. Mostrar/Ocultar formulario de cambio de nombre
+// resources/js/app.js
+
+// ... (tus imports de SweetAlert, cronometro, etc.)
+
+// --- FUNCIONALIDADES GLOBALES ---
 window.toggleFormNombre = function () {
     const container = document.getElementById('form-nombre-container');
     if (!container) return;
@@ -33,11 +38,13 @@ window.toggleFormNombre = function () {
     if (container.style.display === 'none' || container.style.display === '') {
         container.style.display = 'block';
         const input = container.querySelector('input');
-        if (input) input.focus();
+        if (input) input.focus(); // Mejora: pone el cursor en el input al abrir
     } else {
         container.style.display = 'none';
     }
 };
+
+// ... resto de funciones
 
 // 2. Alerta para usuarios no registrados
 window.alertaInvitado = function () {

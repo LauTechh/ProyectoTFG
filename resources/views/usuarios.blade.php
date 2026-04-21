@@ -3,49 +3,41 @@
 @section('content')
 @vite(['resources/css/componentes/lista-usuarios.css'])
 
-
+{{-- 1. Alertas más integradas --}}
 @if(session('success'))
-<div class="alerta-patata-exitosa">
-    {{ session('success') }}
-</div>
+    <div class="alerta-patata-exitosa">
+        {{ session('success') }}
+    </div>
 @endif
 
-
-
 <div class="titulo-crema">
-    <h1 class="display-5 fw-bold text-dark">Más patatas en Patatas y Letras</h1>
-    <p class="text-muted">Encuentra nuevos amigos para compartir lecturas</p>
+    <h1 class="titulo-principal">Más patatas en Patatas y Letras</h1>
+    <p class="subtitulo-principal">Encuentra nuevos amigos para compartir lecturas</p>
 </div>
-
-
 
 <div class="contenedor-perfil-layout">
 
-    {{-- COLUMNA IZQUIERDA (1/3) --}}
+    {{-- COLUMNA IZQUIERDA: NAVEGACIÓN --}}
     <div class="columna-perfil-izq">
         <div class="tarjeta-navegacion-fija shadow-sm">
             <h3 class="titulo-menu">Amistades</h3>
             <div class="grupo-botones-vertical">
-                {{-- Botón para buscar patatas nuevas --}}
+                
                 <a href="{{ route('amigos.index', ['tab' => 'buscar']) }}"
-                    class="btn-nav {{ request('tab') != 'mis-amigos' ? 'active' : '' }}">
+                    class="btn-nav {{ request('tab', 'buscar') == 'buscar' ? 'active' : '' }}">
                     🔎 Más patatas
                 </a>
 
-                {{-- Botón para ver tus amigos y solicitudes --}}
-                {{-- 2. Mis Amigos --}}
                 <a href="{{ route('amigos.index', ['tab' => 'mis-amigos']) }}"
                     class="btn-nav {{ request('tab') == 'mis-amigos' ? 'active' : '' }}">
                     👥 Mis amigos
                 </a>
 
-                {{-- 3. SOLICITUDES (Aquí es donde ponemos el contador) --}}
                 <a href="{{ route('amigos.index', ['tab' => 'solicitudes']) }}"
-                    class="btn-nav {{ request('tab') == 'solicitudes' ? 'active' : '' }} d-flex justify-content-between align-items-center">
+                    class="btn-nav {{ request('tab') == 'solicitudes' ? 'active' : '' }} btn-notificacion">
                     <span>🔔 Solicitudes</span>
-
                     @if($solicitudesPendientes > 0)
-                    <span class="badge-notificacion">{{ $solicitudesPendientes }}</span>
+                        <span class="badge-notificacion">{{ $solicitudesPendientes }}</span>
                     @endif
                 </a>
             </div>
@@ -54,64 +46,49 @@
         </div>
     </div>
 
-
-
-    {{-- COLUMNA DERECHA (2/3) --}}
-    {{-- PANEL DERECHO: LA ZONA DE LAS PATATAS --}}
-    {{-- COLUMNA DERECHA (2/3) --}}
+    {{-- COLUMNA DERECHA: CONTENIDO DINÁMICO --}}
     <div class="columna-perfil-der">
 
-        {{-- CASO 1: PESTAÑA DE SOLICITUDES (Buzón de entrada) --}}
+        {{-- CASO 1: SOLICITUDES --}}
         @if(request('tab') == 'solicitudes')
-        <h3 class="mb-4">🔔 Solicitudes recibidas</h3>
+            <h3 class="titulo-seccion">🔔 Solicitudes recibidas</h3>
 
-        @php
-        // Añadimos ->with('sender') para traer los datos del usuario de golpe y evitar errores
-        $solicitudesRecibidas = \App\Models\Amigo::where('amigo_id', auth()->id())
-        ->where('estado', 'pendiente')
-        ->with('sender')
-        ->get();
-        @endphp
-
-        @if($solicitudesRecibidas->count() > 0)
-        <div class="grid-usuarios-container">
-            @foreach($solicitudesRecibidas as $soli)
-            {{-- Verificamos que el sender exista antes de incluir la tarjeta --}}
-            @if($soli->sender)
-            @include('amigos.tarjeta_usuario', [
-            'user' => $soli->sender,
-            'tipo' => 'solicitud_recibida'
-            ])
+            {{-- IMPORTANTE: La lógica de $solicitudesRecibidas ahora viene del Controlador --}}
+            @if(isset($solicitudesRecibidas) && $solicitudesRecibidas->count() > 0)
+                <div class="grid-usuarios-container">
+                    @foreach($solicitudesRecibidas as $soli)
+                        @if($soli->sender)
+                            @include('amigos.tarjeta_usuario', ['user' => $soli->sender, 'tipo' => 'solicitud_recibida'])
+                        @endif
+                    @endforeach
+                </div>
+            @else
+                <div class="estado-vacio">
+                    <p>No tienes ninguna solicitud pendiente. 🥔</p>
+                </div>
             @endif
-            @endforeach
-        </div>
-        @else
-        <div class="text-center py-5">
-            <p class="text-muted">No tienes ninguna solicitud pendiente de aceptar. 🥔</p>
-        </div>
-        @endif
 
-        {{-- CASO 2: PESTAÑA DE MIS AMIGOS (Confirmados y enviados por ti) --}}
+        {{-- CASO 2: MIS AMIGOS --}}
         @elseif(request('tab') == 'mis-amigos')
-        <h3 class="mb-4">Mis amigos patatiles</h3>
-        <div class="grid-usuarios-container">
-            @forelse($misAmigos as $user)
-            @include('amigos.tarjeta_usuario', ['user' => $user, 'tipo' => 'gestion'])
-            @empty
-            <div class="text-center py-5">
-                <p class="text-muted">Aún no tienes amigos confirmados ni solicitudes enviadas.</p>
+            <h3 class="titulo-seccion">Mis amigos patatiles</h3>
+            <div class="grid-usuarios-container">
+                @forelse($misAmigos as $user)
+                    @include('amigos.tarjeta_usuario', ['user' => $user, 'tipo' => 'gestion'])
+                @empty
+                    <div class="estado-vacio">
+                        <p>Aún no tienes amigos confirmados.</p>
+                    </div>
+                @endforelse
             </div>
-            @endforelse
-        </div>
 
-        {{-- CASO 3: VISTA DE BUSCAR (POR DEFECTO) --}}
+        {{-- CASO 3: DESCUBRIR (POR DEFECTO) --}}
         @else
-        <h3 class="mb-4">Descubrir nuevas patatas</h3>
-        <div class="grid-usuarios-container">
-            @foreach($usuarios as $user)
-            @include('amigos.tarjeta_usuario', ['user' => $user, 'tipo' => 'buscar'])
-            @endforeach
-        </div>
+            <h3 class="titulo-seccion">Descubrir nuevas patatas</h3>
+            <div class="grid-usuarios-container">
+                @foreach($usuarios as $user)
+                    @include('amigos.tarjeta_usuario', ['user' => $user, 'tipo' => 'buscar'])
+                @endforeach
+            </div>
         @endif
 
     </div>

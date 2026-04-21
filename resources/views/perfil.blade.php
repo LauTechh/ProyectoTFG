@@ -35,15 +35,25 @@
     <div class="columna-perfil-der">
 
         <div class="caja-avatar-perfil">
+            {{-- 🥔 AQUÍ EL NOMBRE DEL USUARIO --}}
+            <h2 class="nombre-usuario-perfil" style="margin: 15px 0 5px 0; color: #7c2d12; font-size: 1.8rem; font-weight: 800; text-align: center;">
+                {{ Auth::user()->name }}
+            </h2>
+
             <div class="circulo-avatar-grande">
                 <img src="{{ asset('img/avatar/' . Auth::user()->avatar_base) }}" class="capa-v-avatar">
                 <img src="{{ asset('img/avatar/' . Auth::user()->avatar_boca) }}" class="capa-v-avatar mix-blend">
                 <img src="{{ asset('img/avatar/' . Auth::user()->avatar_ojos) }}" class="capa-v-avatar">
                 <img src="{{ asset('img/avatar/' . Auth::user()->avatar_complemento) }}" class="capa-v-avatar">
+
+
             </div>
+
+
 
             <div class="acciones-perfil">
                 <a href="{{ route('perfil.editar-avatar') }}" class="btn-perfil-accion">🎨 Cambiar Avatar</a>
+                {{-- ✏️ Este botón usa la función global definida en app.js --}}
                 <button onclick="toggleFormNombre()" class="btn-perfil-accion">✏️ Cambiar Nombre</button>
             </div>
 
@@ -70,12 +80,10 @@
 
                 <hr class="separador-perfil" style="margin: 10px 0;">
 
-                {{-- NUEVA ESTADÍSTICA --}}
                 <p>
                     <strong>⭐ Género más valorado:</strong>
                     @if(isset($estadisticasGeneros) && $estadisticasGeneros->count() > 0)
                     <span style="color: #fb923c; font-weight: 800;">
-                        {{-- Si genre está vacío, ponemos 'Varios' por defecto --}}
                         {{ $estadisticasGeneros->first()->genre ?? 'Narrativa' }}
                     </span>
                     <small>({{ number_format($estadisticasGeneros->first()->media_puntuacion, 1) }} ★)</small>
@@ -112,17 +120,5 @@
     </div>
 
 </div>
-
-{{-- Script para mostrar/ocultar el formulario de nombre --}}
-<script>
-    function toggleFormNombre() {
-        const container = document.getElementById('form-nombre-container');
-        if (container.style.display === 'none') {
-            container.style.display = 'block';
-        } else {
-            container.style.display = 'none';
-        }
-    }
-</script>
-
+{{-- 🏁 FIN DEL CONTENIDO: El JS ya no vive aquí, vive en app.js --}}
 @endsection
