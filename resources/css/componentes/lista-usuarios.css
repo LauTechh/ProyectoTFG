@@ -215,9 +215,27 @@
 }
 
 .btn-agregar-amigo {
+   width: 100% !important;
+    padding: 10px !important;
+    border-radius: var(--radio-boton) !important;
+    font-weight: 800 !important;
+    font-size: 0.85rem !important;
+    text-align: center;
+    border: none !important;
+    cursor: pointer !important; /* Indica que es clicable */
+    transition: all 0.2s ease !important;
+    
+    /* Colores */
     background: var(--naranja-patata) !important;
     color: white !important;
     box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2) !important;
+}
+
+/* Efecto cuando pasas el ratón por encima */
+.btn-agregar-amigo:hover {
+    transform: translateY(-3px) !important; /* Se eleva */
+    box-shadow: 0 6px 15px rgba(234, 88, 12, 0.4) !important; /* Brilla más */
+    filter: brightness(1.1) !important; /* Se aclara un poquito */
 }
 
 .btn-aceptar-v2 {

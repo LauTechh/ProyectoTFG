@@ -81,9 +81,11 @@
         @endif
         @else
         {{-- Sección Descubrir --}}
+        {{-- Sección Descubrir --}}
         <form action="{{ route('amigos.enviar', $user->id) }}" method="POST" class="w-100">
             @csrf
-            <button type="submit" class="btn-amigos-confirmado">Agregar</button>
+            {{-- CAMBIA LA CLASE AQUÍ: de btn-amigos-confirmado a btn-agregar-patata --}}
+            <button type="submit" class="btn-agregar-amigo">Agregar</button>
         </form>
         @endif
     </div>
