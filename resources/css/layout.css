@@ -1,3 +1,5 @@
+/* resources/css/layout.css */
+
 /* =============================================================
    1. VARIABLES Y ESTILOS GLOBALES
    ============================================================= */
@@ -9,15 +11,40 @@
     --sombra-suave: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Fondo para vistas de invitado */
-.es-invitado {
-    background-image: url('/img/fondo/fondo1.png') !important;
+/* --- NUEVO: Gestión de Fondos (Antes en el HTML) --- */
+body {
     background-size: cover !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    background-position: center top !important;
+    background-color: #f5f1e6 !important;
+    margin: 0;
+}
+
+body.es-invitado {
+    background-image: url('/public/img/fondo/fondo1.png') !important;
+}
+
+body.esta-logueado {
+    background-image: url('/public/img/fondo/fondo2.png') !important;
+}
+
+/* --- NUEVO: Alertas AJAX (Antes en el HTML) --- */
+#alerta-ajax {
+    display: none;
+    position: fixed;
+    top: 110px;
+    right: 20px;
+    z-index: 2000;
+}
+
+#alerta-mensaje {
+    background: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
 }
 
 /* =============================================================

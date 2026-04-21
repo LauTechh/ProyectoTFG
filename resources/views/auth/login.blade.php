@@ -1,4 +1,5 @@
-@extends('plantilla.invitado')
+@extends('plantilla.app')
+
 @section('content')
 
 @if ($errors->any())

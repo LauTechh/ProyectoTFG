@@ -8,35 +8,69 @@ use Illuminate\Support\Facades\Auth;
 
 class SalaController extends Controller
 {
-    // Ver el menú de selección de salas
+    // Ver el menú de selección de salas (el mapa)
     public function index()
     {
         return view('salas.index');
     }
 
-    // Entrar en una sala específica (Mundos personalizados)
+    // Entrar en una sala específica usando la plantilla única
     public function show($tipo)
     {
-        $nombresSalas = [
-            'despacho-rosa'   => 'Despacho Rosa 🌸',
-            'biblioteca'      => 'Biblioteca Antigua 📚',
-            'dormitorio'      => 'Dormitorio Relax 🛏️',
-            'despacho-neutro' => 'Despacho Minimalista 🖥️'
+        // 🎯 CONFIGURACIÓN MAESTRA DE SALAS
+        // Aquí definimos qué cambia en cada una
+        $configuracionSalas = [
+            'botica' => [
+                'titulo' => 'Botica 🧙🏼‍♂️',
+                'subtitulo' => 'Silencio... las patatas están destilando sabiduría.',
+                'clase' => 'sala-botica',
+                'color_borde' => '#34d399', // Verde esmeralda
+            ],
+            'biblioteca' => [
+                'titulo' => 'Biblioteca Antigua 📚',
+                'subtitulo' => 'Shhh... las patatas están sumergidas en letras.',
+                'clase' => 'sala-biblioteca',
+                'color_borde' => '#b87333', // Bronce
+            ],
+            'despacho-rosa' => [
+                'titulo' => 'Despacho Rosa 🌸',
+                'subtitulo' => 'Productividad patatil en tonos pastel.',
+                'clase' => 'sala-despacho-rosa',
+                'color_borde' => '#fce7f3', // Rosa claro
+            ],
+            'dormitorio' => [
+                'titulo' => 'Dormitorio Relax 🛏️',
+                'subtitulo' => 'Un rincón tranquilo para estudiar sin prisas.',
+                'clase' => 'sala-dormitorio',
+                'color_borde' => '#93c5fd', // Azul suave
+            ],
+            'despacho-neutro' => [
+                'titulo' => 'Despacho Minimalista 🖥️',
+                'subtitulo' => 'Cero distracciones, máxima concentración.',
+                'clase' => 'sala-despacho-neutro',
+                'color_borde' => '#d1d5db', // Gris neutro
+            ],
+            'jardin' => [
+                'titulo' => 'Jardín Zen 🌿',
+                'subtitulo' => 'Respira hondo... la naturaleza ayuda a concentrarse.',
+                'clase' => 'sala-jardin',
+                'color_borde' => '#84cc16', // Un verde lima natural
+            ],
+
         ];
 
-        $nombreSala = $nombresSalas[$tipo] ?? 'Sala de Concentración';
-
-        // Intentamos cargar la vista específica (ej: salas/despacho-rosa.blade.php)
-        // Si no existe, cargamos una genérica o damos error
-        if (view()->exists("salas.{$tipo}")) {
-            return view("salas.{$tipo}", compact('tipo', 'nombreSala'));
+        // Verificamos que la sala exista en nuestro array
+        if (!array_key_exists($tipo, $configuracionSalas)) {
+            abort(404);
         }
 
-        // Si aún no has creado el archivo específico, puedes dejar que use 'estudio' por ahora:
-        return view('salas.estudio', compact('tipo', 'nombreSala'));
+        $sala = $configuracionSalas[$tipo];
+
+        // Retornamos la vista única 'salas.sala' pasándole los datos
+        return view('salas.sala', compact('tipo', 'sala'));
     }
 
-    // Guardar el tiempo de la patata en la base de datos
+    // Guardar sesión (Botón Terminar Sesión)
     public function guardar(Request $request)
     {
         $request->validate([
@@ -54,28 +88,25 @@ class SalaController extends Controller
         return redirect()->route('salas.index')->with('success', '¡Sesión guardada! Tiempo registrado.');
     }
 
+    // Registrar pulso (Cada 30 segundos vía AJAX)
     public function registrarPulso(Request $request)
     {
         $hoy = now()->toDateString();
         $userId = Auth::id();
         $sala = $request->input('sala');
 
-        // Buscamos si el usuario ya tiene una sesión en esa sala HOY
-        // Usamos el Modelo SesionEstudio directamente
         $registro = SesionEstudio::where('user_id', $userId)
             ->where('sala', $sala)
             ->whereDate('fecha_inicio', $hoy)
             ->first();
 
         if ($registro) {
-            // Si ya existe, sumamos los 30 segundos
             $registro->increment('segundos', 30);
         } else {
-            // Si es la primera vez hoy, creamos el registro
             SesionEstudio::create([
                 'user_id'      => $userId,
                 'sala'         => $sala,
-                'fecha_inicio' => now(), // Guardamos fecha y hora completa
+                'fecha_inicio' => now(),
                 'segundos'     => 30
             ]);
         }

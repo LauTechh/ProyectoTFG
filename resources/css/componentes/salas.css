@@ -100,53 +100,186 @@
 }
 
 /* =======================================================
-   ⏱️ 2. PANTALLAS DE ESTUDIO (Salas individuales)
+   ⏱️ 2. ESTRUCTURA BASE (Común para todas las salas)
    ======================================================= */
 
 .pantalla-estudio {
     min-height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: background 0.5s ease;
+    position: relative;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+.capa-oscura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1;
+}
+
+.contenido-sala {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
 }
 
 .cronometro-circular {
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
+    margin: 40px auto;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.05);
+    border-width: 8px;
+    border-style: solid;
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
-/* DESPACHO ROSA 🌸 */
-.sala-despacho-rosa {
-    background-image: url('/img/fondo/despacho-rosa.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
+.tiempo-display {
+    font-size: 3.8rem;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-.sala-despacho-rosa .cronometro-circular {
-    border: 8px solid #fce7f3;
-    background: rgba(255, 255, 255, 0.4);
+/* =======================================================
+   🧪 3. PERSONALIZACIÓN (Fondos Específicos)
+   ======================================================= */
+
+
+
+
+/* Esto limpia el fondo de la biblioteca que sale por defecto */
+.diseño-contenido-principal {
+    background: none !important;
+    background-image: none !important;
+    background-color: #121212 !important;
+    /* Un gris muy oscuro casi negro */
+}
+
+/* Esto asegura que la sala tape cualquier cosa que haya quedado detrás */
+.pantalla-estudio {
+    position: fixed;
+    /* O absolute */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+    /* Esto la pone al frente de todo */
+}
+
+/* BOTICA 🧙🏼‍♂️ */
+/* ✅ FORMA CORRECTA */
+.sala-botica {
+    background-image: url('/img/fondo/fondobotica.png') !important;
+}
+
+.sala-botica .tiempo-display {
+    text-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
 }
 
 /* BIBLIOTECA 📚 */
 .sala-biblioteca {
-    background: url('/img/fondos/biblioteca-oscura.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background-image: url('/img/fondo/fondo-biblioteca.png') !important;
 }
 
-.sala-biblioteca .cronometro-circular {
-    border: 8px solid #b87333;
-    background: rgba(45, 26, 18, 0.6);
-    color: #fffaf0;
+/* DESPACHO ROSA 🌸 */
+.sala-despacho-rosa {
+    background-image: url('/img/fondo/fondo-despacho-rosa.png') !important;
 }
 
-area {
-    outline: none;
-    cursor: pointer;
+.sala-despacho-rosa .cronometro-circular {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* JARDÍN 🌿 */
+.sala-jardin {
+    background-image: url('/img/fondo/fondo-jardin.png') !important;
+}
+
+.sala-jardin .cronometro-circular {
+    box-shadow: 0 0 30px rgba(132, 204, 22, 0.2);
+}
+
+/* DORMITORIO 🛏️ */
+.sala-dormitorio {
+    background-image: url('/img/fondo/fondo-dormitorio.png') !important;
+}
+
+/* DESPACHO NEUTRO 🖥️ */
+.sala-despacho-neutro {
+    background-image: url('/img/fondo/fondo-despacho-neutro.png') !important;
+}
+
+/* =======================================================
+   🔘 4. BOTONES Y TEXTOS
+   ======================================================= */
+
+.titulo-patata {
+    font-size: 3rem;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.caja-bienvenida p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.btn-guardar-sesion {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    padding: 14px 30px;
+    border-radius: 50px;
+    color: white !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    display: inline-block;
+    border: none;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    text-decoration: none;
+}
+
+.btn-volver-atras {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 14px 30px;
+    border-radius: 50px;
+    color: white !important;
+    font-weight: 600;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-guardar-sesion:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+}
+
+.btn-volver-atras:hover {
+    background: rgba(239, 68, 68, 0.4);
+    border-color: #ef4444;
 }

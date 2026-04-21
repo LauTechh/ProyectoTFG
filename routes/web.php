@@ -23,22 +23,26 @@ Route::get('/', function () {
 | 2. RUTAS DE ACCESO (Login y Registro)
 |--------------------------------------------------------------------------
 */
+/*
+|--------------------------------------------------------------------------
+| 2. RUTAS DE ACCESO (Login y Registro)
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login', function () {
-    return view('login');
-})->name('login');
+    return view('auth.login');
+})->name('login'); // Es buena práctica ponerle nombre a la ruta de login
 
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/registro', function () {
-    return view('registro.registro');
+    // Si el archivo es resources/views/auth/registro.blade.php:
+    return view('auth.registro'); 
 })->name('registro');
 
 Route::post('/registro', [AuthController::class, 'registrar']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
 /*
 |--------------------------------------------------------------------------
 | 3. BÚSQUEDA DE LIBROS (Pública)

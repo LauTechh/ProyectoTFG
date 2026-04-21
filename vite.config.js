@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/css/perfil-amigo.css',
                 'resources/css/componentes/libros.css',
                 'resources/css/componentes/perfil-amigo.css',
+                'resources/js/cronometro.js',
             ],
             refresh: true,
         }),
