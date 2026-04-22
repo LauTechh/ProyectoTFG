@@ -99,194 +99,214 @@
     display: inline-block;
 }
 
-/* =======================================================
-   ⏱️ 2. ESTRUCTURA BASE (Común para todas las salas)
-   ======================================================= */
-
+/* ================================
+   🧱 ESTRUCTURA BASE LIMPIA
+================================ */
 .pantalla-estudio {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+    background: #000;
 }
 
-.capa-oscura {
+.capa-mapa {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+#fondo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Para que llene la pantalla */
+}
+
+.bote-interactivo {
+    position: absolute;
+    /* Cambia esto de 60px o 80px a un valor mayor */
+    width: 130px !important;
+    height: auto;
+    z-index: 999;
+    cursor: grab;
+
+    /* Evita que el navegador lo trate como texto o imagen estática */
+    user-select: none;
+    -webkit-user-drag: none;
+
+    /* Filtro opcional para que resalte un poco más sobre el fondo */
+    filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.5));
+    transition: transform 0.2s ease;
+}
+
+.bote-interactivo:hover {
+    transform: scale(1.05);
+    /* Un pequeño efecto al pasar el ratón */
+}
+
+#cajon-overlay {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Capa oscura: pointer-events none para no bloquear el <map> */
+.capa-mapa::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.112);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ================================
+   🧪 CRONÓMETRO EN EL CALDERO
+   ================================ */
+.cronometro-caldero {
+    position: absolute;
+    /* Antes: top 61.2% | left 48.1% */
+    /* Ahora: Más abajo (64%) y más a la izquierda (45%) */
+    top: 74%;
+    left: 43%;
+
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    text-align: center;
+    pointer-events: none;
+}
+
+.cronometro-caldero .tiempo-display {
+    font-size: 2.3rem;
+    color: #a7f3d0;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    /* Resplandor del caldero */
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.8),
+        0 0 20px rgba(52, 211, 153, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+
+/* Estilo para los objetos que aparecen al interactuar */
+.overlay-item {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 1;
-}
-
-.contenido-sala {
-    position: relative;
+    object-fit: cover;
+    /* Importante para que encaje con el fondo-img */
+    display: none;
+    /* Oculto por defecto */
+    pointer-events: none;
+    /* No bloquea los clics futuros al mapa */
     z-index: 2;
-    text-align: center;
-    width: 100%;
+    /* Por encima del fondo (z-index 1) pero debajo de la UI (z-index 10) */
 }
 
-.cronometro-circular {
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 40px auto;
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.05);
-    border-width: 8px;
-    border-style: solid;
-    transition: all 0.4s ease;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+/* Efecto opcional: un poco de brillo cuando aparece el cajón */
+#cajon-overlay[style*="display: block"] {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    animation: aparecerSuave 0.3s ease-out;
 }
 
-.tiempo-display {
-    font-size: 3.8rem;
-    color: #ffffff;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    letter-spacing: 2px;
+@keyframes aparecerSuave {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-/* =======================================================
-   🧪 3. PERSONALIZACIÓN (Fondos Específicos)
-   ======================================================= */
+.bote-interactivo {
+    position: absolute;
+    /* Bajamos el width a algo real, como 100px o 120px */
+    width: 100px !important;
+    height: auto;
+    z-index: 999;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-drag: none;
 
+    /* Usamos scale para que se vean grandes sin expandir el área de clic */
+    /* Ajusta el 2.5 según necesites más o menos tamaño */
+    transform: translate(-50%, -50%) scale(2.5);
 
+    /* Suavizamos mucho el movimiento para que no sea nervioso */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
 
-
-/* Esto limpia el fondo de la biblioteca que sale por defecto */
-.diseño-contenido-principal {
-    background: none !important;
-    background-image: none !important;
-    background-color: #121212 !important;
-    /* Un gris muy oscuro casi negro */
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
 }
 
-/* Esto asegura que la sala tape cualquier cosa que haya quedado detrás */
-.pantalla-estudio {
-    position: fixed;
-    /* O absolute */
+/* Efecto al pasar el ratón: solo un pequeño 'pop' */
+.bote-interactivo:hover {
+    /* Mantenemos el scale base (2.5) y subimos apenas un pelín (2.6) */
+    transform: translate(-50%, -50%) scale(2.6);
+    filter: brightness(1.2) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+}
+
+.bote-interactivo:active {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(2.4);
+    /* Se encoge al agarrar, da sensación de peso */
+}
+
+/* ================================
+   🎯 INTERFAZ ENCIMA
+================================ */
+.contenido-sala {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    z-index: 999;
-    /* Esto la pone al frente de todo */
+    pointer-events: none;
+    /* Crucial: permite clicar a través de la UI */
+    z-index: 10;
 }
 
-/* BOTICA 🧙🏼‍♂️ */
-/* ... Todo tu código de .btn-volver-atras:hover arriba ... */
-
-/* =======================================================
-    🧪 3. PERSONALIZACIÓN (Fondos Específicos)
-   ======================================================= */
-/* =======================================================
-    🧪 3. PERSONALIZACIÓN (Fondos Específicos)
-   ======================================================= */
-
-/* BOTICA 🧙🏼‍♂️ */
-.sala-botica {
-    background-image: url('/public/img/fondo/fondo-botica.png') !important;
+.contenido-sala * {
+    pointer-events: auto;
+    /* Los botones dentro sí deben ser clicables */
 }
 
-.sala-botica .tiempo-display {
-    text-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+.caja-info,
+.controles-sala {
+    pointer-events: auto;
+    /* Los botones y textos sí son clicables */
 }
 
-/* BIBLIOTECA 📚 */
-.sala-biblioteca {
-    background-image: url('/public/img/fondo/fondo-biblioteca.png') !important;
-}
-
-/* DESPACHO ROSA 🌸 */
-.sala-despacho-rosa {
-    background-image: url('/public/img/fondo/fondo-despacho-rosa.png') !important;
-}
-
-/* JARDÍN 🌿 */
-.sala-jardin {
-    background-image: url('/public/img/fondo/fondo-jardin.png') !important;
-}
-
-.sala-jardin .cronometro-circular {
-    box-shadow: 0 0 30px rgba(132, 204, 22, 0.3);
-}
-
-.sala-jardin .cronometro-circular {
-    box-shadow: 0 0 30px rgba(132, 204, 22, 0.2);
-}
-
-/* DORMITORIO 🛏️ */
-.sala-dormitorio {
-    background-image: url('/public/img/fondo/fondo-dormitorio.png') !important;
-}
-
-
-/* Fíjate bien: cada bloque TIENE que cerrar con su llave } */
-
-/* =======================================================
-   🔘 4. BOTONES Y TEXTOS
-   ======================================================= */
-
-.titulo-patata {
-    font-size: 3rem;
-    color: white;
-    font-weight: 800;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.caja-bienvenida p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.2rem;
-    font-style: italic;
-}
-
-.btn-guardar-sesion {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    padding: 14px 30px;
-    border-radius: 50px;
-    color: white !important;
-    font-weight: 800;
+.titulo-sala {
+    font-size: 1.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: 0.3s;
-    display: inline-block;
-    border: none;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    text-decoration: none;
+    letter-spacing: 4px;
+    opacity: 0.7;
 }
 
-.btn-volver-atras {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 14px 30px;
-    border-radius: 50px;
-    color: white !important;
-    font-weight: 600;
-    transition: 0.3s;
-    display: inline-block;
-    text-decoration: none;
-}
-
-.btn-guardar-sesion:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
-}
-
-.btn-volver-atras:hover {
-    background: rgba(239, 68, 68, 0.4);
-    border-color: #ef4444;
+/* Cronómetro para el resto de salas (opcional) */
+.cronometro-circular {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 4px solid white;
+    pointer-events: auto;
 }
