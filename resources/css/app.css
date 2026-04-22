@@ -16,6 +16,7 @@
 @import "./componentes/buscador.css";
 @import "./componentes/estanteria.css";
 @import "./componentes/salas.css";
+@import "./componentes/perfil.css";
 /* --- 1. CONFIGURACIÓN GLOBAL (ESCALA 85%) --- */
 html {
     font-size: 85%;

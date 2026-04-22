@@ -34,7 +34,6 @@ Route::get('/', function () {
 | 2. RUTAS DE ACCESO (Login y Registro)
 |--------------------------------------------------------------------------
 */
-
 Route::get('/login', [AuthController::class, 'mostrarLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -42,9 +41,7 @@ Route::get('/registro', [AuthController::class, 'mostrarRegistro'])->name('regis
 Route::post('/registro', [AuthController::class, 'registrar']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/registro', [AuthController::class, 'registrar']);
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
 | 3. BÚSQUEDA DE LIBROS (Pública)

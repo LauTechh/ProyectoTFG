@@ -20,6 +20,10 @@
                     <a href="{{ url('/buscar-amigos?tab=mis-amigos') }}" class="btn-perfil-navegacion">
                         👥 Mis Amigos
                     </a>
+
+                    <a href="{{ url('/salas') }}" class="btn-perfil-navegacion">
+                        🏠 Salas
+                    </a>
                 </div>
 
                 <hr class="separador-perfil">

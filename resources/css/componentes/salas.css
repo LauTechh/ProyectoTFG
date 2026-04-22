@@ -186,9 +186,18 @@
 }
 
 /* BOTICA 🧙🏼‍♂️ */
-/* ✅ FORMA CORRECTA */
+/* ... Todo tu código de .btn-volver-atras:hover arriba ... */
+
+/* =======================================================
+    🧪 3. PERSONALIZACIÓN (Fondos Específicos)
+   ======================================================= */
+/* =======================================================
+    🧪 3. PERSONALIZACIÓN (Fondos Específicos)
+   ======================================================= */
+
+/* BOTICA 🧙🏼‍♂️ */
 .sala-botica {
-    background-image: url('/img/fondo/fondobotica.png') !important;
+    background-image: url('/public/img/fondo/fondo-botica.png') !important;
 }
 
 .sala-botica .tiempo-display {
@@ -197,21 +206,21 @@
 
 /* BIBLIOTECA 📚 */
 .sala-biblioteca {
-    background-image: url('/img/fondo/fondo-biblioteca.png') !important;
+    background-image: url('/public/img/fondo/fondo-biblioteca.png') !important;
 }
 
 /* DESPACHO ROSA 🌸 */
 .sala-despacho-rosa {
-    background-image: url('/img/fondo/fondo-despacho-rosa.png') !important;
-}
-
-.sala-despacho-rosa .cronometro-circular {
-    background: rgba(255, 255, 255, 0.15);
+    background-image: url('/public/img/fondo/fondo-despacho-rosa.png') !important;
 }
 
 /* JARDÍN 🌿 */
 .sala-jardin {
-    background-image: url('/img/fondo/fondo-jardin.png') !important;
+    background-image: url('/public/img/fondo/fondo-jardin.png') !important;
+}
+
+.sala-jardin .cronometro-circular {
+    box-shadow: 0 0 30px rgba(132, 204, 22, 0.3);
 }
 
 .sala-jardin .cronometro-circular {
@@ -220,13 +229,11 @@
 
 /* DORMITORIO 🛏️ */
 .sala-dormitorio {
-    background-image: url('/img/fondo/fondo-dormitorio.png') !important;
+    background-image: url('/public/img/fondo/fondo-dormitorio.png') !important;
 }
 
-/* DESPACHO NEUTRO 🖥️ */
-.sala-despacho-neutro {
-    background-image: url('/img/fondo/fondo-despacho-neutro.png') !important;
-}
+
+/* Fíjate bien: cada bloque TIENE que cerrar con su llave } */
 
 /* =======================================================
    🔘 4. BOTONES Y TEXTOS
