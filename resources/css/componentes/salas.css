@@ -235,10 +235,10 @@
 .bote-interactivo {
     position: absolute;
     /* Cambiamos px por % del ancho del contenedor padre */
-    width: 4.5% !important; 
-    
+    width: 4.5% !important;
+
     /* Mantenemos un tamaño mínimo para que en móviles no desaparezca */
-    min-width: 35px; 
+    min-width: 35px;
     /* Mantenemos un tamaño máximo para que en pantallas gigantes no sea enorme */
     max-width: 80px;
 
@@ -247,10 +247,10 @@
     cursor: grab;
     user-select: none;
     -webkit-user-drag: none;
-    
+
     /* Efecto visual */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
-    
+
     /* Importante: Eliminamos la transición de posición para que el drag sea fluido, 
        solo dejamos la de efectos visuales */
     transition: transform 0.2s ease, filter 0.3s ease, width 0.3s ease;
@@ -263,7 +263,8 @@
 
 .bote-interactivo:active {
     cursor: grabbing;
-    transform: scale(1.05); /* Un poco menos que el hover para dar sensación de peso */
+    transform: scale(1.05);
+    /* Un poco menos que el hover para dar sensación de peso */
 }
 
 /* ================================
@@ -310,4 +311,62 @@
     background: rgba(255, 255, 255, 0.05);
     border: 4px solid white;
     pointer-events: auto;
+}
+
+.reaccion-caldero {
+    position: absolute;
+    /* Estas coordenadas deben coincidir con la boca del caldero en tu fondo */
+    top: 70%;
+    /* Ajusta este % según la altura del caldero */
+    left: 43%;
+    /* Ajusta este % según la posición horizontal */
+
+    /* El tamaño de la reacción respecto al fondo */
+    width: 18% !important;
+    height: auto;
+
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+    /* Para que no interfiera con el ratón */
+    display: none;
+}
+
+.botones-inferiores {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 2000;
+}
+
+.btn-estudio {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Cinzel', serif;
+    /* O la fuente que uses en tu proyecto */
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-cambiar-sala {
+    background: linear-gradient(145deg, #5d4037, #3e2723);
+    /* Tonos madera/marrón */
+}
+
+.btn-finalizar {
+    background: linear-gradient(145deg, #2e7d32, #1b5e20);
+    /* Tonos verdes/éxito */
+}
+
+.btn-estudio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    filter: brightness(1.2);
 }
