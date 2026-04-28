@@ -12,7 +12,6 @@ $fondos = [
 'dormitorio' => 'fondo-dormitorio.png',
 'biblioteca' => 'fondo-biblioteca.png',
 ];
-
 $fondoActual = $fondos[$tipo] ?? 'fondo-botica.png';
 @endphp
 
@@ -24,38 +23,38 @@ $fondoActual = $fondos[$tipo] ?? 'fondo-botica.png';
         {{-- FONDO DINÁMICO --}}
         <img src="{{ asset('img/fondo/' . $fondoActual) }}" usemap="#image-map" id="fondo-img">
 
-        {{-- 🔥 CRONÓMETRO MAGÍCO (Sobre el caldero) --}}
         @if($tipo === 'botica')
+        {{-- 🔥 CRONÓMETRO MAGÍCO --}}
         <div class="cronometro-caldero">
             <span class="tiempo-display" id="timer">00:00:00</span>
         </div>
-        @endif
 
-        {{-- 🔥 NUEVO OVERLAY DEL CAJÓN BOTICA--}}
-        @if($tipo === 'botica')
-        <img src="{{ asset('img/items/botica/cajon-vacio.png') }}"
-            id="cajon-overlay"
-            style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none; pointer-events:none; z-index:2;">
-        @endif
+        {{-- 🔥 OVERLAYS --}}
+        <img src="{{ asset('img/items/botica/cajon-vacio.png') }}" id="cajon-overlay" class="overlay-item" style="z-index:2;">
+        <img src="{{ asset('img/items/botica/caldero-fuego.png') }}" id="caldero-overlay" class="overlay-item" style="z-index:3;">
 
-
-        {{-- 🔥 BOTES INTERACTIVOS --}}
-        @if($tipo === 'botica')
-        {{-- Bote 1 - Más a la izquierda --}}
+        {{-- 🔥 BOTES INTERACTIVOS (Ajustados a x:944, y:295 de la estantería) --}}
+        {{-- Botes ajustados para entrar en la estantería pequeña --}}
+        {{-- Botes MANDADOS a la estantería vacía de la derecha --}}
         <img src="{{ asset('img/items/botica/bote/bote1.png') }}"
             class="bote-interactivo" id="bote1"
-            style="top: 80%; left: 25%;">
+            style="top: 44%; left: 74%;"> {{-- Más o menos a la altura del segundo estante --}}
 
-        {{-- Bote 2 - Cerca del caldero --}}
         <img src="{{ asset('img/items/botica/bote/bote2.png') }}"
             class="bote-interactivo" id="bote2"
-            style="top: 78%; left: 35%;">
+            style="top: 40%; left: 70%;"> {{-- Un poco más a la derecha --}}
 
-        {{-- Bote 5 - Hacia la derecha --}}
-        <img src="{{ asset('img/items/botica/bote/bote5.png') }}"
+
+        {{-- Botes en la estantería vacía 2 (Estante de abajo) --}}
+        <img src="{{ asset('img/items/botica/bote/bote8.png') }}"
+            class="bote-interactivo" id="bote21"
+            style="top: 55%; left: 69%;">
+
+
+
+        <img src="{{ asset('img/items/botica/bote/bote3.png') }}"
             class="bote-interactivo" id="bote3"
-            style="top: 76%; left: 55%;">
-        @endif
+            style="top: 61%; left: 71%;">
 
 
 
@@ -67,28 +66,27 @@ $fondoActual = $fondos[$tipo] ?? 'fondo-botica.png';
 
 
 
-        @if($tipo === 'botica')
+        {{-- MAPA DE COORDENADAS (Sincronizado con tus últimos cambios) --}}
         <map name="image-map">
-            {{-- Tu área del cajón --}}
-            <area alt="cajon-vacio" title="cajon-vacio"
-                coords="943,513,942,608,1019,629,1029,533,1021,527"
-                shape="poly"
-                href="javascript:void(0);"
-                onclick="toggleCajon()">
+            {{-- Cajón --}}
+            <area alt="cajon-vacio" coords="943,513,942,608,1019,629,1029,533,1021,527" shape="poly" href="javascript:void(0);" onclick="toggleCajon()">
 
-            {{-- Área del caldero (la que me has pasado) --}}
-            <area coords="374,543,354,580,353,606,371,647,408,682,462,694,519,695,568,677,594,647,615,599,609,561,593,533,541,555,435,558" shape="poly" href="javascript:void(0);">
+            {{-- Caldero (Actualizado a tus coordenadas: 518,477...) --}}
+            <area id="area-caldero" coords="518,477,564,466,637,463,657,474,652,489,666,511,664,540,652,557,630,574,600,585,564,582,532,574,510,540,519,506,530,496" shape="poly" href="javascript:void(0);">
+
+            {{-- Estanterías (Invisibles pero mapeadas) --}}
+            <area alt="estanteria1" coords="944,295,943,383,1073,388,1079,293" shape="poly" href="javascript:void(0);">
+            <area alt="estanteria2" coords="944,398,942,494,1075,505,1079,404" shape="poly" href="javascript:void(0);">
         </map>
         @endif
     </div>
 
-    {{-- 🎯 UI MINIMALISTA (Para no estorbar) --}}
+    {{-- 🎯 UI MINIMALISTA --}}
     <div class="contenido-sala-minimal">
         <div class="cabecera-discreta">
             <h1>{{ $sala['titulo'] }}</h1>
         </div>
 
-        {{-- Si no es botica, mostramos el cronómetro normal aquí --}}
         @if($tipo !== 'botica')
         <div class="cronometro-circular" style="border-color: {{ $sala['color_borde'] }}">
             <span class="tiempo-display" id="timer">00:00:00</span>
@@ -102,65 +100,109 @@ $fondoActual = $fondos[$tipo] ?? 'fondo-botica.png';
     </div>
 </div>
 
+{{-- Scripts unificados --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const img = document.getElementById('fondo-img');
+        const resizeMap = () => imageMapResize();
+        if (img.complete) resizeMap();
+        else img.onload = resizeMap;
 
-        if (img.complete) {
-            imageMapResize();
-        } else {
-            img.onload = () => imageMapResize();
-        }
+        // Si la ventana cambia de tamaño, recalculamos el mapa
+        window.addEventListener('resize', resizeMap);
+
+        const botes = document.querySelectorAll('.bote-interactivo');
+        const calderoOverlay = document.getElementById('caldero-overlay');
+
+        // 1. Hitbox del caldero en PORCENTAJES (de 0 a 100)
+        // Calculado de tus coordenadas: (518/1920)*100 ≈ 27, etc.
+        const calderoArea = {
+            xMin: 26.5, // Izquierda
+            xMax: 35.0, // Derecha
+            yMin: 43.5, // Arriba
+            yMax: 56.5 // Abajo
+        };
+
+        botes.forEach(bote => {
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            // Función unificada para inicio de arrastre (Mouse y Touch)
+            const startDrag = (e) => {
+                isDragging = true;
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+
+                const rect = bote.getBoundingClientRect();
+                offsetX = clientX - rect.left;
+                offsetY = clientY - rect.top;
+
+                bote.style.zIndex = 1000;
+                bote.style.transition = "none";
+            };
+
+            // Función unificada para movimiento
+            const doDrag = (e) => {
+                if (!isDragging) return;
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+
+                const contenedor = document.querySelector('.capa-mapa');
+                const rectC = contenedor.getBoundingClientRect();
+
+                // Al mover, siempre calcular el % respecto al contenedor actual
+                bote.style.left = ((clientX - rectC.left - offsetX) / rectC.width * 100) + '%';
+                bote.style.top = ((clientY - rectC.top - offsetY) / rectC.height * 100) + '%';
+            };
+
+            // Función unificada para soltar
+            const endDrag = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+
+                // Usamos el último punto conocido del evento
+                const clientX = e.clientX || (e.changedTouches ? e.changedTouches[0].clientX : 0);
+                const clientY = e.clientY || (e.changedTouches ? e.changedTouches[0].clientY : 0);
+
+                const rectImg = img.getBoundingClientRect();
+
+                // Calculamos la posición del soltado en % respecto a la imagen actual
+                const posXPercent = ((clientX - rectImg.left) / rectImg.width) * 100;
+                const posYPercent = ((clientY - rectImg.top) / rectImg.height) * 100;
+
+                // DETECCIÓN RESPONSIVE
+                if (posXPercent >= calderoArea.xMin && posXPercent <= calderoArea.xMax &&
+                    posYPercent >= calderoArea.yMin && posYPercent <= calderoArea.yMax) {
+
+                    bote.style.display = 'none';
+                    if (calderoOverlay) calderoOverlay.style.display = 'block';
+                }
+            };
+
+            // Eventos de Ratón
+            bote.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', doDrag);
+            document.addEventListener('mouseup', endDrag);
+
+            // Eventos Táctiles (Móviles/Tablets)
+            bote.addEventListener('touchstart', startDrag, {
+                passive: false
+            });
+            document.addEventListener('touchmove', doDrag, {
+                passive: false
+            });
+            document.addEventListener('touchend', endDrag);
+        });
     });
 
     function toggleCajon() {
         const cajon = document.getElementById('cajon-overlay');
-        if (!cajon) return;
-        cajon.style.display = cajon.style.display === "block" ? "none" : "block";
+        if (cajon) {
+            cajon.style.display = (cajon.style.display === "block") ? "none" : "block";
+        }
     }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const botes = document.querySelectorAll('.bote-interactivo');
-
-        botes.forEach(bote => {
-            // Forzamos que se vean al cargar
-            console.log("Bote cargado:", bote.id);
-
-            let isDragging = false;
-            let offsetX, offsetY;
-
-            bote.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                const rect = bote.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
-                bote.style.zIndex = 1000;
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-
-                const contenedor = document.querySelector('.capa-mapa');
-                const rectContenedor = contenedor.getBoundingClientRect();
-
-                let x = e.clientX - rectContenedor.left - offsetX;
-                let y = e.clientY - rectContenedor.top - offsetY;
-
-                bote.style.left = x + 'px';
-                bote.style.top = y + 'px';
-            });
-
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-            });
-        });
-    });
-</script>
-
 
 @endsection

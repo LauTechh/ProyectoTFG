@@ -234,35 +234,36 @@
 
 .bote-interactivo {
     position: absolute;
-    /* Bajamos el width a algo real, como 100px o 120px */
-    width: 100px !important;
+    /* Cambiamos px por % del ancho del contenedor padre */
+    width: 4.5% !important; 
+    
+    /* Mantenemos un tamaño mínimo para que en móviles no desaparezca */
+    min-width: 35px; 
+    /* Mantenemos un tamaño máximo para que en pantallas gigantes no sea enorme */
+    max-width: 80px;
+
     height: auto;
     z-index: 999;
     cursor: grab;
     user-select: none;
     -webkit-user-drag: none;
-
-    /* Usamos scale para que se vean grandes sin expandir el área de clic */
-    /* Ajusta el 2.5 según necesites más o menos tamaño */
-    transform: translate(-50%, -50%) scale(2.5);
-
-    /* Suavizamos mucho el movimiento para que no sea nervioso */
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
-
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+    
+    /* Efecto visual */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    
+    /* Importante: Eliminamos la transición de posición para que el drag sea fluido, 
+       solo dejamos la de efectos visuales */
+    transition: transform 0.2s ease, filter 0.3s ease, width 0.3s ease;
 }
 
-/* Efecto al pasar el ratón: solo un pequeño 'pop' */
 .bote-interactivo:hover {
-    /* Mantenemos el scale base (2.5) y subimos apenas un pelín (2.6) */
-    transform: translate(-50%, -50%) scale(2.6);
-    filter: brightness(1.2) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+    transform: scale(1.1);
+    filter: brightness(1.2) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
 }
 
 .bote-interactivo:active {
     cursor: grabbing;
-    transform: translate(-50%, -50%) scale(2.4);
-    /* Se encoge al agarrar, da sensación de peso */
+    transform: scale(1.05); /* Un poco menos que el hover para dar sensación de peso */
 }
 
 /* ================================
