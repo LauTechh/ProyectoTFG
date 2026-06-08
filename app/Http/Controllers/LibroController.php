@@ -62,8 +62,6 @@ class LibroController extends Controller
 
         return view('libros.resultados', compact('libros'));
     }
-
-
     public function guardar(Request $request)
     {
         try {
@@ -207,10 +205,10 @@ class LibroController extends Controller
 
         $mapaGeneros = [
             // 1. PRIORIDAD MÁXIMA: Romántica
-            'Romántica'       => ['amor', 'love', 'roman', 'relat', 'amo', 'noviazgo', 'beso'],
+            'Romántica' => ['amor', 'love', 'roman', 'relat', 'amo', 'noviazgo', 'beso'],
 
             // 2. Fantasía (Reforzada para Mistborn y similares)
-            'Fantasía'        => [
+            'Fantasía' => [
                 'fantas',
                 'magia',
                 'wizard',
@@ -228,8 +226,8 @@ class LibroController extends Controller
             ],
 
             // 3. Policiaca y Terror
-            'Policiaca'       => ['crimen', 'polic', 'detect', 'mister', 'noir', 'thrill', 'investig'],
-            'Terror'          => ['horror', 'terror', 'miedo', 'ghos', 'suspens', 'paranormal'],
+            'Policiaca' => ['crimen', 'polic', 'detect', 'mister', 'noir', 'thrill', 'investig'],
+            'Terror' => ['horror', 'terror', 'miedo', 'ghos', 'suspens', 'paranormal'],
 
             // 4. Ciencia Ficción (Más patrones comunes)
             'Ciencia Ficción' => [
@@ -244,9 +242,9 @@ class LibroController extends Controller
                 'galact'
             ],
 
-            'Aventura'        => ['aventur', 'adventur', 'action', 'explor'],
-            'Historia'        => ['histor', 'biogra', 'war', 'guerra'],
-            'Clásicos'        => ['classic', 'antiqu', 'ancient'],
+            'Aventura' => ['aventur', 'adventur', 'action', 'explor'],
+            'Historia' => ['histor', 'biogra', 'war', 'guerra'],
+            'Clásicos' => ['classic', 'antiqu', 'ancient'],
         ];
 
         foreach ($mapaGeneros as $categoriaOficial => $patrones) {
