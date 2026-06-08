@@ -68,8 +68,25 @@
             </div>
 
             {{-- CRONÓMETRO GLOBAL (FUERA DE CONDICIONALES) --}}
-            <div class="cronometro-circular" style="border-color: {{ $sala['color_borde'] ?? '#ccc' }}">
-                <span class="tiempo-display" id="timer">00:00:00</span>
+            <div class="widget-concentracion">
+
+                <div class="cronometro-circular" style="border-color: {{ $sala['color_borde'] ?? '#ccc' }}">
+
+                    <div class="reloj-brillo"></div>
+
+                    <span class="tiempo-display" id="timer">
+                        00:00:00
+                    </span>
+                </div>
+
+                <div class="focus-container">
+                    <div id="focus-bar"></div>
+                </div>
+
+                <div class="focus-texto">
+                    Concentración
+                </div>
+
             </div>
 
             <div class="botones-inferiores">

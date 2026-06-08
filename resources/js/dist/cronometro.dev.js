@@ -46,3 +46,5 @@
         }, 30000); // Se sincroniza cada 30 segundos
     }
 });*/
+"use strict";
+//# sourceMappingURL=cronometro.dev.js.map

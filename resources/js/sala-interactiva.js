@@ -1,34 +1,69 @@
 // resources/js/sala-interactiva.js
 
 export function initSalaInteractiva(salaId, userPotato) {
-    let segundos = 0;
-    let boteActivo = null;
-    let offX, offY;
+    // =====================================================
+    // 🕒 TIMER
+    // =====================================================
 
-    // --- 🕒 TIMER ---
-    const timerInterval = setInterval(() => {
-        segundos++;
+    let segundos = 0;
+    let timerInterval = null;
+
+    function iniciarTimer() {
         const el = document.getElementById("timer");
-        if (el) {
-            let hrs = Math.floor(segundos / 3600);
-            let mins = Math.floor((segundos % 3600) / 60);
-            let secs = segundos % 60;
-            const fmt = (n) => (n < 10 ? "0" + n : n);
-            el.innerText = `${fmt(hrs)}:${fmt(mins)}:${fmt(secs)}`;
-        } else {
+
+        if (!el) {
+            console.warn("⚠️ No se encontró el timer");
+            return;
+        }
+
+        // Evita múltiples intervals
+        if (timerInterval) {
             clearInterval(timerInterval);
         }
-    }, 1000);
 
-    // --- 💓 PULSO (Envío automático cada 60s) ---
-    const pulsoInterval = setInterval(() => {
+        console.log("✅ Timer iniciado");
+
+        timerInterval = setInterval(() => {
+            segundos++;
+
+            const hrs = Math.floor(segundos / 3600);
+            const mins = Math.floor((segundos % 3600) / 60);
+            const secs = segundos % 60;
+
+            const fmt = (n) => String(n).padStart(2, "0");
+
+            el.textContent = `${fmt(hrs)}:${fmt(mins)}:${fmt(secs)}`;
+
+            const barra = document.getElementById("focus-bar");
+
+            if (barra) {
+                const objetivo = 3600; // 1 hora
+
+                const progreso = Math.min((segundos / objetivo) * 100, 100);
+
+                barra.style.width = progreso + "%";
+            }
+        }, 1000);
+    }
+
+    iniciarTimer();
+
+    // =====================================================
+    // 💓 PULSO AUTOMÁTICO
+    // =====================================================
+
+    let pulsoInterval = null;
+
+    if (pulsoInterval) {
+        clearInterval(pulsoInterval);
+    }
+
+    pulsoInterval = setInterval(() => {
         const root = document.getElementById("sala-interactiva-root");
         const csrf = document.querySelector('meta[name="csrf-token"]');
 
-        // Si no estamos en una sala o no hay token, no hacemos nada
         if (!root || !csrf) return;
 
-        // Obtenemos el tipo de sala directamente del atributo data del HTML
         const tipoSala = root.getAttribute("data-tipo");
 
         fetch("/salas/registrar-pulso", {
@@ -37,86 +72,149 @@ export function initSalaInteractiva(salaId, userPotato) {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": csrf.getAttribute("content"),
             },
-            body: JSON.stringify({ sala: tipoSala }),
+            body: JSON.stringify({
+                sala: tipoSala,
+            }),
         })
-            .then((response) => response.json())
-            .then((data) => console.log(`💓 Pulso registrado en: ${tipoSala}`))
-            .catch((err) => console.error("Error en el pulso:", err));
-    }, 60000); // 60 segundos
+            .then(async (response) => {
+                const text = await response.text();
 
-    // --- 🥔 CHAT ---
+                if (!response.ok) {
+                    throw new Error(text);
+                }
+
+                return JSON.parse(text);
+            })
+            .then(() => {
+                console.log(`💓 Pulso enviado: ${tipoSala}`);
+            })
+            .catch((err) => {
+                console.error("❌ Error en el pulso:", err);
+            });
+    }, 60000);
+
+    // =====================================================
+    // 🥔 CHAT
+    // =====================================================
+
     window.enviarMensaje = function () {
         const input = document.getElementById("chat-input");
         const box = document.getElementById("chat-box");
+
         if (!input || !box) return;
+
         const texto = input.value.trim();
 
-        if (texto !== "") {
-            const msjObj = { nombre: userPotato, texto: texto };
-            const div = document.createElement("div");
-            div.className = "mensaje";
-            div.innerHTML = `<b>${msjObj.nombre}:</b> ${msjObj.texto}`;
-            box.appendChild(div);
+        if (texto === "") return;
 
-            const hist = JSON.parse(
-                localStorage.getItem("chat_" + salaId) || "[]",
-            );
-            hist.push(msjObj);
-            localStorage.setItem("chat_" + salaId, JSON.stringify(hist));
+        const msjObj = {
+            nombre: userPotato,
+            texto: texto,
+        };
 
-            input.value = "";
-            box.scrollTop = box.scrollHeight;
-        }
+        const div = document.createElement("div");
+
+        div.className = "mensaje";
+        div.innerHTML = `<b>${msjObj.nombre}:</b> ${msjObj.texto}`;
+
+        box.appendChild(div);
+
+        const hist = JSON.parse(localStorage.getItem("chat_" + salaId) || "[]");
+
+        hist.push(msjObj);
+
+        localStorage.setItem("chat_" + salaId, JSON.stringify(hist));
+
+        input.value = "";
+
+        box.scrollTop = box.scrollHeight;
     };
 
     function cargarMensajes() {
         const box = document.getElementById("chat-box");
+
         if (!box) return;
+
         const hist = JSON.parse(localStorage.getItem("chat_" + salaId) || "[]");
-        box.innerHTML = `<div class="mensaje"><b>Sistema:</b> Hola ${userPotato}, bienvenida a ${salaId}.</div>`;
+
+        box.innerHTML = `
+            <div class="mensaje">
+                <b>Sistema:</b>
+                Hola ${userPotato}, bienvenida a ${salaId}.
+            </div>
+        `;
 
         hist.forEach((m) => {
             const div = document.createElement("div");
+
             div.className = "mensaje";
-            div.innerHTML = `<b>${m.nombre || "Patata"}:</b> ${m.texto}`;
+
+            div.innerHTML = `
+                <b>${m.nombre || "Patata"}:</b>
+                ${m.texto}
+            `;
+
             box.appendChild(div);
         });
+
         box.scrollTop = box.scrollHeight;
     }
 
     cargarMensajes();
 
     const chatInput = document.getElementById("chat-input");
+
     if (chatInput) {
         chatInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") window.enviarMensaje();
+            if (e.key === "Enter") {
+                window.enviarMensaje();
+            }
         });
     }
 
-    // --- 🧪 LÓGICA EXCLUSIVA DE BOTICA ---
+    // =====================================================
+    // 🧪 BOTICA
+    // =====================================================
+
     if (salaId === "botica") {
+        let boteActivo = null;
+        let offX = 0;
+        let offY = 0;
+
         const botes = document.querySelectorAll(".bote-interactivo");
-        const calderoArea = { xMin: 18, xMax: 48, yMin: 35, yMax: 82 };
+
+        const calderoArea = {
+            xMin: 18,
+            xMax: 48,
+            yMin: 35,
+            yMax: 82,
+        };
 
         botes.forEach((bote) => {
             bote.addEventListener("mousedown", (e) => {
                 boteActivo = bote;
+
                 const rect = bote.getBoundingClientRect();
+
                 offX = e.clientX - rect.left;
                 offY = e.clientY - rect.top;
+
                 bote.style.zIndex = 1000;
             });
         });
 
         document.addEventListener("mousemove", (e) => {
             if (!boteActivo) return;
+
             const contenedor = document
                 .querySelector(".capa-mapa")
                 .getBoundingClientRect();
+
             boteActivo.style.left =
                 ((e.clientX - contenedor.left - offX) / contenedor.width) *
                     100 +
                 "%";
+
             boteActivo.style.top =
                 ((e.clientY - contenedor.top - offY) / contenedor.height) *
                     100 +
@@ -125,10 +223,13 @@ export function initSalaInteractiva(salaId, userPotato) {
 
         document.addEventListener("mouseup", (e) => {
             if (!boteActivo) return;
+
             const rImg = document
                 .getElementById("fondo-img")
                 .getBoundingClientRect();
+
             const px = ((e.clientX - rImg.left) / rImg.width) * 100;
+
             const py = ((e.clientY - rImg.top) / rImg.height) * 100;
 
             if (
@@ -138,29 +239,45 @@ export function initSalaInteractiva(salaId, userPotato) {
                 py <= calderoArea.yMax
             ) {
                 boteActivo.style.display = "none";
-                document
-                    .querySelectorAll(".reaccion-caldero")
-                    .forEach((r) => (r.style.display = "none"));
-                const r = document.getElementById("reaccion-" + boteActivo.id);
-                if (r) r.style.display = "block";
+
+                document.querySelectorAll(".reaccion-caldero").forEach((r) => {
+                    r.style.display = "none";
+                });
+
+                const reaccion = document.getElementById(
+                    "reaccion-" + boteActivo.id,
+                );
+
+                if (reaccion) {
+                    reaccion.style.display = "block";
+                }
             }
+
             boteActivo.style.zIndex = 100;
             boteActivo = null;
         });
     }
 }
 
-// --- 🌐 FUNCIONES GLOBALES (Fuera del init) ---
+// =====================================================
+// 🌐 FUNCIONES GLOBALES
+// =====================================================
 
 window.toggleCajon = function () {
     const c = document.getElementById("cajon-overlay");
-    if (c) c.style.display = c.style.display === "block" ? "none" : "block";
+
+    if (!c) return;
+
+    c.style.display = c.style.display === "block" ? "none" : "block";
 };
 
 window.finalizarSesion = function (event) {
     event.preventDefault();
+
     const timer = document.getElementById("timer");
+
     const root = document.getElementById("sala-interactiva-root");
+
     const urlDestino = event.currentTarget.href;
 
     if (!timer || !root) {
@@ -169,6 +286,7 @@ window.finalizarSesion = function (event) {
     }
 
     const partes = timer.innerText.split(":").map(Number);
+
     const segundosTotales = partes[0] * 3600 + partes[1] * 60 + partes[2];
 
     fetch("/salas/guardar", {
@@ -180,21 +298,10 @@ window.finalizarSesion = function (event) {
                 .getAttribute("content"),
         },
         body: JSON.stringify({
-            sala: root.getAttribute("data-tipo"), // Cambia 'data-sala' por 'data-tipo'
+            sala: root.getAttribute("data-tipo"),
             segundos: segundosTotales,
         }),
     }).finally(() => {
         window.location.href = urlDestino;
     });
 };
-document.addEventListener("DOMContentLoaded", () => {
-    const root = document.getElementById("sala-interactiva-root");
-    if (root) {
-        const salaId = root.getAttribute("data-tipo");
-        const user = root.getAttribute("data-user");
-
-        // ¡Aquí activamos todo!
-        initSalaInteractiva(salaId, user);
-        console.log("🚀 Sistema iniciado para:", salaId);
-    }
-});
